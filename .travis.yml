@@ -1,0 +1,17 @@
+language: php
+
+sudo: false
+
+php:
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
+    - hhvm
+
+install:
+    - composer self-update
+    - composer install
+
+script:
+    - [ -f vendor/bin/phpunit ] && vendor/bin/phpunit --coverage-text
