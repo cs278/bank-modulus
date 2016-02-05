@@ -29,7 +29,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 
     public function check(BankAccountNormalized $bankAccount)
     {
-        $checks = $this->fetchWeighting($bankAccount->getSortCode());
+        $checks = $this->fetch($bankAccount->getSortCode());
         $numChecks = count($checks);
 
         if (1 === $numChecks) {
@@ -96,23 +96,17 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
         }
     }
 
-    private function fetchWeighting(SortCode $sortCode)
+    private function fetch(SortCode $sortCode)
     {
-        static $weightFunc;
-
-        if (null === $weightFunc) {
-            $weightFunc = require __DIR__.'/VocaLinkV380Weights.php';
-        }
-
         $sortCode = $sortCode->format('%s%s%s');
 
-        $weights[] = $weightFunc($sortCode, 1);
+        $weights[] = $this->fetchRecord($sortCode, 1);
 
         if (empty($weights)) {
             return;
         }
 
-        $weights[] = $weightFunc($sortCode, 2);
+        $weights[] = $this->fetchRecord($sortCode, 2);
 
         return array_filter($weights);
     }
@@ -337,62 +331,5 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
         }
 
         return $chars;
-    }
-
-    public static function processWeightData($input, $output)
-    {
-        $inHandle = fopen($input, 'r');
-        $outHandle = is_resource($output) ? $output : fopen($output, 'x');
-
-        $seen = [];
-        $tab = '    ';
-
-        fwrite($outHandle, '<'."?php\n\n");
-        fwrite($outHandle, sprintf("namespace %s;\n\n", __NAMESPACE__));
-        fwrite($outHandle, "abstract class VocaLinkV380Data\n{\n");
-        fwrite($outHandle, $tab.'final protected function fetchWeightingRecord($sortCode, $pass)'."\n$tab{\n");
-
-        $tab .= $tab;
-
-        while ($line = trim(fgets($inHandle))) {
-            $cols = preg_split('{\s+}', $line);
-
-            $sortCodeStart = $cols[0];
-            $sortCodeEnd = $cols[1];
-            $algorithm = strtoupper($cols[2]);
-            $weights = array_map('intval', array_slice($cols, 3, 6 + 8));
-            $exception = isset($cols[17]) ? (int) $cols[17] : 0;
-            $cols = null;
-
-            if (!isset($seen[$sortCodeStart.$sortCodeEnd])) {
-                $seen[$sortCodeStart.$sortCodeEnd] = 1;
-            }
-
-            fwrite($outHandle, sprintf(
-                $tab.'if (%u === $pass && \'%s\' <= $sortCode && $sortCode <= \'%s\') {'."\n",
-                $seen[$sortCodeStart.$sortCodeEnd],
-                $sortCodeStart,
-                $sortCodeEnd
-            ));
-
-            fwrite($outHandle, sprintf(
-                $tab.'    return [%s, [%s], %u];'."\n",
-                var_export($algorithm, true),
-                implode(', ', $weights),
-                $exception
-            ));
-
-            fwrite($outHandle, "$tab}\n\n");
-
-            ++$seen[$sortCodeStart.$sortCodeEnd];
-        }
-        $tab = '    ';
-
-        fseek($outHandle, ftell($outHandle) - 1); // Remove a \n
-        fwrite($outHandle, "$tab}\n"); // Close function
-        fwrite($outHandle, "}\n"); // Close class
-
-        fclose($inHandle);
-        fclose($outHandle);
     }
 }
