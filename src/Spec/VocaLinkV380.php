@@ -6,7 +6,7 @@ use Cs278\BankModulus\BankAccountNormalized;
 use Cs278\BankModulus\ModulusAlgorithm;
 use Cs278\BankModulus\SortCode;
 
-final class VocaLinkV380 implements SpecInterface
+final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 {
     const U = 0;
     const V = 1;
@@ -29,7 +29,7 @@ final class VocaLinkV380 implements SpecInterface
 
     public function check(BankAccountNormalized $bankAccount)
     {
-        $checks = $this->lookupWeightingData($bankAccount->getSortCode());
+        $checks = $this->fetchWeighting($bankAccount->getSortCode());
         $numChecks = count($checks);
 
         if (1 === $numChecks) {
@@ -96,20 +96,25 @@ final class VocaLinkV380 implements SpecInterface
         }
     }
 
-    private function lookupWeightingData(SortCode $sortCode)
+    private function fetchWeighting(SortCode $sortCode)
     {
-        static $weights;
+        static $weightFunc;
 
-        if (null === $weights) {
-            $weights = require __DIR__.'/VocaLinkV380Weights.php';
+        if (null === $weightFunc) {
+            $weightFunc = require __DIR__.'/VocaLinkV380Weights.php';
         }
 
         $sortCode = $sortCode->format('%s%s%s');
 
-        return array_filter([
-            isset($weights[$sortCode.'0']) ? $weights[$sortCode.'0'] : null,
-            isset($weights[$sortCode.'1']) ? $weights[$sortCode.'1'] : null,
-        ]);
+        $weights[] = $weightFunc($sortCode, 1);
+
+        if (empty($weights)) {
+            return;
+        }
+
+        $weights[] = $weightFunc($sortCode, 2);
+
+        return array_filter($weights);
     }
 
     private function applyDoubleAndModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
@@ -340,9 +345,14 @@ final class VocaLinkV380 implements SpecInterface
         $outHandle = is_resource($output) ? $output : fopen($output, 'x');
 
         $seen = [];
+        $tab = '    ';
 
         fwrite($outHandle, '<'."?php\n\n");
-        fwrite($outHandle, "return [\n");
+        fwrite($outHandle, sprintf("namespace %s;\n\n", __NAMESPACE__));
+        fwrite($outHandle, "abstract class VocaLinkV380Data\n{\n");
+        fwrite($outHandle, $tab.'final protected function fetchWeightingRecord($sortCode, $pass)'."\n$tab{\n");
+
+        $tab .= $tab;
 
         while ($line = trim(fgets($inHandle))) {
             $cols = preg_split('{\s+}', $line);
@@ -352,30 +362,35 @@ final class VocaLinkV380 implements SpecInterface
             $algorithm = strtoupper($cols[2]);
             $weights = array_map('intval', array_slice($cols, 3, 6 + 8));
             $exception = isset($cols[17]) ? (int) $cols[17] : 0;
+            $cols = null;
 
-            foreach (range($sortCodeStart, $sortCodeEnd) as $sortCode) {
-                $sortCode = sprintf('%06d', $sortCode);
-
-                if (!isset($seen[$sortCode])) {
-                    $seen[$sortCode] = 0;
-                }
-
-                fwrite($outHandle, sprintf(
-                    '    %s => [%s, [%s], %u],',
-                    var_export($sortCode.$seen[$sortCode], true),
-                    var_export($algorithm, true),
-                    implode(', ', $weights),
-                    $exception
-                ));
-                fwrite($outHandle, PHP_EOL);
-
-                ++$seen[$sortCode];
-
-                // break;
+            if (!isset($seen[$sortCodeStart.$sortCodeEnd])) {
+                $seen[$sortCodeStart.$sortCodeEnd] = 1;
             }
-        }
 
-        fwrite($outHandle, "];\n");
+            fwrite($outHandle, sprintf(
+                $tab.'if (%u === $pass && \'%s\' <= $sortCode && $sortCode <= \'%s\') {'."\n",
+                $seen[$sortCodeStart.$sortCodeEnd],
+                $sortCodeStart,
+                $sortCodeEnd
+            ));
+
+            fwrite($outHandle, sprintf(
+                $tab.'    return [%s, [%s], %u];'."\n",
+                var_export($algorithm, true),
+                implode(', ', $weights),
+                $exception
+            ));
+
+            fwrite($outHandle, "$tab}\n\n");
+
+            ++$seen[$sortCodeStart.$sortCodeEnd];
+        }
+        $tab = '    ';
+
+        fseek($outHandle, ftell($outHandle) - 1); // Remove a \n
+        fwrite($outHandle, "$tab}\n"); // Close function
+        fwrite($outHandle, "}\n"); // Close class
 
         fclose($inHandle);
         fclose($outHandle);
