@@ -2,22 +2,22 @@
 
 namespace Cs278\BankModulus;
 
-use Cs278\BankModulus\BankAccountNormalizer\SixDigitNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\SevenDigitNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\SantanderNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\CoOperativeBankNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\SantanderNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\SevenDigitNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\SixDigitNormalizer;
 
 final class BankAccountNormalizer
 {
     public function __construct(array $normalizers = [])
     {
         $this->normalizers = $normalizers ?: [
-            new SixDigitNormalizer,
-            new SevenDigitNormalizer,
-            new SantanderNormalizer,
-            new NatWestNormalizer,
-            new CoOperativeBankNormalizer,
+            new SixDigitNormalizer(),
+            new SevenDigitNormalizer(),
+            new SantanderNormalizer(),
+            new NatWestNormalizer(),
+            new CoOperativeBankNormalizer(),
         ];
     }
 

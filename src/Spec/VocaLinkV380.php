@@ -3,8 +3,8 @@
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
-use Cs278\BankModulus\SortCode;
 use Cs278\BankModulus\ModulusAlgorithm;
+use Cs278\BankModulus\SortCode;
 
 final class VocaLinkV380 implements SpecInterface
 {
@@ -374,7 +374,6 @@ final class VocaLinkV380 implements SpecInterface
                 // break;
             }
         }
-
 
         fwrite($outHandle, "];\n");
 
