@@ -3,9 +3,9 @@
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\Exception\SortCodeUnknownException;
 use Cs278\BankModulus\ModulusAlgorithm;
 use Cs278\BankModulus\SortCode;
-use Cs278\BankModulus\Exception\SortCodeUnknownException;
 
 final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 {
@@ -95,7 +95,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 
             return $this->applyDoubleAndModulus($bankAccount, $checks[0], $checks[1]);
         } else {
-            throw new SortCodeUnknownException;
+            throw new SortCodeUnknownException();
         }
     }
 

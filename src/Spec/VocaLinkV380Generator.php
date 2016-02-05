@@ -19,8 +19,8 @@ final class VocaLinkV380Generator
         $this->emit('<'."?php\n");
         $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
         $this->emit('/'.'** @internal */');
-        $this->emit("abstract class VocaLinkV380Data");
-        $this->emit("{");
+        $this->emit('abstract class VocaLinkV380Data');
+        $this->emit('{');
         $this->indent();
         $this->emit('/'.'** @internal */');
         $this->emit('final protected function fetchRecord($sortCode, $pass)');
