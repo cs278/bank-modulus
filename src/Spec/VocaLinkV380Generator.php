@@ -14,7 +14,9 @@ final class VocaLinkV380Generator
 
         fwrite($outHandle, '<'."?php\n\n");
         fwrite($outHandle, sprintf("namespace %s;\n\n", __NAMESPACE__));
+        fwrite($outHandle, '/'.'** @internal */'."\n");
         fwrite($outHandle, "abstract class VocaLinkV380Data\n{\n");
+        fwrite($outHandle, $tab.'/'.'** @internal */'."\n");
         fwrite($outHandle, $tab.'final protected function fetchRecord($sortCode, $pass)'."\n$tab{\n");
 
         $tab .= $tab;
