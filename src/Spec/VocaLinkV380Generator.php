@@ -4,44 +4,50 @@ namespace Cs278\BankModulus\Spec;
 
 final class VocaLinkV380Generator
 {
-    public static function generate($input, $output, $optimise)
+    private $input;
+    private $output;
+    private $indentLevel = 0;
+
+    public function __construct($input, $output)
     {
-        $inHandle = is_resource($input) ? $input : fopen($input, 'r');
-        $outHandle = is_resource($output) ? $output : fopen($output, 'x');
-
-        $tab = '    ';
-
-        fwrite($outHandle, '<'."?php\n\n");
-        fwrite($outHandle, sprintf("namespace %s;\n\n", __NAMESPACE__));
-        fwrite($outHandle, '/'.'** @internal */'."\n");
-        fwrite($outHandle, "abstract class VocaLinkV380Data\n{\n");
-        fwrite($outHandle, $tab.'/'.'** @internal */'."\n");
-        fwrite($outHandle, $tab.'final protected function fetchRecord($sortCode, $pass)'."\n$tab{\n");
-
-        if ($optimise) {
-            self::generateOptimised($inHandle, $outHandle);
-        } else {
-            self::generateSimple($inHandle, $outHandle);
-        }
-
-        fwrite($outHandle, "$tab}\n"); // Close function
-        fwrite($outHandle, "}\n"); // Close class
-
-        fclose($inHandle);
-        fclose($outHandle);
+        $this->input = is_resource($input) ? $input : fopen($input, 'r');
+        $this->output = is_resource($output) ? $output : fopen($output, 'x');
     }
 
-    private static function generateOptimised($inHandle, $outHandle)
+    public function generate($optimise)
     {
-        $tab = '        ';
+        $this->emit('<'."?php\n");
+        $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
+        $this->emit('/'.'** @internal */');
+        $this->emit("abstract class VocaLinkV380Data");
+        $this->emit("{");
+        $this->indent();
+        $this->emit('/'.'** @internal */');
+        $this->emit('final protected function fetchRecord($sortCode, $pass)');
+        $this->emit('{');
+        $this->indent();
 
+        if ($optimise) {
+            $this->generateOptimised();
+        } else {
+            $this->generateSimple();
+        }
+
+        $this->unindent();
+        $this->emit('}');
+        $this->unindent();
+        $this->emit('}');
+    }
+
+    private function generateOptimised()
+    {
         $seen = [];
         $uniqueWeights = [];
         $sortCodes = [];
 
         // Initial pass over data file, organise the unqiue return values and the
         // conditions required to hit them.
-        while ($line = trim(fgets($inHandle))) {
+        while ($line = trim(fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
 
             $sortCodeStart = $cols[0];
@@ -70,34 +76,37 @@ final class VocaLinkV380Generator
         // Write out file content with a single if statement for each unique
         // return value.
         foreach ($uniqueWeights as $digest => $weight) {
-            fwrite($outHandle, "{$tab}if (\n");
+            $this->emit('if (');
+            $this->indent();
 
             foreach ($sortCodes[$digest] as $i => $row) {
                 $combiner = ($i === 0) ? '   ' : '|| ';
 
-                fwrite($outHandle, "$tab    $combiner");
-                fwrite($outHandle, self::getComparison($row[0], $row[1], $row[2]));
-                fwrite($outHandle, "\n");
+                $this->emit($combiner.self::getComparison($row[0], $row[1], $row[2]));
             }
 
-            fwrite($outHandle, "{$tab}) {\n");
-            fwrite($outHandle, sprintf(
-                "$tab    return [%s, [%s], %u];\n",
+            $this->unindent();
+            $this->emit(') {');
+            $this->indent();
+            $this->emit(sprintf(
+                'return [%s, [%s], %u];',
                 var_export($weight[0], true),
                 implode(', ', $weight[2]),
                 $weight[1]
             ));
-            fwrite($outHandle, "{$tab}}\n\n");
+            $this->unindent();
+            $this->emit('}');
+            $this->nl();
         }
-        fseek($outHandle, ftell($outHandle) - 1); // Remove a \n
+
+        $this->gobble(1); // Remove a \n
     }
 
-    private static function generateSimple($inHandle, $outHandle)
+    private function generateSimple()
     {
-        $tab = '        ';
         $seen = [];
 
-        while ($line = trim(fgets($inHandle))) {
+        while ($line = trim(fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
 
             $sortCodeStart = $cols[0];
@@ -111,28 +120,29 @@ final class VocaLinkV380Generator
                 $seen[$sortCodeStart.$sortCodeEnd] = 1;
             }
 
-            fwrite($outHandle, sprintf(
-                $tab.'if %s {'."\n",
+            $this->emit(sprintf(
+                'if %s {',
                 self::getComparison(
                     $seen[$sortCodeStart.$sortCodeEnd],
                     $sortCodeStart,
                     $sortCodeEnd
                 )
             ));
-
-            fwrite($outHandle, sprintf(
-                $tab.'    return [%s, [%s], %u];'."\n",
+            $this->indent();
+            $this->emit(sprintf(
+                'return [%s, [%s], %u];',
                 var_export($algorithm, true),
                 implode(', ', $weights),
                 $exception
             ));
-
-            fwrite($outHandle, "$tab}\n\n");
+            $this->unindent();
+            $this->emit('}');
+            $this->nl();
 
             ++$seen[$sortCodeStart.$sortCodeEnd];
         }
 
-        fseek($outHandle, ftell($outHandle) - 1); // Remove a \n
+        $this->gobble(1); // Remove a \n
     }
 
     private static function getComparison($pass, $start, $end)
@@ -152,9 +162,43 @@ final class VocaLinkV380Generator
             $end
         );
     }
+
+    private function emit($code, $line = true)
+    {
+        if ($line && $this->indentLevel) {
+            fwrite($this->output, str_repeat('    ', $this->indentLevel));
+        }
+
+        fwrite($this->output, $code);
+
+        if ($line) {
+            $this->nl();
+        }
+    }
+
+    private function nl()
+    {
+        fwrite($this->output, "\n");
+    }
+
+    private function gobble($n)
+    {
+        fseek($this->output, ftell($this->output) - $n);
+    }
+
+    private function indent()
+    {
+        ++$this->indentLevel;
+    }
+
+    private function unindent()
+    {
+        $this->indentLevel = max($this->indentLevel - 1, 0);
+    }
 }
 
 // Violation of PSR1/2 but it's a dev file so sue me.
 if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($_SERVER['PHP_SELF'])) {
-    VocaLinkV380Generator::generate(STDIN, STDOUT, isset($argv[1]) && $argv[1] === '--optimise');
+    (new VocaLinkV380Generator(STDIN, STDOUT))
+        ->generate(isset($argv[1]) && $argv[1] === '--optimise');
 }
