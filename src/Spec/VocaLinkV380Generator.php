@@ -9,7 +9,6 @@ final class VocaLinkV380Generator
         $inHandle = is_resource($input) ? $input : fopen($input, 'r');
         $outHandle = is_resource($output) ? $output : fopen($output, 'x');
 
-        $seen = [];
         $tab = '    ';
 
         fwrite($outHandle, '<'."?php\n\n");
@@ -19,7 +18,19 @@ final class VocaLinkV380Generator
         fwrite($outHandle, $tab.'/'.'** @internal */'."\n");
         fwrite($outHandle, $tab.'final protected function fetchRecord($sortCode, $pass)'."\n$tab{\n");
 
-        $tab .= $tab;
+        self::generateSimple($inHandle, $outHandle);
+
+        fwrite($outHandle, "$tab}\n"); // Close function
+        fwrite($outHandle, "}\n"); // Close class
+
+        fclose($inHandle);
+        fclose($outHandle);
+    }
+
+    private static function generateSimple($inHandle, $outHandle)
+    {
+        $tab = '        ';
+        $seen = [];
 
         while ($line = trim(fgets($inHandle))) {
             $cols = preg_split('{\s+}', $line);
@@ -36,10 +47,12 @@ final class VocaLinkV380Generator
             }
 
             fwrite($outHandle, sprintf(
-                $tab.'if (%u === $pass && \'%s\' <= $sortCode && $sortCode <= \'%s\') {'."\n",
-                $seen[$sortCodeStart.$sortCodeEnd],
-                $sortCodeStart,
-                $sortCodeEnd
+                $tab.'if %s {'."\n",
+                self::getComparison(
+                    $seen[$sortCodeStart.$sortCodeEnd],
+                    $sortCodeStart,
+                    $sortCodeEnd
+                )
             ));
 
             fwrite($outHandle, sprintf(
@@ -53,14 +66,26 @@ final class VocaLinkV380Generator
 
             ++$seen[$sortCodeStart.$sortCodeEnd];
         }
-        $tab = '    ';
 
         fseek($outHandle, ftell($outHandle) - 1); // Remove a \n
-        fwrite($outHandle, "$tab}\n"); // Close function
-        fwrite($outHandle, "}\n"); // Close class
+    }
 
-        fclose($inHandle);
-        fclose($outHandle);
+    private static function getComparison($pass, $start, $end)
+    {
+        if ($start === $end) {
+            return sprintf(
+                '(%u === $pass && \'%s\' === $sortCode)',
+                $pass,
+                $start
+            );
+        }
+
+        return sprintf(
+            '(%u === $pass && \'%s\' <= $sortCode && $sortCode <= \'%s\')',
+            $pass,
+            $start,
+            $end
+        );
     }
 }
 
