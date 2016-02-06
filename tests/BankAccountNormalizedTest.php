@@ -11,13 +11,21 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
     public function testWithInvalidAccountNumber($accountNumber)
     {
         try {
-            BankAccountNormalized::createFromBankAccount(
-                new BankAccount('112233', $accountNumber)
+            new BankAccountNormalized(
+                new BankAccount('112233', '123456'),
+                '112233',
+                $accountNumber
             );
         } catch (\Exception $e) {
             $this->assertInstanceOf('InvalidArgumentException', $e);
             $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
             $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
+
+            if (is_string($accountNumber)) {
+                $this->assertInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
+            } else {
+                $this->assertNotInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
+            }
             return;
         }
 
@@ -67,6 +75,7 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
             [true],
             [12345678],
             [new \stdClass],
+            [[]],
             [''],
             ['X'],
             ['1234567A'],

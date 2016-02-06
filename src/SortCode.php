@@ -14,7 +14,13 @@ final class SortCode
 
     public function __construct($value)
     {
-        if (!is_string($value) || self::LENGTH !== strlen($value)) {
+        try {
+            Assert::string($value, 'Value must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
+        if (self::LENGTH !== strlen($value) || self::LENGTH !== strspn($value, '1234567890')) {
             throw SortCodeInvalidException::create($value);
         }
 
