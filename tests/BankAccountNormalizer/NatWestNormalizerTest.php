@@ -20,7 +20,7 @@ final class NatWestNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $normalizer = new NatWestNormalizer();
 
-        // Resuls are undefined if not a support bank account.
+        // Results are undefined if not a supported bank account.
         $this->assertTrue($normalizer->supports($bankAccount));
 
         $result = $normalizer->normalize($bankAccount);

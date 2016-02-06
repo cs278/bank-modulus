@@ -23,7 +23,7 @@ final class SevenDigitNormalizerTest extends \PHPUnit_Framework_TestCase
         $sortCode = '129921';
         $bankAccount = new BankAccount($sortCode, $accountNumber);
 
-        // Resuls are undefined if not a support bank account.
+        // Results are undefined if not a supported bank account.
         $this->assertTrue($normalizer->supports($bankAccount));
 
         $result = $normalizer->normalize($bankAccount);
