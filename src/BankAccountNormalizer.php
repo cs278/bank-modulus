@@ -12,15 +12,17 @@ final class BankAccountNormalizer
 {
     private $normalizers;
 
-    public function __construct(array $normalizers = [])
+    public function __construct(array $normalizers = null)
     {
-        $this->normalizers = $normalizers ?: [
-            new SixDigitNormalizer(),
-            new SevenDigitNormalizer(),
-            new SantanderNormalizer(),
-            new NatWestNormalizer(),
-            new CoOperativeBankNormalizer(),
-        ];
+        $this->normalizers = null !== $normalizers
+            ? $normalizers
+            : [
+                new SixDigitNormalizer(),
+                new SevenDigitNormalizer(),
+                new SantanderNormalizer(),
+                new NatWestNormalizer(),
+                new CoOperativeBankNormalizer(),
+            ];
     }
 
     public function apply(BankAccountInterface $bankAccount)

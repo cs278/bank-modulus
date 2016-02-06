@@ -3,10 +3,59 @@
 namespace Cs278\BankModulus\Tests;
 
 use Cs278\BankModulus\BankAccount;
+use Cs278\BankModulus\BankAccountNormalized;
 use Cs278\BankModulus\BankAccountNormalizer;
 
 final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
 {
+    public function testPassingInNormalizers()
+    {
+        $bankAccount = new BankAccount('08-32-16', '12345678');
+        $expectedSortCode = '166432';
+        $expectedAccountNumber = '01234567';
+
+        $mock = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $mock
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $mock
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnValue(
+                new BankAccountNormalized($bankAccount, $expectedSortCode, $expectedAccountNumber)
+            ));
+
+        $normalizer = new BankAccountNormalizer([
+            $mock
+        ]);
+
+        $result = $normalizer->apply($bankAccount);
+
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
+        $this->assertSame($expectedAccountNumber, $result->getAccountNumber());
+        $this->assertSame($bankAccount, $result->getOriginalBankAccount());
+    }
+
+    public function testEmptyNormalizers()
+    {
+        $expectedSortCode = '122448';
+        $expectedAccountNumber = '11223344';
+        $bankAccount = new BankAccount($expectedSortCode, $expectedAccountNumber);
+
+        $normalizer = new BankAccountNormalizer([]);
+
+        $result = $normalizer->apply($bankAccount);
+
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
+        $this->assertSame($expectedAccountNumber, $result->getAccountNumber());
+        $this->assertSame($bankAccount, $result->getOriginalBankAccount());
+    }
+
     /** @dataProvider dataApply */
     public function testApply($expectedSortCode, $expectedAccountNumber, $bankAccount)
     {
