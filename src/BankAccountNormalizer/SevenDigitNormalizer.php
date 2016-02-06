@@ -3,6 +3,7 @@
 namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
+use Cs278\BankModulus\BankAccountNormalized;
 
 final class SevenDigitNormalizer implements NormalizerInterface
 {
@@ -10,7 +11,7 @@ final class SevenDigitNormalizer implements NormalizerInterface
     {
         return new BankAccountNormalized(
             $bankAccount,
-            $sortCode,
+            $bankAccount->getSortCode(),
             '0'.$bankAccount->getAccountNumber()
         );
     }

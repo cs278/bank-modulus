@@ -3,6 +3,8 @@
 namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
+use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\SortCode;
 
 final class SantanderNormalizer implements NormalizerInterface
 {
@@ -11,7 +13,7 @@ final class SantanderNormalizer implements NormalizerInterface
         $accountNumber = $bankAccount->getAccountNumber();
 
         $sortCode = $bankAccount->getSortCode()->format('%s%s%s');
-        $sortCode[5] = $accountNumber[1];
+        $sortCode[5] = $accountNumber[0];
 
         return new BankAccountNormalized(
             $bankAccount,

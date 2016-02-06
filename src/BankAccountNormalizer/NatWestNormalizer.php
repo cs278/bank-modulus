@@ -3,12 +3,15 @@
 namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
+use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\SortCode;
 
 final class NatWestNormalizer implements NormalizerInterface
 {
     public function normalize(BankAccountInterface $bankAccount)
     {
         return new BankAccountNormalized(
+            $bankAccount,
             $bankAccount->getSortCode(),
             substr($bankAccount->getAccountNumber(), -8)
         );
