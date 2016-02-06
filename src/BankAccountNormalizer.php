@@ -10,6 +10,8 @@ use Cs278\BankModulus\BankAccountNormalizer\SixDigitNormalizer;
 
 final class BankAccountNormalizer
 {
+    private $normalizers;
+
     public function __construct(array $normalizers = [])
     {
         $this->normalizers = $normalizers ?: [
