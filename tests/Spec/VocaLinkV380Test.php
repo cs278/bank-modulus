@@ -62,6 +62,21 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
         }));
     }
 
+    /**
+     * @expectedException Cs278\BankModulus\Exception\CannotValidateException
+     * @expectedExceptionMessage Unable to determine if the bank details `00-11-00 12345678` are valid or invalid
+     */
+    public function testUnknownDetails()
+    {
+        $checker = new VocaLinkV380();
+        $normalizer = new DefaultNormalizer();
+        $bankAccount = $normalizer->normalize(
+            new BankAccount('001100', '12345678')
+        );
+
+        $checker->check($bankAccount);
+    }
+
     private function parseFixtures()
     {
         $contents = file(__DIR__.'/'.basename(__FILE__, 'Test.php').'.fixtures.txt');

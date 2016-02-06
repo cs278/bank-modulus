@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
-use Cs278\BankModulus\Exception\SortCodeUnknownException;
+use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\ModulusAlgorithm\DblAl;
 use Cs278\BankModulus\ModulusAlgorithm\Mod10;
 use Cs278\BankModulus\ModulusAlgorithm\Mod11;
@@ -97,7 +97,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 
             return $this->applyDoubleAndModulus($bankAccount, $checks[0], $checks[1]);
         } else {
-            throw new SortCodeUnknownException();
+            throw CannotValidateException::createFromBankAccount($bankAccount);
         }
     }
 

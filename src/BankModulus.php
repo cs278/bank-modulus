@@ -4,6 +4,7 @@ namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
+use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\Spec\SpecInterface;
 use Cs278\BankModulus\Spec\VocaLinkV380;
 
@@ -65,7 +66,7 @@ final class BankModulus
 
         try {
             return $spec->check($account);
-        } catch (\Exception $e) {
+        } catch (CannotValidateException $e) {
             return true;
         }
     }
@@ -88,7 +89,7 @@ final class BankModulus
 
         try {
             return $spec->check($account);
-        } catch (\Exception $e) {
+        } catch (CannotValidateException $e) {
             return false;
         }
     }
