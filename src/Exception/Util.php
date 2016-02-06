@@ -26,4 +26,9 @@ final class Util
     {
         return $sortCode->format('%1$s-**-%3$s');
     }
+
+    public static function wrap(\InvalidArgumentException $e)
+    {
+        return new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
+    }
 }

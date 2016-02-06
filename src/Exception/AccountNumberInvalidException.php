@@ -2,7 +2,7 @@
 
 namespace Cs278\BankModulus\Exception;
 
-final class AccountNumberInvalidException extends \LogicException implements Exception
+final class AccountNumberInvalidException extends InvalidArgumentException
 {
     public static function create($accountNumber, \Exception $e = null)
     {

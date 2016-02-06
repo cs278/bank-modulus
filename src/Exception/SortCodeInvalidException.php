@@ -2,7 +2,7 @@
 
 namespace Cs278\BankModulus\Exception;
 
-final class SortCodeInvalidException extends \LogicException implements Exception
+final class SortCodeInvalidException extends InvalidArgumentException
 {
     public static function create($sortCode, \Exception $e = null)
     {
