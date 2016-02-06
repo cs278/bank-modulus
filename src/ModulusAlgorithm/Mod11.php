@@ -15,7 +15,7 @@ final class Mod11 implements AlgorithmInterface
 
     public function quotient()
     {
-        return intdiv($this->result, 11);
+        return \Cs278\BankModulus\intdiv($this->result, 11);
     }
 
     public function remainder()
