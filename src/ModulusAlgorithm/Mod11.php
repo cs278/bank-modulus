@@ -8,11 +8,9 @@ final class Mod11 implements AlgorithmInterface
 
     public function __construct($input, $weights)
     {
-        $result = array_map(function ($a, $b) {
+        $this->result = array_sum(array_map(function ($a, $b) {
             return $a * $b;
-        }, str_split($input), $weights);
-
-        $this->result = array_sum($result);
+        }, str_split($input), $weights));
     }
 
     public function quotient()
