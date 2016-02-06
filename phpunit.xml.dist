@@ -19,6 +19,9 @@
     <filter>
         <whitelist>
             <directory suffix=".php">src</directory>
+            <exclude>
+                <file>src/Spec/VocaLinkV380Generator.php</file>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
