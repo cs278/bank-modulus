@@ -293,13 +293,6 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
         $input[self::B] = 0;
     }
 
-    private static function zeroize(&$input, array $pos)
-    {
-        foreach ($pos as $p) {
-            $input[$p] = 0;
-        }
-    }
-
     private function substituteSortCode($chars, $exception)
     {
         if (8 === $exception) {
