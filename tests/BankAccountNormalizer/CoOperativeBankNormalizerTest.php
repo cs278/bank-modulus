@@ -56,11 +56,6 @@ final class CoOperativeBankNormalizerTest extends \PHPUnit_Framework_TestCase
             [true,  new BankAccount('089999', '1234567890')],
             [false, new BankAccount('090000', '1234567890')],
             // Check only allows 10 digit account numbers.
-            [false, new BankAccount('080000', '1')],
-            [false, new BankAccount('080000', '12')],
-            [false, new BankAccount('080000', '123')],
-            [false, new BankAccount('080000', '1234')],
-            [false, new BankAccount('080000', '12345')],
             [false, new BankAccount('080000', '123456')],
             [false, new BankAccount('080000', '1234567')],
             [false, new BankAccount('080000', '12345678')],

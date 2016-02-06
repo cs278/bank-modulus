@@ -68,11 +68,6 @@ final class SantanderNormalizerTest extends \PHPUnit_Framework_TestCase
             [false, new BankAccount('893001', '123456789')],
 
             // Check only allows 9 digit account numbers.
-            [false, new BankAccount('890000', '1')],
-            [false, new BankAccount('890000', '12')],
-            [false, new BankAccount('890000', '123')],
-            [false, new BankAccount('890000', '1234')],
-            [false, new BankAccount('890000', '12345')],
             [false, new BankAccount('890000', '123456')],
             [false, new BankAccount('890000', '1234567')],
             [false, new BankAccount('890000', '12345678')],

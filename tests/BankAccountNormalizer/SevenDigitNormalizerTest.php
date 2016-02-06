@@ -46,11 +46,6 @@ final class SevenDigitNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         return [
             // Check only allows 6 digit account numbers.
-            [false, '1'],
-            [false, '12'],
-            [false, '123'],
-            [false, '1234'],
-            [false, '12345'],
             [false, '123456'],
             [true,  '1234567'],
             [false, '12345678'],

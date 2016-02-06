@@ -67,11 +67,6 @@ final class NatWestNormalizerTest extends \PHPUnit_Framework_TestCase
             [false, new BankAccount('670001', '1234567890')],
 
             // Check only allows 10 digit account numbers.
-            [false, new BankAccount('600000', '1')],
-            [false, new BankAccount('600000', '12')],
-            [false, new BankAccount('600000', '123')],
-            [false, new BankAccount('600000', '1234')],
-            [false, new BankAccount('600000', '12345')],
             [false, new BankAccount('600000', '123456')],
             [false, new BankAccount('600000', '1234567')],
             [false, new BankAccount('600000', '12345678')],
