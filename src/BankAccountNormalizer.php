@@ -10,19 +10,21 @@ use Cs278\BankModulus\BankAccountNormalizer\SixDigitNormalizer;
 
 final class BankAccountNormalizer
 {
-    private $normalizers;
+    private $normalizers = [];
 
     public function __construct(array $normalizers = null)
     {
-        $this->normalizers = null !== $normalizers
-            ? $normalizers
-            : [
+        if (null === $normalizers) {
+            $normalizers = [
                 new SixDigitNormalizer(),
                 new SevenDigitNormalizer(),
                 new SantanderNormalizer(),
                 new NatWestNormalizer(),
                 new CoOperativeBankNormalizer(),
             ];
+        }
+
+        $this->normalizers = $normalizers;
     }
 
     public function apply(BankAccountInterface $bankAccount)
