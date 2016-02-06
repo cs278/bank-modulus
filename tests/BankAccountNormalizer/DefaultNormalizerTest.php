@@ -92,6 +92,14 @@ final class DefaultNormalizerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /** @dataProvider dataNormalize */
+    public function testSupports($expectedSortCode, $expectedAccountNumber, $bankAccount)
+    {
+        $normalizer = new DefaultNormalizer();
+
+        $this->assertTrue($normalizer->supports($bankAccount));
+    }
+
     public function dataNormalize()
     {
         return [
