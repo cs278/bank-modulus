@@ -1,8 +1,6 @@
 <?php
 
-namespace Cs278\BankModulus\Tests;
-
-use Cs278\BankModulus\ModulusAlgorithm\DblAl;
+namespace Cs278\BankModulus\ModulusAlgorithm;
 
 final class DblAlTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,10 +1,9 @@
 <?php
 
-namespace Cs278\BankModulus\Tests;
+namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
-use Cs278\BankModulus\Spec\VocaLinkV380;
 
 final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
 {

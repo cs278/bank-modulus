@@ -1,8 +1,6 @@
 <?php
 
-namespace Cs278\BankModulus\Tests;
-
-use Cs278\BankModulus\ModulusAlgorithm\Mod10;
+namespace Cs278\BankModulus\ModulusAlgorithm;
 
 final class Mod10Test extends \PHPUnit_Framework_TestCase
 {

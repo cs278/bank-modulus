@@ -1,6 +1,6 @@
 <?php
 
-namespace Cs278\BankModulus\Tests;
+namespace Cs278\BankModulus;
 
 if (!function_exists('Cs278\BankModulus\intdiv')) {
     require __DIR__.'/../src/intdiv.php';
