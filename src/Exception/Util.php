@@ -8,13 +8,18 @@ final class Util
 {
     public static function maskAccountNumber($accountNumber)
     {
-        if (strlen($accountNumber) >= 8) {
+        return self::maskString($accountNumber, 8);
+    }
+
+    public static function maskString($string, $minLength)
+    {
+        if (strlen($string) >= $minLength) {
             return preg_replace_callback('{^(.)(.+)(.)$}', function ($m) {
                 return $m[1].str_repeat('*', strlen($m[2])).$m[3];
-            }, $accountNumber);
+            }, $string);
         }
 
-        return str_repeat('*', strlen($accountNumber));
+        return str_repeat('*', strlen($string));
     }
 
     public static function maskSortCode(SortCode $sortCode)

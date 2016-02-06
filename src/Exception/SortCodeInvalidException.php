@@ -8,7 +8,7 @@ final class SortCodeInvalidException extends \LogicException implements Exceptio
     {
         return new self(sprintf(
             '`%s` is not a valid sort code',
-            $sortCode
+            Util::maskString($sortCode, 6)
         ), 0, null);
     }
 }
