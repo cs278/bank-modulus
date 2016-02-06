@@ -75,14 +75,70 @@ final class VocaLinkV380Generator
 
         // Write out file content with a single if statement for each unique
         // return value.
+        //
+        // Statement looks something like this:
+        //
+        // if (
+        //     (
+        //         1 === $pass
+        //         && (
+        //             /* Sort code conditons */
+        //         )
+        //     )
+        //     ||
+        //     (
+        //         2 === $pass
+        //         && (
+        //             /* Sort code conditons */
+        //         )
+        //     )
+        // )
         foreach ($uniqueWeights as $digest => $weight) {
             $this->emit('if (');
             $this->indent();
 
-            foreach ($sortCodes[$digest] as $i => $row) {
-                $combiner = ($i === 0) ? '   ' : '|| ';
+            $passes = array_unique(array_column($sortCodes[$digest], 0));
 
-                $this->emit($combiner.self::getComparison($row[0], $row[1], $row[2]));
+            if (1 === count($passes)) {
+                $this->emit(sprintf('%u === $pass', array_shift($passes)));
+                $this->emit('&& (');
+                $this->indent();
+
+                foreach ($sortCodes[$digest] as $i => $row) {
+                    $combiner = ($i === 0) ? '   ' : '|| ';
+
+                    $this->emit($combiner.self::getComparison(null, $row[1], $row[2]));
+                }
+
+                $this->unindent();
+                $this->emit(')');
+            } else {
+                // Multiple passes have the same data crazy if statement!
+                foreach ($passes as $j => $pass) {
+                    if ($j > 0) {
+                        $this->emit('||');
+                    }
+                    $this->emit('(');
+                    $this->indent();
+                    $this->emit(sprintf('%u === $pass', $pass));
+                    $this->emit('&& (');
+                    $this->indent();
+
+                    $passSortCodes = array_values(array_filter($sortCodes[$digest], function ($row) use ($pass) {
+                        return $pass === $row[0];
+                    }));
+
+                    foreach ($passSortCodes as $i => $row) {
+                        $combiner = ($i === 0) ? '   ' : '|| ';
+
+                        $this->emit($combiner.self::getComparison(null, $row[1], $row[2]));
+                    }
+
+                    $this->unindent();
+                    $this->emit(')');
+                    $this->unindent();
+                    $this->emit(')');
+                }
             }
 
             $this->unindent();
@@ -147,16 +203,27 @@ final class VocaLinkV380Generator
 
     private static function getComparison($pass, $start, $end)
     {
+        $conditons = [];
+
+        if (null !== $pass) {
+            $conditons[] = '%1$u === $pass';
+        }
+
         if ($start === $end) {
-            return sprintf(
-                '(%u === $pass && \'%s\' === $sortCode)',
-                $pass,
-                $start
-            );
+            $conditons[] = '\'%2$s\' === $sortCode';
+        } else {
+            $conditons[] = '\'%2$s\' <= $sortCode';
+            $conditons[] = '$sortCode <= \'%3$s\'';
+        }
+
+        $format = implode(' && ', $conditons);
+
+        if (count($conditons) > 1) {
+            $format = "($format)";
         }
 
         return sprintf(
-            '(%u === $pass && \'%s\' <= $sortCode && $sortCode <= \'%s\')',
+            $format,
             $pass,
             $start,
             $end
