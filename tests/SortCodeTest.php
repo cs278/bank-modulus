@@ -94,16 +94,19 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
 
         if (0 === $expected) {
             $this->assertSame($b, $a);
+
             return;
         }
 
         if (1 === $expected) {
             $this->assertGreaterThan($b, $a);
+
             return;
         }
 
         if (-1 === $expected) {
             $this->assertLessThan($b, $a);
+
             return;
         }
 
@@ -138,7 +141,7 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
             [123456],
             [null],
             [false],
-            [new \stdClass],
+            [new \stdClass()],
             [[]],
             ['12-34-56'],
         ];
@@ -150,7 +153,7 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
             [null],
             [false],
             [true],
-            [new \stdClass],
+            [new \stdClass()],
             [[]],
             [''],
             ['XXXXXX'],

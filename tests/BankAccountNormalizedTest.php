@@ -26,6 +26,7 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
             } else {
                 $this->assertNotInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
             }
+
             return;
         }
 
@@ -74,7 +75,7 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
         return [
             [true],
             [12345678],
-            [new \stdClass],
+            [new \stdClass()],
             [[]],
             [''],
             ['X'],
