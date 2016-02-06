@@ -32,8 +32,7 @@ final class SortCode
 
     public function isBetween(SortCode $start, SortCode $end)
     {
-        var_dump($this->compareTo($start));
-        var_dump($this->compareTo($end));
+        return 0 <= $this->compareTo($start) && -1 === $this->compareTo($end);
     }
 
     public function format($format)
