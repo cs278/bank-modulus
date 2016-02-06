@@ -9,6 +9,6 @@ final class SortCodeInvalidException extends InvalidArgumentException
         return new self(sprintf(
             '`%s` is not a valid sort code',
             Util::maskString($sortCode, 6)
-        ), 0, null);
+        ), 0, $e);
     }
 }
