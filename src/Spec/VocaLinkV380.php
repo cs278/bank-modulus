@@ -105,15 +105,19 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
     {
         $sortCode = $sortCode->format('%s%s%s');
 
-        $weights[] = $this->fetchRecord($sortCode, 1);
+        $record1 = $this->fetchRecord($sortCode, 1);
 
-        if (empty($weights)) {
-            return;
+        if (null === $record1) {
+            return [];
         }
 
-        $weights[] = $this->fetchRecord($sortCode, 2);
+        $record2 = $this->fetchRecord($sortCode, 2);
 
-        return array_filter($weights);
+        if ($record2) {
+            return [$record1, $record2];
+        }
+
+        return [$record1];
     }
 
     private function applyDoubleAndModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
