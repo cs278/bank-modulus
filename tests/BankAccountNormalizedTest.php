@@ -2,6 +2,9 @@
 
 namespace Cs278\BankModulus;
 
+/**
+ * @covers Cs278\BankModulus\BankAccountNormalized
+ */
 final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider dataWithInvalidAccountNumber */

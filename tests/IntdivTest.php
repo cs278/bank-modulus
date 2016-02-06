@@ -10,6 +10,8 @@ if (!function_exists('Cs278\BankModulus\intdiv')) {
  * Tests sourced from:
  *
  * https://github.com/php/php-src/blob/abc06b91cdc7bfee7cdd7822063fbb9d1465e809/ext/standard/tests/math/intdiv.phpt
+ *
+ * @covers Cs278\BankModulus\intdiv
  */
 final class IntdivTest extends \PHPUnit_Framework_TestCase
 {

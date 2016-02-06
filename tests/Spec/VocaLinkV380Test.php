@@ -5,6 +5,10 @@ namespace Cs278\BankModulus\Spec;
 use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
+/**
+ * @covers Cs278\BankModulus\Spec\VocaLinkV380
+ * @covers Cs278\BankModulus\Spec\VocaLinkV380Data
+ */
 final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -4,6 +4,9 @@ namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccount;
 
+/**
+ * @covers Cs278\BankModulus\BankAccountNormalizer\CoOperativeBankNormalizer
+ */
 final class CoOperativeBankNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider dataSupports */
