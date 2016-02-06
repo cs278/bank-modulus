@@ -64,7 +64,7 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Cs278\BankModulus\Exception\CannotValidateException
-     * @expectedExceptionMessage Unable to determine if the bank details `00-11-00 1******8` are valid or invalid
+     * @expectedExceptionMessage Unable to determine if the bank details `00-**-00 1******8` are valid or invalid
      */
     public function testUnknownDetails()
     {
