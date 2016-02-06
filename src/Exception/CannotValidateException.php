@@ -16,7 +16,7 @@ final class CannotValidateException extends \RuntimeException implements Excepti
         $details = sprintf(
             '%s %s',
             $bankAccount->getSortCode()->format('%s-%s-%s'),
-            $bankAccount->getAccountNumber()
+            Util::maskAccountNumber($bankAccount->getAccountNumber())
         );
 
         return new self(

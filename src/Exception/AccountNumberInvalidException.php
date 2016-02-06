@@ -8,7 +8,7 @@ final class AccountNumberInvalidException extends \LogicException implements Exc
     {
         return new self(sprintf(
             '`%s` is not a valid account number',
-            $accountNumber
+            Util::maskAccountNumber($accountNumber)
         ), 0, null);
     }
 }
