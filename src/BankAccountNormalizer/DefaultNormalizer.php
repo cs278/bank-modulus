@@ -4,7 +4,6 @@ namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
 use Cs278\BankModulus\BankAccountNormalized;
-use Cs278\BankModulus\SortCode;
 
 final class DefaultNormalizer implements NormalizerInterface
 {

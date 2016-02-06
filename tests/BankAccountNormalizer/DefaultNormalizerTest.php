@@ -6,7 +6,7 @@ use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalized;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
-final class DefaultTest extends \PHPUnit_Framework_TestCase
+final class DefaultNormalizerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPassingInNormalizers()
     {
@@ -29,7 +29,7 @@ final class DefaultTest extends \PHPUnit_Framework_TestCase
             ));
 
         $normalizer = new DefaultNormalizer([
-            $mock
+            $mock,
         ]);
 
         $result = $normalizer->normalize($bankAccount);
