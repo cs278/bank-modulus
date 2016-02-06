@@ -1,0 +1,32 @@
+<?php
+
+namespace Cs278\BankModulus\ModulusAlgorithm;
+
+final class Mod11 implements AlgorithmInterface
+{
+    private $result;
+
+    public function __construct($input, $weights)
+    {
+        $result = array_map(function ($a, $b) {
+            return $a * $b;
+        }, str_split($input), $weights);
+
+        $this->result = array_sum($result);
+    }
+
+    public function quotient()
+    {
+        return intdiv($this->result, 11);
+    }
+
+    public function remainder()
+    {
+        return $this->result % 11;
+    }
+
+    public function check()
+    {
+        return 0 === $this->remainder();
+    }
+}

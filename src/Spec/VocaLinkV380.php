@@ -4,7 +4,9 @@ namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
 use Cs278\BankModulus\Exception\SortCodeUnknownException;
-use Cs278\BankModulus\ModulusAlgorithm;
+use Cs278\BankModulus\ModulusAlgorithm\DblAl;
+use Cs278\BankModulus\ModulusAlgorithm\Mod10;
+use Cs278\BankModulus\ModulusAlgorithm\Mod11;
 use Cs278\BankModulus\SortCode;
 
 final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
@@ -207,14 +209,13 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
 
         switch ($algorithm) {
             case self::MOD10:
-                $modulus = ModulusAlgorithm::mod10($chars, $weights);
+                $result = (new Mod10($chars, $weights))->check();
                 break;
             case self::MOD11:
-                if (4 === $exception) {
-                    // TODO Polycast?!
-                    $remainder = (int) fmod(ModulusAlgorithm::calculateMod($chars, $weights), 11);
+                $modulus = new Mod11($chars, $weights);
 
-                    return $remainder === intval($chars[self::G].$chars[self::H]);
+                if (4 === $exception) {
+                    return $modulus->remainder() === intval($chars[self::G].$chars[self::H]);
                 }
 
                 if (5 === $exception) {
@@ -223,9 +224,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                     // – if the remainder = 1 the account number is invalid
                     // – for all other remainders, take the remainder away from 11. If the number you get is the same
                     // as g then the account number is valid.
-
-                    // TODO Polycast??
-                    $remainder = (int) fmod(ModulusAlgorithm::calculateMod($chars, $weights), 11);
+                    $remainder = $modulus->remainder();
 
                     if (0 === $remainder && '0' === $chars[self::G]) {
                         return true;
@@ -238,7 +237,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                     return (11 - $remainder) === (int) $chars[self::G];
                 }
 
-                $modulus = ModulusAlgorithm::mod11($chars, $weights);
+                $result = $modulus->check();
                 break;
             case self::DBLAL:
                 if (
@@ -248,6 +247,8 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                     return true;
                 }
 
+                $modulus = new DblAl($chars, $weights);
+
                 if (5 === $exception) {
                     // After dividing the result by 10:
                     //  – if the remainder = 0 and h = 0 the account number is
@@ -255,7 +256,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                     //  – for all other remainders, take the remainder away
                     //    from 10. If the number you get is the same as h then
                     //    the account number is valid.
-                    $remainder = ModulusAlgorithm::calculateDblAl($chars, $weights);
+                    $remainder = $modulus->remainder();
 
                     if (0 === $remainder && '0' === $chars[self::H]) {
                         return true;
@@ -264,16 +265,16 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                     return (10 - $remainder) === (int) $chars[self::H];
                 }
 
-                $modulus = ModulusAlgorithm::dblAl($chars, $weights);
+                $result = $modulus->check();
 
-                if (1 === $exception) {
-                    $modulus = ($modulus + 27) % 10;
+                if (1 === $exception && !$result) {
+                    $result = 0 === (($modulus->remainder() + 27) % 10);
                 }
 
                 break;
         }
 
-        return 0 === $modulus;
+        return true === $result;
     }
 
     private static function zeroizeFirst8(&$input)
