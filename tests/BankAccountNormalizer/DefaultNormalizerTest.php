@@ -4,9 +4,9 @@ namespace Cs278\BankModulus\Tests;
 
 use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalized;
-use Cs278\BankModulus\BankAccountNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
-final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
+final class DefaultTest extends \PHPUnit_Framework_TestCase
 {
     public function testPassingInNormalizers()
     {
@@ -28,11 +28,11 @@ final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
                 new BankAccountNormalized($bankAccount, $expectedSortCode, $expectedAccountNumber)
             ));
 
-        $normalizer = new BankAccountNormalizer([
+        $normalizer = new DefaultNormalizer([
             $mock
         ]);
 
-        $result = $normalizer->apply($bankAccount);
+        $result = $normalizer->normalize($bankAccount);
 
         $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
         $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
@@ -46,22 +46,9 @@ final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
         $expectedAccountNumber = '11223344';
         $bankAccount = new BankAccount($expectedSortCode, $expectedAccountNumber);
 
-        $normalizer = new BankAccountNormalizer([]);
+        $normalizer = new DefaultNormalizer([]);
 
-        $result = $normalizer->apply($bankAccount);
-
-        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
-        $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
-        $this->assertSame($expectedAccountNumber, $result->getAccountNumber());
-        $this->assertSame($bankAccount, $result->getOriginalBankAccount());
-    }
-
-    /** @dataProvider dataApply */
-    public function testApply($expectedSortCode, $expectedAccountNumber, $bankAccount)
-    {
-        $normalizer = new BankAccountNormalizer();
-
-        $result = $normalizer->apply($bankAccount);
+        $result = $normalizer->normalize($bankAccount);
 
         $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
         $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
@@ -69,10 +56,23 @@ final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($bankAccount, $result->getOriginalBankAccount());
     }
 
-    /** @dataProvider dataApply */
-    public function testApplyMixup($expectedSortCode, $expectedAccountNumber, $bankAccount)
+    /** @dataProvider dataNormalize */
+    public function testNormalize($expectedSortCode, $expectedAccountNumber, $bankAccount)
     {
-        $normalizer = new BankAccountNormalizer();
+        $normalizer = new DefaultNormalizer();
+
+        $result = $normalizer->normalize($bankAccount);
+
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
+        $this->assertSame($expectedAccountNumber, $result->getAccountNumber());
+        $this->assertSame($bankAccount, $result->getOriginalBankAccount());
+    }
+
+    /** @dataProvider dataNormalize */
+    public function testNormalizeMixup($expectedSortCode, $expectedAccountNumber, $bankAccount)
+    {
+        $normalizer = new DefaultNormalizer();
         $prop = new \ReflectionProperty($normalizer, 'normalizers');
         $prop->setAccessible(true);
 
@@ -83,7 +83,7 @@ final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
             shuffle($normalizers); // Give them a quick shake around.
             $prop->setValue($normalizer, $normalizers); // Set back in to object.
 
-            $result = $normalizer->apply($bankAccount);
+            $result = $normalizer->normalize($bankAccount);
 
             $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
             $this->assertSame($expectedSortCode, $result->getSortCode()->format('%s%s%s'));
@@ -92,7 +92,7 @@ final class BankAccountNormalizerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function dataApply()
+    public function dataNormalize()
     {
         return [
             // Co-op Bank

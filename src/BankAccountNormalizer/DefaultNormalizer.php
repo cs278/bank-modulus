@@ -1,14 +1,12 @@
 <?php
 
-namespace Cs278\BankModulus;
+namespace Cs278\BankModulus\BankAccountNormalizer;
 
-use Cs278\BankModulus\BankAccountNormalizer\CoOperativeBankNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\SantanderNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\SevenDigitNormalizer;
-use Cs278\BankModulus\BankAccountNormalizer\SixDigitNormalizer;
+use Cs278\BankModulus\BankAccountInterface;
+use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\SortCode;
 
-final class BankAccountNormalizer
+final class DefaultNormalizer implements NormalizerInterface
 {
     private $normalizers = [];
 
@@ -27,7 +25,7 @@ final class BankAccountNormalizer
         $this->normalizers = $normalizers;
     }
 
-    public function apply(BankAccountInterface $bankAccount)
+    public function normalize(BankAccountInterface $bankAccount)
     {
         foreach ($this->normalizers as $normalizer) {
             if ($normalizer->supports($bankAccount)) {
@@ -36,5 +34,11 @@ final class BankAccountNormalizer
         }
 
         return BankAccountNormalized::createFromBankAccount($bankAccount);
+    }
+
+    public function supports(BankAccountInterface $bankAccount)
+    {
+        // Supports anything because it checks before normalizing.
+        return true;
     }
 }

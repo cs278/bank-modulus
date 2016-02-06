@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus\Tests;
 
 use Cs278\BankModulus\BankAccount;
-use Cs278\BankModulus\BankAccountNormalizer;
+use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\Spec\VocaLinkV380;
 
 final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
@@ -14,8 +14,8 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
     public function testCheckValid($sortCode, $accountNumber, $description)
     {
         $checker = new VocaLinkV380();
-        $normalizer = new BankAccountNormalizer();
-        $bankAccount = $normalizer->apply(
+        $normalizer = new DefaultNormalizer();
+        $bankAccount = $normalizer->normalize(
             new BankAccount($sortCode, $accountNumber)
         );
 
@@ -41,8 +41,8 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
     public function testCheckInvalid($sortCode, $accountNumber, $description)
     {
         $checker = new VocaLinkV380();
-        $normalizer = new BankAccountNormalizer();
-        $bankAccount = $normalizer->apply(
+        $normalizer = new DefaultNormalizer();
+        $bankAccount = $normalizer->normalize(
             new BankAccount($sortCode, $accountNumber)
         );
 
