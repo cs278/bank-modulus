@@ -9,7 +9,7 @@ final class BankAccount implements BankAccountInterface
 
     public function __construct($sortCode, $accountNumber)
     {
-        $this->sortCode = new SortCode(preg_replace('{[^0-9]}', '', $sortCode));
+        $this->sortCode = $sortCode instanceof SortCode ? $sortCode : new SortCode(preg_replace('{[^0-9]}', '', $sortCode));
         $this->accountNumber = preg_replace('{[^0-9]}', '', $accountNumber);
     }
 
