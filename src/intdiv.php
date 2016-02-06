@@ -8,7 +8,13 @@ if (function_exists('intdiv')) {
      */
     function intdiv($dividend, $divisor)
     {
-        return \intdiv($dividend, $divisor);
+        try {
+            return \intdiv($dividend, $divisor);
+        } catch (\Error $e) {
+            throw new \InvalidArgumentException($e->getMessage(), 0, $e);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException($e->getMessage(), 0, $e);
+        }
     }
 } else {
     /**
@@ -25,6 +31,10 @@ if (function_exists('intdiv')) {
 
         if (0 === $divisor) {
             throw new \InvalidArgumentException('Division by zero');
+        }
+
+        if (~PHP_INT_MAX === $dividend && -1 === $divisor) {
+            throw new \InvalidArgumentException('Division of PHP_INT_MIN by -1 is not an integer');
         }
 
         $dividend = ($dividend - $dividend % $divisor);
