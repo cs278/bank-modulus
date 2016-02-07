@@ -278,7 +278,7 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                 break;
         }
 
-        return true === $result;
+        return isset($result) && true === $result;
     }
 
     private static function zeroizeFirst8(&$input)
