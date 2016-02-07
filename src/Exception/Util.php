@@ -13,7 +13,7 @@ final class Util
 
     public static function maskString($string, $minLength)
     {
-        if (strlen($string) >= $minLength) {
+        if (strlen($string) >= max($minLength, 3)) {
             return preg_replace_callback('{^(.)(.+)(.)$}', function ($m) {
                 return $m[1].str_repeat('*', strlen($m[2])).$m[3];
             }, $string);
