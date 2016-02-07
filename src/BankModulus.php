@@ -65,7 +65,7 @@ final class BankModulus
         $account = $this->normalizer->normalize($account);
 
         try {
-            return $spec->check($account);
+            return $this->spec->check($account);
         } catch (CannotValidateException $e) {
             return true;
         }
@@ -88,7 +88,7 @@ final class BankModulus
         $account = $this->normalizer->normalize($account);
 
         try {
-            return $spec->check($account);
+            return $this->spec->check($account);
         } catch (CannotValidateException $e) {
             return false;
         }

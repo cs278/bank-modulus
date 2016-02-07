@@ -12,6 +12,9 @@ final class SortCode
 
     private $parts;
 
+    /**
+     * @param string $value
+     */
     public function __construct($value)
     {
         try {
@@ -27,6 +30,9 @@ final class SortCode
         $this->parts = str_split($value, 2);
     }
 
+    /**
+     * @param string $value
+     */
     public static function create($value)
     {
         try {
@@ -57,6 +63,9 @@ final class SortCode
         return 0 <= $this->compareTo($start) && -1 === $this->compareTo($end);
     }
 
+    /**
+     * @param string $format
+     */
     public function format($format)
     {
         try {

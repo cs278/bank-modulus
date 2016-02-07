@@ -13,6 +13,11 @@ final class BankAccountNormalized implements BankAccountInterface
 
     const LENGTH = 8;
 
+    /**
+     * @param BankAccountInterface $bankAccount
+     * @param string|SortCode      $sortCode
+     * @param string               $accountNumber
+     */
     public function __construct(BankAccountInterface $bankAccount, $sortCode, $accountNumber)
     {
         try {
