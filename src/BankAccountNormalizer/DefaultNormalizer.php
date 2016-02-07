@@ -24,6 +24,7 @@ final class DefaultNormalizer implements NormalizerInterface
         $this->normalizers = $normalizers;
     }
 
+    /** @return BankAccountInterface */
     public function normalize(BankAccountInterface $bankAccount)
     {
         foreach ($this->normalizers as $normalizer) {
@@ -35,6 +36,7 @@ final class DefaultNormalizer implements NormalizerInterface
         return BankAccountNormalized::createFromBankAccount($bankAccount);
     }
 
+    /** @return bool */
     public function supports(BankAccountInterface $bankAccount)
     {
         // Supports anything because it checks before normalizing.

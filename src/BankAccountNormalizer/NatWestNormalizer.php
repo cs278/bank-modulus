@@ -8,6 +8,7 @@ use Cs278\BankModulus\SortCode;
 
 final class NatWestNormalizer implements NormalizerInterface
 {
+    /** @return BankAccountInterface */
     public function normalize(BankAccountInterface $bankAccount)
     {
         return new BankAccountNormalized(
@@ -17,6 +18,7 @@ final class NatWestNormalizer implements NormalizerInterface
         );
     }
 
+    /** @return bool */
     public function supports(BankAccountInterface $bankAccount)
     {
         $accountNumber = $bankAccount->getAccountNumber();

@@ -33,11 +33,13 @@ final class BankAccount implements BankAccountInterface
         $this->accountNumber = preg_replace('{[^0-9]}', '', $accountNumber);
     }
 
+    /** @return SortCode */
     public function getSortCode()
     {
         return $this->sortCode;
     }
 
+    /** @return string */
     public function getAccountNumber()
     {
         return $this->accountNumber;

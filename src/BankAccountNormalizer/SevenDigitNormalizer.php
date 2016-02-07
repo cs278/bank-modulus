@@ -7,6 +7,7 @@ use Cs278\BankModulus\BankAccountNormalized;
 
 final class SevenDigitNormalizer implements NormalizerInterface
 {
+    /** @return BankAccountInterface */
     public function normalize(BankAccountInterface $bankAccount)
     {
         return new BankAccountNormalized(
@@ -16,6 +17,7 @@ final class SevenDigitNormalizer implements NormalizerInterface
         );
     }
 
+    /** @return bool */
     public function supports(BankAccountInterface $bankAccount)
     {
         return 7 === strlen($bankAccount->getAccountNumber());

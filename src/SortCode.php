@@ -45,6 +45,13 @@ final class SortCode
         return new self(preg_replace('{[^0-9]}', '', $value));
     }
 
+    /**
+     * Compare to another sort code.
+     *
+     * @param SortCode $b
+     *
+     * @return int Iff equal 0, 1 if greater than, -1 if less than
+     */
     public function compareTo(SortCode $b)
     {
         if ($this == $b) {
@@ -58,6 +65,14 @@ final class SortCode
         return 1;
     }
 
+    /**
+     * See if this sort code is between two others.
+     *
+     * @param SortCode $start Inclusive lower bound
+     * @param SortCode $end   Exclusive upper bound
+     *
+     * @return bool
+     */
     public function isBetween(SortCode $start, SortCode $end)
     {
         return 0 <= $this->compareTo($start) && -1 === $this->compareTo($end);
@@ -95,6 +110,8 @@ final class SortCode
 
     /**
      * @param string $format
+     *
+     * @return string
      */
     public function format($format)
     {

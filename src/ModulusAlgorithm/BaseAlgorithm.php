@@ -8,12 +8,17 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     private $divisor;
     private static $ourIntdiv;
 
+    /**
+     * @param int $result
+     * @param int $divisor
+     */
     public function __construct($result, $divisor)
     {
         $this->result = $result;
         $this->divisor = $divisor;
     }
 
+    /** @return int */
     final public function quotient()
     {
         if (null === self::$ourIntdiv) {
@@ -31,11 +36,13 @@ abstract class BaseAlgorithm implements AlgorithmInterface
         }
     }
 
+    /** @return int */
     final public function remainder()
     {
         return $this->result % $this->divisor;
     }
 
+    /** @return bool */
     final public function check()
     {
         return 0 === $this->remainder();

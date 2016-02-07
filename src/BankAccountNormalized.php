@@ -50,21 +50,25 @@ final class BankAccountNormalized implements BankAccountInterface
         );
     }
 
+    /** @return BankAccountInterface */
     public function getOriginalBankAccount()
     {
         return $this->bankAccount;
     }
 
+    /** @return SortCode */
     public function getSortCode()
     {
         return $this->sortCode;
     }
 
+    /** @return string */
     public function getAccountNumber()
     {
         return $this->accountNumber;
     }
 
+    /** @return string */
     public function __toString()
     {
         return $this->sortCode->format('%s%s%s').$this->accountNumber;

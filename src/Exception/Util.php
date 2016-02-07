@@ -6,11 +6,13 @@ use Cs278\BankModulus\SortCode;
 
 final class Util
 {
+    /** @return string */
     public static function maskAccountNumber($accountNumber)
     {
         return self::maskString($accountNumber, 8);
     }
 
+    /** @return string */
     public static function maskString($string, $minLength)
     {
         if (strlen($string) >= max($minLength, 3)) {
@@ -22,6 +24,7 @@ final class Util
         return str_repeat('*', strlen($string));
     }
 
+    /** @return string */
     public static function maskSortCode(SortCode $sortCode)
     {
         return $sortCode->format('%1$s-**-%3$s');
