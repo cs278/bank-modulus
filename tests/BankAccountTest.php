@@ -54,11 +54,9 @@ final class BankAccountTest extends \PHPUnit_Framework_TestCase
             [new \stdClass()],
             [[]],
             [''],
-            ['X'],
-            ['1234567A'],
-            ['1234567'],
-            ['123456789'],
-            ['1234567890'],
+            ['ABCDEFGH'],
+            ['12345ABC'],
+            ['1ABCDEF6'],
         ];
     }
 }
