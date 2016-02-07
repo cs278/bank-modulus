@@ -68,6 +68,27 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('11_22_33', $sortCode->format('%s_%s_%s'));
     }
 
+    public function testGetString()
+    {
+        $sortCode = new SortCode('112233');
+
+        $this->assertSame('112233', $sortCode->getString());
+    }
+
+    public function testGetDashSeparated()
+    {
+        $sortCode = new SortCode('112233');
+
+        $this->assertSame('11-22-33', $sortCode->getDashSeparated());
+    }
+
+    public function testGetSpaceSeparated()
+    {
+        $sortCode = new SortCode('112233');
+
+        $this->assertSame('11 22 33', $sortCode->getSpaceSeparated());
+    }
+
     /**
      * @expectedException Cs278\BankModulus\Exception\InvalidArgumentException
      */

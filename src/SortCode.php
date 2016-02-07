@@ -64,6 +64,36 @@ final class SortCode
     }
 
     /**
+     * Return the sort code as one concatenated string.
+     *
+     * @return string
+     */
+    public function getString()
+    {
+        return $this->format('%s%s%s');
+    }
+
+    /**
+     * Return the sort code as one concatenated string.
+     *
+     * @return string
+     */
+    public function getDashSeparated()
+    {
+        return $this->format('%s-%s-%s');
+    }
+
+    /**
+     * Return the sort code as one concatenated string.
+     *
+     * @return string
+     */
+    public function getSpaceSeparated()
+    {
+        return $this->format('%s %s %s');
+    }
+
+    /**
      * @param string $format
      */
     public function format($format)
