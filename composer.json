@@ -16,10 +16,12 @@
         "issues": "https://github.com/cs278/bank-modulus/issues"
     },
     "require": {
-        "php": "^5.4.0 | ^7.0.0"
+        "php": "^5.4.0 | ^7.0.0",
+        "webmozart/assert": "^1.0.2"
     },
     "require-dev": {
-        "cs278/coding-standard": "^1"
+        "cs278/coding-standard": "^1",
+        "phpunit/phpunit": "^4.8.21"
     },
     "autoload": {
         "psr-4": {
