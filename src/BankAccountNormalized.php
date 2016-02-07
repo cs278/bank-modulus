@@ -17,7 +17,7 @@ final class BankAccountNormalized implements BankAccountInterface
     {
         try {
             if (!$sortCode instanceof SortCode) {
-                Assert::string($sortCode, 'Sort code must be a string or instance of SortCode, got: `%s`', $sortCode);
+                Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
 
                 $sortCode = SortCode::create($sortCode);
             }
