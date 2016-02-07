@@ -7,6 +7,23 @@ namespace Cs278\BankModulus;
  */
 final class BankAccountTest extends \PHPUnit_Framework_TestCase
 {
+    /** @dataProvider dataWithInvalidAccountNumber */
+    public function testWithInvalidAccountNumber($accountNumber)
+    {
+        try {
+            new BankAccount('112233', $accountNumber);
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('InvalidArgumentException', $e);
+            $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
+            $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
+            $this->assertNotInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
+
+            return;
+        }
+
+        $this->fail('Failed to catch exception');
+    }
+
     public function testGetSortCodeWithObject()
     {
         $sortCode = new SortCode('112233');
@@ -27,5 +44,21 @@ final class BankAccountTest extends \PHPUnit_Framework_TestCase
         $account = new BankAccount('112233', 'AC1-2345678');
 
         $this->assertSame('12345678', $account->getAccountNumber());
+    }
+
+    public function dataWithInvalidAccountNumber()
+    {
+        return [
+            [true],
+            [12345678],
+            [new \stdClass()],
+            [[]],
+            [''],
+            ['X'],
+            ['1234567A'],
+            ['1234567'],
+            ['123456789'],
+            ['1234567890'],
+        ];
     }
 }
