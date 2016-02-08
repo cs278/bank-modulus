@@ -1,7 +1,7 @@
 {
     "name": "cs278/bank-modulus",
     "description": "UK Bank Modulus Check Library",
-    "keywords": ["banking", "vocalink", "sortcode"],
+    "keywords": ["banking", "vocalink", "sortcode", "validation"],
     "homepage": "https://github.com/cs278/bank-modulus",
     "type": "library",
     "license": "MIT",
