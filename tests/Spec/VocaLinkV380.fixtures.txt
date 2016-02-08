@@ -1,4 +1,5 @@
 # These fixtures come from the VocaLink V3.80 specification document.
+# © VocaLink Limited 2016
 # https://www.vocalink.com/media/1806/vocalink-validating-account-numbers-v380-v2.pdf
 1 Pass modulus 10 check. 089999 66374958 Y
 2 Pass modulus 11 check. 107999 88837491 Y
