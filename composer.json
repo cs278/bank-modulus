@@ -21,7 +21,12 @@
     },
     "require-dev": {
         "cs278/coding-standard": "^1",
+        "michaelc/intdiv-compat": "^1.0.1",
         "phpunit/phpunit": "^4.8.21"
+    },
+    "suggest": {
+        "michaelc/intdiv-compat": "Provides intdiv() which is needed if you use the modulus algorithms yourself.",
+        "symfony/polyfill-php70": "Provides intdiv() which is needed if you use the modulus algorithms yourself."
     },
     "autoload": {
         "psr-4": {

@@ -21,19 +21,21 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     /** @return int */
     final public function quotient()
     {
-        if (null === self::$ourIntdiv) {
-            self::$ourIntdiv = !function_exists('intdiv');
+        if (!function_exists('intdiv')) {
+            // This method isn't actually used internally by the library
+            // currently so no hard dependency on these polyfills.
 
-            if (self::$ourIntdiv && !function_exists('Cs278\BankModulus\intdiv')) {
-                require __DIR__.'/../intdiv.php';
-            }
+            // @codeCoverageIgnoreStart
+            throw new \LogicException(sprintf(
+                '%s() requires the intdiv() function which was added in PHP 7'
+                .' you could use a polyfill such as michaelc/intdiv-compat or'
+                .' symfony/polyfill-php70 to provide this function',
+                __METHOD__
+            ));
+            // @codeCoverageIgnoreEnd
         }
 
-        if (self::$ourIntdiv) {
-            return \Cs278\BankModulus\intdiv($this->result, $this->divisor);
-        } else {
-            return intdiv($this->result, $this->divisor);
-        }
+        return intdiv($this->result, $this->divisor);
     }
 
     /** @return int */
