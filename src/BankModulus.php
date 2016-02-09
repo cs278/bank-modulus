@@ -5,8 +5,10 @@ namespace Cs278\BankModulus;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
+use Cs278\BankModulus\Exception\Util as E;
 use Cs278\BankModulus\Spec\SpecInterface;
 use Cs278\BankModulus\Spec\VocaLinkV380;
+use Webmozart\Assert\Assert;
 
 /**
  * Simple class to validate UK bank account details.
@@ -69,6 +71,29 @@ final class BankModulus
         } catch (CannotValidateException $e) {
             return true;
         }
+    }
+
+    public function lookup($sortCode, $accountNumber)
+    {
+        try {
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
+        $account = new BankAccount($sortCode, $accountNumber);
+        $account = $this->normalizer->normalize($account);
+
+        try {
+            $valid = $this->spec->check($account);
+            $validated = true;
+        } catch (CannotValidateException $e) {
+            $validated = false;
+            $valid = null;
+        }
+
+        return new Result($account, $validated, $valid);
     }
 
     /**
