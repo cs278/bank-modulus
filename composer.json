@@ -33,6 +33,11 @@
             "Cs278\\BankModulus\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Cs278\\BankModulus\\Mock\\": "tests/Mock/"
+        }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
