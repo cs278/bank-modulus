@@ -138,7 +138,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
             [1],
             [0],
             [null],
-            [new \stdClass],
+            [new \stdClass()],
             [[1]],
             [1.0],
         ];
@@ -152,7 +152,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
             [0],
             [false],
             [true],
-            [new \stdClass],
+            [new \stdClass()],
             [[1]],
             [1.0],
         ];
