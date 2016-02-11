@@ -73,7 +73,7 @@ final class Result implements BankAccountInterface
     public function isValid($assume = true)
     {
         try {
-            Assert::boolean($assume, 'Assume should be a boolean, got: `%s`');
+            Assert::boolean($assume, 'assume should be a boolean, got: `%s`');
         } catch (\InvalidArgumentException $e) {
             throw E::wrap($e);
         }
