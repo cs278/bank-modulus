@@ -5,8 +5,10 @@ namespace Cs278\BankModulus;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
+use Cs278\BankModulus\Exception\Util as E;
 use Cs278\BankModulus\Spec\SpecInterface;
 use Cs278\BankModulus\Spec\VocaLinkV380;
+use Webmozart\Assert\Assert;
 
 /**
  * Simple class to validate UK bank account details.
@@ -41,8 +43,15 @@ final class BankModulus
      */
     public function normalize(&$sortCode, &$accountNumber)
     {
+        try {
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
         $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
+        $account = $this->normalizeBankAccount($account);
 
         $sortCode = $account->getSortCode()->format('%s%s%s');
         $accountNumber = $account->getAccountNumber();
@@ -61,36 +70,61 @@ final class BankModulus
      */
     public function check($sortCode, $accountNumber)
     {
-        $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
-
         try {
-            return $this->spec->check($account);
-        } catch (CannotValidateException $e) {
-            return true;
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
         }
+
+        $result = $this->lookup($sortCode, $accountNumber);
+
+        if ($result->isValidated()) {
+            return $result->isValid();
+        }
+
+        return true;
     }
 
     /**
-     * Check if account number / sort code are valid.
+     * Perform evaluation of the supplied sort code and account number.
      *
-     * If the specification cannot validate the bank account they are assumed
-     * to be invalid.
+     * This will normalize the supplied input and then perform modulus check.
      *
      * @param string $sortCode
      * @param string $accountNumber
      *
-     * @return bool True if the details are valid
+     * @return Result
      */
-    public function isValid($sortCode, $accountNumber)
+    public function lookup($sortCode, $accountNumber)
     {
+        try {
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
         $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
+        $account = $this->normalizeBankAccount($account);
 
         try {
-            return $this->spec->check($account);
+            $valid = $this->spec->check($account);
+            $validated = true;
         } catch (CannotValidateException $e) {
-            return false;
+            $validated = false;
+            $valid = null;
         }
+
+        return new Result($account, $validated, $valid);
+    }
+
+    private function normalizeBankAccount(BankAccountInterface $account)
+    {
+        if ($this->normalizer->supports($account)) {
+            return $this->normalizer->normalize($account);
+        }
+
+        return BankAccountNormalized::createFromBankAccount($account);
     }
 }

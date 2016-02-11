@@ -120,6 +120,13 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
             '00000190',
         ];
 
+        $fixtures[] = [
+            'Exception 14, pass 2: check 8th digit',
+            false,
+            '180002',
+            '9809352',
+        ];
+
         return $fixtures;
     }
 }

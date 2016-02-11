@@ -41,11 +41,10 @@ available, currently that is V3.80 issued by VocaLink.
   will return `true`. If the details provided are syntactically valid but fall
   outside the specification then this method considers them valid.
 
-* `isValid(string $sortCode, string $accountNumber)`
+* `lookup(string $sortCode, string $accountNumber)`
 
-  This performs the same validation and normalization as `check()` but instead
-  returns false when the arguments fall outside the specification. You should use
-  this method sparingly.
+  Use this method to fetch more in depth information on the sort code and account
+  number. See documentation on the `Result` class for more information.
 
 * `__construct(SpecInterface $spec, NormalizerInterface $normalizer)`
 
@@ -71,6 +70,30 @@ available, currently that is V3.80 issued by VocaLink.
   // string(6) "122448"
   // string(8) "00123456"
   ```
+
+### `Result` class
+
+The `Result` class provides detailed information on the validation and
+normalisation results.
+
+* `getSortCode()`
+
+  Returns a `SortCode` object representing the normalised sort code.
+
+* `getAccountNumber()`
+
+  Returns a string of the normalised account number.
+
+* `isValidated()`
+
+  Returns a boolean which is true iff the sort code and account number could be
+  validated using the specification.
+
+* `isValid($assume = true)`
+
+  Returns a boolean representing the result of the modulus validation, if the
+  sort code and account number could not be validated the value of the `$assume`
+  argument is returned.
 
 ### Exceptions
 
