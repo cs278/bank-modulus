@@ -63,14 +63,13 @@ final class BankModulus
      */
     public function check($sortCode, $accountNumber)
     {
-        $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
+        $result = $this->lookup($sortCode, $accountNumber);
 
-        try {
-            return $this->spec->check($account);
-        } catch (CannotValidateException $e) {
-            return true;
+        if ($result->isValidated()) {
+            return $result->isValid();
         }
+
+        return true;
     }
 
     /**
