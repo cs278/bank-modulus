@@ -137,33 +137,6 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
         $chars = (string) $bankAccount;
         list($algorithm, $weights, $exception) = $check;
 
-        if (3 === $exception && self::DBLAL === $algorithm) {
-            if ('6' === $chars[self::C]) {
-                return true;
-            }
-
-            if ('9' === $chars[self::C]) {
-                return true;
-            }
-        }
-
-        if (6 === $exception) {
-            // If a = 4, 5, 6, 7 or 8, and g and h are the same, the accounts
-            // are for a foreign currency and the checks cannot be used.
-            if (
-                (
-                    '4' === $chars[self::A]
-                    || '5' === $chars[self::A]
-                    || '6' === $chars[self::A]
-                    || '7' === $chars[self::A]
-                    || '8' === $chars[self::A]
-                )
-                && $chars[self::G] === $chars[self::H]
-            ) {
-                return false;
-            }
-        }
-
         if (7 === $exception && '9' === $chars[self::G]) {
             self::zeroizeFirst8($weights);
         }
@@ -244,11 +217,14 @@ final class VocaLinkV380 extends VocaLinkV380Data implements SpecInterface
                 $result = $modulus->check();
                 break;
             case self::DBLAL:
-                if (
-                    3 === $exception
-                    && (6 === $chars[self::C] || 9 === $chars[self::C])
-                ) {
-                    return true;
+                if (3 === $exception) {
+                    if ('6' === $chars[self::C]) {
+                        return true;
+                    }
+
+                    if ('9' === $chars[self::C]) {
+                        return true;
+                    }
                 }
 
                 $modulus = new DblAl($chars, $weights);
