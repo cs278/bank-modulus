@@ -83,7 +83,12 @@ final class BankModulus
         }
 
         $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
+
+        if ($this->normalizer->supports($account)) {
+            $account = $this->normalizer->normalize($account);
+        } else {
+            $account = BankAccountNormalized::createFromBankAccount($account);
+        }
 
         try {
             $valid = $this->spec->check($account);
