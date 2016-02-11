@@ -43,6 +43,157 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($modulus->isValid($sortCode, $accountNumber));
     }
 
+    public function testLookupValidatedAndValid()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return new BankAccountNormalized(
+                    $bankAccount,
+                    $bankAccount->getSortCode(),
+                    strrev($bankAccount->getAccountNumber())
+                );
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        $result = $modulus->lookup('12-34-56', '12345678');
+
+        $this->assertInstanceOf('Cs278\BankModulus\Result', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\SortCode', $result->getSortCode());
+        $this->assertSame('123456', $result->getSortCode()->getString());
+        $this->assertSame('87654321', $result->getAccountNumber());
+        $this->assertTrue($result->isValidated());
+        $this->assertTrue($result->isValid());
+    }
+
+    public function testLookupValidatedAndInvalid()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnValue(false));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return new BankAccountNormalized(
+                    $bankAccount,
+                    $bankAccount->getSortCode(),
+                    strrev($bankAccount->getAccountNumber())
+                );
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        $result = $modulus->lookup('12-34-56', '12345678');
+
+        $this->assertInstanceOf('Cs278\BankModulus\Result', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\SortCode', $result->getSortCode());
+        $this->assertSame('123456', $result->getSortCode()->getString());
+        $this->assertSame('87654321', $result->getAccountNumber());
+        $this->assertTrue($result->isValidated());
+        $this->assertFalse($result->isValid());
+    }
+
+    public function testLookupNotValidated()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnCallback(function (BankAccountNormalized $bankAccount) {
+                throw Exception\CannotValidateException::createFromBankAccount($bankAccount);
+            }));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return new BankAccountNormalized(
+                    $bankAccount,
+                    $bankAccount->getSortCode(),
+                    strrev($bankAccount->getAccountNumber())
+                );
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        $result = $modulus->lookup('12-34-56', '12345678');
+
+        $this->assertInstanceOf('Cs278\BankModulus\Result', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\SortCode', $result->getSortCode());
+        $this->assertSame('123456', $result->getSortCode()->getString());
+        $this->assertSame('87654321', $result->getAccountNumber());
+        $this->assertFalse($result->isValidated());
+        $this->assertTrue($result->isValid());
+    }
+
+    public function testLookupNoNormalizer()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(false));
+
+        $normalizer
+            ->expects($this->never())
+            ->method('normalize');
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        $result = $modulus->lookup('12-34-56', '12345678');
+
+        $this->assertInstanceOf('Cs278\BankModulus\Result', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\BankAccountInterface', $result);
+        $this->assertInstanceOf('Cs278\BankModulus\SortCode', $result->getSortCode());
+        $this->assertSame('123456', $result->getSortCode()->getString());
+        $this->assertSame('12345678', $result->getAccountNumber());
+        $this->assertTrue($result->isValidated());
+        $this->assertTrue($result->isValid());
+    }
+
     /** @dataProvider dataNormalize */
     public function testNormalize($expectedSortCode, $expectedAccountNumber, $sortCode, $accountNumber)
     {
