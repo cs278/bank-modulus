@@ -145,6 +145,22 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testNormalizeUnsupported()
+    {
+        $spec = new Mock\SpecPass();
+        $normalizer = new Mock\NormalizerUnsupported();
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        $sortCode = '0 00000';
+        $accountNumber = '0 0000000';
+
+        $modulus->normalize($sortCode, $accountNumber);
+
+        $this->assertSame('000000', $sortCode);
+        $this->assertSame('00000000', $accountNumber);
+    }
+
     /**
      * Test lookup(), check(), and normalize() method argument validation.
      */
