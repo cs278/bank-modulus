@@ -232,4 +232,53 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
             ['123456', '00999999', '123456', '999999'],
         ];
     }
+
+    /**
+     * Test lookup() method argument validation.
+     */
+    public function testMethodInputValidation()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $modulus = new BankModulus($spec, $normalizer);
+
+        foreach (['lookup'] as $method) {
+            foreach ([123456, null, false, true, [], new \stdClass] as $sortCode) {
+                try {
+                    $modulus->$method($sortCode, $accountNumber = '12345678');
+                } catch (\Exception $e) {
+                    $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
+                    $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
+                    $this->assertInstanceOf('InvalidArgumentException', $e);
+                    $this->assertSame('Sort code must be a string', $e->getMessage());
+
+                    continue;
+                }
+
+                $this->fail(sprintf(
+                    'Expected exception to be thrown on %s sort code',
+                    gettype($sortCode)
+                ));
+            }
+
+            foreach ([12345678, null, false, true, [], new \stdClass] as $accountNumber) {
+                try {
+                    $modulus->$method($sortCode = '123456', $accountNumber);
+                } catch (\Exception $e) {
+                    $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
+                    $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
+                    $this->assertInstanceOf('InvalidArgumentException', $e);
+                    $this->assertSame('Account number must be a string', $e->getMessage());
+
+                    continue;
+                }
+
+                $this->fail(sprintf(
+                    'Expected exception to be thrown on %s sort code',
+                    gettype($sortCode)
+                ));
+            }
+        }
+    }
 }
