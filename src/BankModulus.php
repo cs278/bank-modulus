@@ -51,7 +51,7 @@ final class BankModulus
         }
 
         $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
+        $account = $this->normalizeBankAccount($account);
 
         $sortCode = $account->getSortCode()->format('%s%s%s');
         $accountNumber = $account->getAccountNumber();
@@ -106,12 +106,7 @@ final class BankModulus
         }
 
         $account = new BankAccount($sortCode, $accountNumber);
-
-        if ($this->normalizer->supports($account)) {
-            $account = $this->normalizer->normalize($account);
-        } else {
-            $account = BankAccountNormalized::createFromBankAccount($account);
-        }
+        $account = $this->normalizeBankAccount($account);
 
         try {
             $valid = $this->spec->check($account);
@@ -122,5 +117,14 @@ final class BankModulus
         }
 
         return new Result($account, $validated, $valid);
+    }
+
+    private function normalizeBankAccount(BankAccountInterface $account)
+    {
+        if ($this->normalizer->supports($account)) {
+            return $this->normalizer->normalize($account);
+        }
+
+        return BankAccountNormalized::createFromBankAccount($account);
     }
 }
