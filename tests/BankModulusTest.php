@@ -19,30 +19,6 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($modulus->check('089999', '66374959'));
     }
 
-    public function testIsValidValid()
-    {
-        $modulus = new BankModulus();
-        $this->assertTrue($modulus->isValid('089999', '66374958'));
-    }
-
-    public function testIsValidInvalid()
-    {
-        $modulus = new BankModulus();
-        $this->assertFalse($modulus->isValid('089999', '66374959'));
-    }
-
-    public function testUnknown()
-    {
-        $modulus = new BankModulus();
-
-        $sortCode = '000000';
-        $accountNumber = '12345678';
-
-        // Test both methods in tandem to actually unsure it is unkown.
-        $this->assertTrue($modulus->check($sortCode, $accountNumber));
-        $this->assertFalse($modulus->isValid($sortCode, $accountNumber));
-    }
-
     public function testLookupValidatedAndValid()
     {
         $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');

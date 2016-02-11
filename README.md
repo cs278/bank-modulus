@@ -41,12 +41,6 @@ available, currently that is V3.80 issued by VocaLink.
   will return `true`. If the details provided are syntactically valid but fall
   outside the specification then this method considers them valid.
 
-* `isValid(string $sortCode, string $accountNumber)`
-
-  This performs the same validation and normalization as `check()` but instead
-  returns false when the arguments fall outside the specification. You should use
-  this method sparingly.
-
 * `__construct(SpecInterface $spec, NormalizerInterface $normalizer)`
 
   You can change which specification and normalizer is used at the time of

@@ -110,27 +110,4 @@ final class BankModulus
 
         return new Result($account, $validated, $valid);
     }
-
-    /**
-     * Check if account number / sort code are valid.
-     *
-     * If the specification cannot validate the bank account they are assumed
-     * to be invalid.
-     *
-     * @param string $sortCode
-     * @param string $accountNumber
-     *
-     * @return bool True if the details are valid
-     */
-    public function isValid($sortCode, $accountNumber)
-    {
-        $account = new BankAccount($sortCode, $accountNumber);
-        $account = $this->normalizer->normalize($account);
-
-        try {
-            return $this->spec->check($account);
-        } catch (CannotValidateException $e) {
-            return false;
-        }
-    }
 }
