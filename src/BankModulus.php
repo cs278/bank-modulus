@@ -73,6 +73,16 @@ final class BankModulus
         }
     }
 
+    /**
+     * Perform evaluation of the supplied sort code and account number.
+     *
+     * This will normalize the supplied input and then perform modulus check.
+     *
+     * @param string $sortCode
+     * @param string $accountNumber
+     *
+     * @return Result
+     */
     public function lookup($sortCode, $accountNumber)
     {
         try {
