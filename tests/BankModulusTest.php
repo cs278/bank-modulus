@@ -156,9 +156,13 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $modulus = new BankModulus($spec, $normalizer);
 
         foreach (['lookup', 'normalize', 'check'] as $method) {
+            unset($sortCode, $accountNumber);
+
             foreach ([123456, null, false, true, [], new \stdClass()] as $sortCode) {
+                $accountNumber = '12345678';
+
                 try {
-                    $modulus->$method($sortCode, $accountNumber = '12345678');
+                    $modulus->$method($sortCode, $accountNumber);
                 } catch (\Exception $e) {
                     if ($e instanceof \PHPUnit_Exception) {
                         throw $e;
@@ -178,9 +182,13 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
                 ));
             }
 
+            unset($sortCode, $accountNumber);
+
             foreach ([12345678, null, false, true, [], new \stdClass()] as $accountNumber) {
+                $sortCode = '123456';
+
                 try {
-                    $modulus->$method($sortCode = '123456', $accountNumber);
+                    $modulus->$method($sortCode, $accountNumber);
                 } catch (\Exception $e) {
                     if ($e instanceof \PHPUnit_Exception) {
                         throw $e;
