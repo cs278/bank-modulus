@@ -9,14 +9,82 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
 {
     public function testCheckValid()
     {
-        $modulus = new BankModulus();
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return BankAccountNormalized::createFromBankAccount($bankAccount);
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
         $this->assertTrue($modulus->check('089999', '66374958'));
     }
 
     public function testCheckInvalid()
     {
-        $modulus = new BankModulus();
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnValue(false));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return BankAccountNormalized::createFromBankAccount($bankAccount);
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
         $this->assertFalse($modulus->check('089999', '66374959'));
+    }
+
+    public function testCheckUnknown()
+    {
+        $spec = $this->getMockForAbstractClass('Cs278\BankModulus\Spec\SpecInterface');
+        $normalizer = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface');
+
+        $spec
+            ->expects($this->any())
+            ->method('check')
+            ->will($this->returnCallback(function (BankAccountNormalized $bankAccount) {
+                throw Exception\CannotValidateException::createFromBankAccount($bankAccount);
+            }));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('supports')
+            ->will($this->returnValue(true));
+
+        $normalizer
+            ->expects($this->any())
+            ->method('normalize')
+            ->will($this->returnCallback(function (BankAccountInterface $bankAccount) {
+                return BankAccountNormalized::createFromBankAccount($bankAccount);
+            }));
+
+        $modulus = new BankModulus($spec, $normalizer);
+        $this->assertTrue($modulus->check('000000', '12345678'));
     }
 
     public function testLookupValidatedAndValid()
