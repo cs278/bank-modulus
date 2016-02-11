@@ -70,6 +70,15 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('12345678', $account->getAccountNumber());
     }
 
+    public function testToString()
+    {
+        $account = BankAccountNormalized::createFromBankAccount(
+            new BankAccount('144441', '25555552')
+        );
+
+        $this->assertSame('14444125555552', $account->__toString());
+    }
+
     public function dataWithInvalidAccountNumber()
     {
         return [
