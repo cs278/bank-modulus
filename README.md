@@ -34,14 +34,14 @@ available, currently that is V3.80 issued by VocaLink.
 
   The result of normalisation is assigned back to the input parameters.
 
-* `check(string $sortCode, string $accountNumber)`
+* `check(string $sortCode, string $accountNumber) : boolean`
 
   This is the primary method to ascertain if the details supplied are invalid, it
   returns `false` if the sort code and account number are invalid otherwise it
   will return `true`. If the details provided are syntactically valid but fall
   outside the specification then this method considers them valid.
 
-* `lookup(string $sortCode, string $accountNumber)`
+* `lookup(string $sortCode, string $accountNumber) : Result`
 
   Use this method to fetch more in depth information on the sort code and account
   number. See documentation on the `Result` class for more information.
@@ -76,20 +76,20 @@ available, currently that is V3.80 issued by VocaLink.
 The `Result` class provides detailed information on the validation and
 normalisation results.
 
-* `getSortCode()`
+* `getSortCode() : SortCode`
 
   Returns a `SortCode` object representing the normalised sort code.
 
-* `getAccountNumber()`
+* `getAccountNumber() : string`
 
   Returns a string of the normalised account number.
 
-* `isValidated()`
+* `isValidated() : boolean`
 
   Returns a boolean which is true iff the sort code and account number could be
   validated using the specification.
 
-* `isValid($assume = true)`
+* `isValid($assume = true) : boolean`
 
   Returns a boolean representing the result of the modulus validation, if the
   sort code and account number could not be validated the value of the `$assume`
