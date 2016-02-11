@@ -43,6 +43,13 @@ final class BankModulus
      */
     public function normalize(&$sortCode, &$accountNumber)
     {
+        try {
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizer->normalize($account);
 
@@ -63,6 +70,13 @@ final class BankModulus
      */
     public function check($sortCode, $accountNumber)
     {
+        try {
+            Assert::string($sortCode, 'Sort code must be a string');
+            Assert::string($accountNumber, 'Account number must be a string');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
         $result = $this->lookup($sortCode, $accountNumber);
 
         if ($result->isValidated()) {
