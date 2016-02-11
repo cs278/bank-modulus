@@ -75,6 +75,10 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         try {
             $result->isValid($value);
         } catch (\Exception $e) {
+            if ($e instanceof \PHPUnit_Exception) {
+                throw $e;
+            }
+
             $this->assertInvalidArgumentException('assume should be a boolean, got: `%s`', $e);
 
             return;
@@ -91,6 +95,10 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         try {
             new Result($account, $value, true);
         } catch (\Exception $e) {
+            if ($e instanceof \PHPUnit_Exception) {
+                throw $e;
+            }
+
             $this->assertInvalidArgumentException('specKnown should be a boolean, got: `%s`', $e);
 
             return;
@@ -107,6 +115,10 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         try {
             new Result($account, true, $value);
         } catch (\Exception $e) {
+            if ($e instanceof \PHPUnit_Exception) {
+                throw $e;
+            }
+
             $this->assertInvalidArgumentException('specResult should be a boolean, got: `%s`', $e);
 
             return;
@@ -123,6 +135,10 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         try {
             new Result($account, false, $value);
         } catch (\Exception $e) {
+            if ($e instanceof \PHPUnit_Exception) {
+                throw $e;
+            }
+
             $this->assertInvalidArgumentException('specResult should be null, got: `%s`', $e);
 
             return;

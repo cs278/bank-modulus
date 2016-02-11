@@ -160,6 +160,10 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
                 try {
                     $modulus->$method($sortCode, $accountNumber = '12345678');
                 } catch (\Exception $e) {
+                    if ($e instanceof \PHPUnit_Exception) {
+                        throw $e;
+                    }
+
                     $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
                     $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
                     $this->assertInstanceOf('InvalidArgumentException', $e);
@@ -178,6 +182,10 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
                 try {
                     $modulus->$method($sortCode = '123456', $accountNumber);
                 } catch (\Exception $e) {
+                    if ($e instanceof \PHPUnit_Exception) {
+                        throw $e;
+                    }
+
                     $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
                     $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
                     $this->assertInstanceOf('InvalidArgumentException', $e);
