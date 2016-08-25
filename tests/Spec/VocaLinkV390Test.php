@@ -6,18 +6,18 @@ use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
 /**
- * @covers Cs278\BankModulus\Spec\VocaLinkV380
+ * @covers Cs278\BankModulus\Spec\VocaLinkV390
  * @covers Cs278\BankModulus\Spec\VocaLinkV380\Driver
- * @covers Cs278\BankModulus\Spec\VocaLinkV380\DataV380
+ * @covers Cs278\BankModulus\Spec\VocaLinkV380\DataV390
  */
-final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
+final class VocaLinkV390Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataCheckValid
      */
     public function testCheckValid($sortCode, $accountNumber, $description)
     {
-        $checker = new VocaLinkV380();
+        $checker = new VocaLinkV390();
         $normalizer = new DefaultNormalizer();
         $bankAccount = $normalizer->normalize(
             new BankAccount($sortCode, $accountNumber)
@@ -44,7 +44,7 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
      */
     public function testCheckInvalid($sortCode, $accountNumber, $description)
     {
-        $checker = new VocaLinkV380();
+        $checker = new VocaLinkV390();
         $normalizer = new DefaultNormalizer();
         $bankAccount = $normalizer->normalize(
             new BankAccount($sortCode, $accountNumber)
@@ -72,7 +72,7 @@ final class VocaLinkV380Test extends \PHPUnit_Framework_TestCase
      */
     public function testUnknownDetails()
     {
-        $checker = new VocaLinkV380();
+        $checker = new VocaLinkV390();
         $normalizer = new DefaultNormalizer();
         $bankAccount = $normalizer->normalize(
             new BankAccount('001100', '12345678')

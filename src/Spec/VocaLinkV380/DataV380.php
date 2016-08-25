@@ -1,12 +1,14 @@
 <?php
 
-namespace Cs278\BankModulus\Spec;
+namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
-/** @internal */
-abstract class VocaLinkV380Data
+/**
+ * @internal This class is not part of the public API of this package.
+ */
+final class DataV380 implements DataInterface
 {
     /** @internal */
-    final protected function fetchRecord($sortCode, $pass)
+    final public function fetchRecord($sortCode, $pass)
     {
         if (
             1 === $pass

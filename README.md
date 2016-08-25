@@ -24,7 +24,7 @@ This library provides a simple class to perform bank account validation and
 normalisation, through the `BankModulus` class.
 
 By default the `BankModulus` class will use the most recent specification
-available, currently that is V3.80 issued by VocaLink.
+available, currently that is V3.90 issued by VocaLink.
 
 * `normalize(string &$sortCode, string &$accountNumber)`
 
