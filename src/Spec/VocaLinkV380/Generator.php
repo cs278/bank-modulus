@@ -1,32 +1,36 @@
 <?php
 
-namespace Cs278\BankModulus\Spec;
+namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
-class VocaLinkV380Generator
+/**
+ * @internal This class is not part of the public API of this package.
+ */
+final class Generator
 {
     private $input;
     private $output;
+    private $spec;
     private $indentLevel = 0;
 
-    final public function __construct($input, $output)
+    public function __construct($input, $output, $spec)
     {
         $this->input = is_resource($input) ? $input : fopen($input, 'r');
         $this->output = is_resource($output) ? $output : fopen($output, 'x');
+        $this->spec = $spec;
     }
 
-    final public function generate($optimise)
+    public function generate($optimise)
     {
         $this->emit('<'."?php\n");
         $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
-        $this->emit('/'.'** @internal */');
-        $this->emit(sprintf(
-            'abstract class %s',
-            str_replace('Generator', 'Data', (new \ReflectionClass($this))->getShortName())
-        ));
+        $this->emit('/'.'**');
+        $this->emit(' * @internal This class is not part of the public API of this package.');
+        $this->emit(' */');
+        $this->emit(sprintf('final class Data%s implements DataInterface', $this->spec));
         $this->emit('{');
         $this->indent();
         $this->emit('/'.'** @internal */');
-        $this->emit('final protected function fetchRecord($sortCode, $pass)');
+        $this->emit('final public function fetchRecord($sortCode, $pass)');
         $this->emit('{');
         $this->indent();
 
@@ -269,6 +273,20 @@ class VocaLinkV380Generator
 
 // Violation of PSR1/2 but it's a dev file so sue me.
 if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($_SERVER['PHP_SELF'])) {
-    (new VocaLinkV380Generator(STDIN, STDOUT))
-        ->generate(isset($argv[1]) && $argv[1] === '--optimise');
+    array_shift($argv); // discard
+
+    $optimise = false;
+
+    while ($arg = array_shift($argv)) {
+        if (strpos($arg, '--') === 0) {
+            if ($arg === '--optimise') {
+                $optimise = true;
+            }
+        } else {
+            $spec = $arg;
+        }
+    }
+
+    (new Generator(STDIN, STDOUT, $spec))
+        ->generate($optimise);
 }
