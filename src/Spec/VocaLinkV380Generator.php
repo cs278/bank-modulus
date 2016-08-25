@@ -2,24 +2,27 @@
 
 namespace Cs278\BankModulus\Spec;
 
-final class VocaLinkV380Generator
+class VocaLinkV380Generator
 {
     private $input;
     private $output;
     private $indentLevel = 0;
 
-    public function __construct($input, $output)
+    final public function __construct($input, $output)
     {
         $this->input = is_resource($input) ? $input : fopen($input, 'r');
         $this->output = is_resource($output) ? $output : fopen($output, 'x');
     }
 
-    public function generate($optimise)
+    final public function generate($optimise)
     {
         $this->emit('<'."?php\n");
         $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
         $this->emit('/'.'** @internal */');
-        $this->emit('abstract class VocaLinkV380Data');
+        $this->emit(sprintf(
+            'abstract class %s',
+            str_replace('Generator', 'Data', (new \ReflectionClass($this))->getShortName())
+        ));
         $this->emit('{');
         $this->indent();
         $this->emit('/'.'** @internal */');
