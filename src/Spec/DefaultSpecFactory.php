@@ -7,7 +7,7 @@ namespace Cs278\BankModulus\Spec;
  *
  * Uses the correct specification based on the current date.
  */
-final class SpecFactory implements SpecFactoryInterface
+final class DefaultSpecFactory implements SpecFactoryInterface
 {
     /** @var \DateTime|null */
     private $now;

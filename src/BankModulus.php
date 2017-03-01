@@ -6,8 +6,8 @@ use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\Exception\Util as E;
+use Cs278\BankModulus\Spec\DefaultSpecFactory;
 use Cs278\BankModulus\Spec\SimpleSpecFactory;
-use Cs278\BankModulus\Spec\SpecFactory;
 use Cs278\BankModulus\Spec\SpecFactoryInterface;
 use Cs278\BankModulus\Spec\SpecInterface;
 use Webmozart\Assert\Assert;
@@ -49,7 +49,7 @@ final class BankModulus
             throw E::wrap($e);
         }
 
-        $this->specFactory = $specFactory ?: new SpecFactory();
+        $this->specFactory = $specFactory ?: new DefaultSpecFactory();
         $this->normalizer = $normalizer ?: new DefaultNormalizer();
     }
 
