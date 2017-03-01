@@ -7,6 +7,48 @@ namespace Cs278\BankModulus;
  */
 final class BankModulusTest extends \PHPUnit_Framework_TestCase
 {
+    public function testConstructorNoArgs()
+    {
+        $modulus = new BankModulus();
+
+        $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
+    }
+
+    public function testConstructorInvalidSpec()
+    {
+        $this->setExpectedException(
+            'Cs278\\BankModulus\\Exception\\InvalidArgumentException',
+            sprintf(
+                'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: stdClass',
+                'Cs278\\BankModulus\\Spec'
+            )
+        );
+
+        $modulus = new BankModulus(new \stdClass());
+    }
+
+    /**
+     * Tests the backwards compatability layer in the constructor.
+     *
+     * @requires function error_clear_last
+     * @group legacy
+     */
+    public function testConstructorConcreteSpec()
+    {
+        error_clear_last();
+
+        $modulus = new BankModulus(new Mock\SpecPass());
+        $error = error_get_last();
+
+        $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
+        $this->assertArraySubset([
+            'message' => 'Passing an instance of SpecInterface to Cs278\\BankModulus\\BankModulus::__construct() is deprecated and will be removed in version 2.0.0.',
+            'type' => E_USER_DEPRECATED,
+        ], $error);
+
+        error_clear_last();
+    }
+
     public function testCheckValid()
     {
         $spec = new Mock\SpecPass();
