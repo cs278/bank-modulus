@@ -6,8 +6,10 @@ use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\Exception\Util as E;
+use Cs278\BankModulus\Spec\SimpleSpecFactory;
+use Cs278\BankModulus\Spec\SpecFactory;
+use Cs278\BankModulus\Spec\SpecFactoryInterface;
 use Cs278\BankModulus\Spec\SpecInterface;
-use Cs278\BankModulus\Spec\VocaLinkV400;
 use Webmozart\Assert\Assert;
 
 /**
@@ -18,18 +20,36 @@ use Webmozart\Assert\Assert;
  */
 final class BankModulus
 {
-    private $spec;
+    private $specFactory;
     private $normalizer;
 
     /**
      * Constructor.
      *
-     * @param SpecInterface       $spec       Banking specification to check against.
-     * @param NormalizerInterface $normalizer Strategy to normalize account numbers/sort codes.
+     * @param SpecInterface|SpecFactoryInterface|null $spec       Banking specification to check against.
+     * @param NormalizerInterface|null                $normalizer Strategy to normalize account numbers/sort codes.
      */
-    public function __construct(SpecInterface $spec = null, NormalizerInterface $normalizer = null)
+    public function __construct($specFactory = null, NormalizerInterface $normalizer = null)
     {
-        $this->spec = $spec ?: new VocaLinkV400();
+        if ($specFactory instanceof SpecInterface) {
+            @trigger_error(sprintf(
+                'Passing an instance of SpecInterface to %s() is deprecated and will be removed in version 2.0.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+
+            $specFactory = new SimpleSpecFactory($specFactory);
+        }
+
+        try {
+            Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', sprintf(
+                'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: %%s',
+                'Cs278\\BankModulus\\Spec'
+            ));
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
+
+        $this->specFactory = $specFactory ?: new SpecFactory();
         $this->normalizer = $normalizer ?: new DefaultNormalizer();
     }
 
@@ -109,7 +129,7 @@ final class BankModulus
         $account = $this->normalizeBankAccount($account);
 
         try {
-            $valid = $this->spec->check($account);
+            $valid = $this->specFactory->create()->check($account);
             $validated = true;
         } catch (CannotValidateException $e) {
             $validated = false;
