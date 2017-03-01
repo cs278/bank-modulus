@@ -6,7 +6,6 @@ abstract class BaseAlgorithm implements AlgorithmInterface
 {
     private $result;
     private $divisor;
-    private static $ourIntdiv;
 
     /**
      * @param int $result

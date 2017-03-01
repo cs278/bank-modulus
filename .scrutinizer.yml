@@ -6,4 +6,4 @@ tools:
 filter:
     excluded_paths:
         - tests/*
-        - src/Spec/VocaLinkV380Data.php
+        - src/Spec/VocaLinkV380/DataV*.php
