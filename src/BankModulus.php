@@ -139,6 +139,11 @@ final class BankModulus
         return new Result($account, $validated, $valid);
     }
 
+    /**
+     * @param BankAccountInterface $account
+     *
+     * @return BankAccountNormalized
+     */
     private function normalizeBankAccount(BankAccountInterface $account)
     {
         if ($this->normalizer->supports($account)) {
