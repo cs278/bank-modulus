@@ -21,7 +21,7 @@
     },
     "require-dev": {
         "cs278/coding-standard": "^1",
-        "michaelc/intdiv-compat": "^1.0.1",
+        "symfony/polyfill-php70": "^1.3.0",
         "phpunit/phpunit": "^4.8.21"
     },
     "suggest": {
