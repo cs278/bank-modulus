@@ -2,9 +2,6 @@
 
 namespace Cs278\BankModulus\Spec;
 
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
-
 /**
  * Default factory implementation.
  *
@@ -65,12 +62,8 @@ final class DefaultSpecFactory implements SpecFactoryInterface
 
     private function dateOnOrAfter($when)
     {
-        try {
-            Assert::string($when);
-            Assert::regex($when, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        assert(is_string($when));
+        assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when));
 
         $when = \DateTime::createFromFormat('!Y-m-d', $when);
 
