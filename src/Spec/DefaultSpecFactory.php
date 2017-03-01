@@ -34,7 +34,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             return new VocaLinkV400();
         }
 
-        return new VocaLink390();
+        return new VocaLinkV390();
     }
 
     private function dateOnOrAfter($when)
