@@ -18,6 +18,9 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     /** @var \DateTime|null */
     private $now;
 
+    /** @var bool Flag used for testing */
+    private $updateNow = true;
+
     public function __construct()
     {
         // This is hard coded, but modulus checking is intrinsically related
@@ -25,10 +28,33 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         $this->tz = new \DateTimeZone('Europe/London');
     }
 
+    /**
+     * @internal Used for testing
+     *
+     * @param \DateTime $now
+     *
+     * @return self
+     */
+    public static function withNow(\DateTime $now)
+    {
+        // Uses an error so error suppression ignores it.
+        trigger_error(sprintf('%s() is for testing only!', __METHOD__), E_USER_WARNING);
+
+        $spec = new self();
+        $spec->now = clone $now;
+        $spec->now->setTime(0, 0, 0);
+        $spec->now->setTimezone($spec->tz);
+        $spec->updateNow = false;
+
+        return $spec;
+    }
+
     /** {@inheritdoc} */
     public function create()
     {
-        $this->now = \DateTime('today', $this->tz);
+        if ($this->updateNow) {
+            $this->now = new \DateTime('today', $this->tz);
+        }
 
         if ($this->dateOnOrAfter('2017-01-09')) {
             return new VocaLinkV400();
