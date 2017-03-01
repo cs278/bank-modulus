@@ -7,7 +7,7 @@ use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\Exception\Util as E;
 use Cs278\BankModulus\Spec\SpecInterface;
-use Cs278\BankModulus\Spec\VocaLinkV390;
+use Cs278\BankModulus\Spec\VocaLinkV400;
 use Webmozart\Assert\Assert;
 
 /**
@@ -29,7 +29,7 @@ final class BankModulus
      */
     public function __construct(SpecInterface $spec = null, NormalizerInterface $normalizer = null)
     {
-        $this->spec = $spec ?: new VocaLinkV390();
+        $this->spec = $spec ?: new VocaLinkV400();
         $this->normalizer = $normalizer ?: new DefaultNormalizer();
     }
 
