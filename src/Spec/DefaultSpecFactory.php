@@ -9,13 +9,23 @@ namespace Cs278\BankModulus\Spec;
  */
 final class DefaultSpecFactory implements SpecFactoryInterface
 {
+    /** @var \DateTimeZone */
+    private $tz;
+
     /** @var \DateTime|null */
     private $now;
+
+    public function __construct()
+    {
+        // This is hard coded, but modulus checking is intrinsically related
+        // to banking in the UK which happens on London time.
+        $this->tz = new \DateTimeZone('Europe/London');
+    }
 
     /** {@inheritdoc} */
     public function create()
     {
-        $this->now = new \DateTime('today');
+        $this->now = \DateTime('today', $this->tz);
 
         if ($this->dateOnOrAfter('2017-01-09')) {
             return new VocaLinkV400();
