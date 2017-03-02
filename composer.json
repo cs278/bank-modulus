@@ -16,17 +16,12 @@
         "issues": "https://github.com/cs278/bank-modulus/issues"
     },
     "require": {
-        "php": "^5.4.0 | ^7.0.0",
+        "php": ">= 7.1.0",
         "webmozart/assert": "^1.0.2"
     },
     "require-dev": {
         "cs278/coding-standard": "^1",
-        "symfony/polyfill-php70": "^1.3.0",
-        "phpunit/phpunit": "^4.8.21"
-    },
-    "suggest": {
-        "michaelc/intdiv-compat": "Provides intdiv() which is needed if you use the modulus algorithms yourself.",
-        "symfony/polyfill-php70": "Provides intdiv() which is needed if you use the modulus algorithms yourself."
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
@@ -40,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     },
     "scripts": {
