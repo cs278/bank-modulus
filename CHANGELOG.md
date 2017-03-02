@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v1.1.0] - 2017-01-02
+
+### Added
+- Implemented VocaLink V4.00 specification
+- Refactored to use a factory to create `SpecInterface` objects, this allows
+  specifications to be implemented and released ahead of their effective date.
+- Implemented VocaLink V4.10 specification
+
+## Deprecated
+- Supplying a `SpecInterface` to `BankModulus::__construct()` has been deprecated,
+  either implement `SpecFactoryInterface` or use `SimpleSpecFactory`.
+
 ## [v1.0.0] - 2016-08-26
 
 ### Added
@@ -36,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Implemented VocaLink V3.80 specification
 
+[v1.1.0]: https://github.com/cs278/bank-modulus/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta3...v1.0.0
 [v1.0.0-beta3]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta2...v1.0.0-beta3
 [v1.0.0-beta2]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta1...v1.0.0-beta2
