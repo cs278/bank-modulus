@@ -74,12 +74,12 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
 
         try {
             $result->isValid($value);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof \PHPUnit_Exception) {
                 throw $e;
             }
 
-            $this->assertInvalidArgumentException('assume should be a boolean, got: `%s`', $e);
+            $this->assertInstanceOf(\TypeError::class, $e);
 
             return;
         }
@@ -94,12 +94,12 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
 
         try {
             new Result($account, $value, true);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof \PHPUnit_Exception) {
                 throw $e;
             }
 
-            $this->assertInvalidArgumentException('specKnown should be a boolean, got: `%s`', $e);
+            $this->assertInstanceOf(\TypeError::class, $e);
 
             return;
         }
@@ -114,7 +114,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
 
         try {
             new Result($account, true, $value);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof \PHPUnit_Exception) {
                 throw $e;
             }
@@ -134,7 +134,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
 
         try {
             new Result($account, false, $value);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if ($e instanceof \PHPUnit_Exception) {
                 throw $e;
             }
@@ -150,13 +150,9 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
     public function dataNonBooleans()
     {
         return [
-            ['1'],
-            [1],
-            [0],
             [null],
             [new \stdClass()],
             [[1]],
-            [1.0],
         ];
     }
 

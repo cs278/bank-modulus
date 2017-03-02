@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
@@ -29,29 +31,11 @@ final class BankModulus
     /**
      * Constructor.
      *
-     * @param SpecInterface|SpecFactoryInterface|null $specFactory Factory to create banking specification
-     * @param NormalizerInterface|null                $normalizer  Strategy to normalize account numbers/sort codes
+     * @param SpecFactoryInterface|null $specFactory Factory to create banking specification.
+     * @param NormalizerInterface|null  $normalizer  Strategy to normalize account numbers/sort codes.
      */
-    public function __construct($specFactory = null, NormalizerInterface $normalizer = null)
+    public function __construct(SpecFactoryInterface $specFactory = null, NormalizerInterface $normalizer = null)
     {
-        if ($specFactory instanceof SpecInterface) {
-            @trigger_error(sprintf(
-                'Passing an instance of SpecInterface to %s() is deprecated and will be removed in version 2.0.0.',
-                __METHOD__
-            ), E_USER_DEPRECATED);
-
-            $specFactory = new SimpleSpecFactory($specFactory);
-        }
-
-        try {
-            Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', sprintf(
-                'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: %%s',
-                'Cs278\\BankModulus\\Spec'
-            ));
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         $this->specFactory = $specFactory ?: new DefaultSpecFactory();
         $this->normalizer = $normalizer ?: new DefaultNormalizer();
     }
@@ -64,15 +48,8 @@ final class BankModulus
      * @param string $sortCode
      * @param string $accountNumber
      */
-    public function normalize(&$sortCode, &$accountNumber)
+    public function normalize(string &$sortCode, string &$accountNumber)
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizeBankAccount($account);
 
@@ -91,15 +68,8 @@ final class BankModulus
      *
      * @return bool True if the details are valid or not known to be invalid
      */
-    public function check($sortCode, $accountNumber)
+    public function check(string $sortCode, string $accountNumber): bool
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         $result = $this->lookup($sortCode, $accountNumber);
 
         if ($result->isValidated()) {
@@ -119,15 +89,8 @@ final class BankModulus
      *
      * @return Result
      */
-    public function lookup($sortCode, $accountNumber)
+    public function lookup(string $sortCode, string $accountNumber): Result
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizeBankAccount($account);
 
@@ -147,7 +110,7 @@ final class BankModulus
      *
      * @return BankAccountNormalized
      */
-    private function normalizeBankAccount(BankAccountInterface $account)
+    private function normalizeBankAccount(BankAccountInterface $account): BankAccountNormalized
     {
         if ($this->normalizer->supports($account)) {
             $account = $this->normalizer->normalize($account);

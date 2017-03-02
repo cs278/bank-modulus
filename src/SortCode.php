@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\Exception\SortCodeInvalidException;
@@ -15,14 +17,8 @@ final class SortCode
     /**
      * @param string $value
      */
-    public function __construct($value)
+    public function __construct(string $value)
     {
-        try {
-            Assert::string($value, 'Value must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         if (self::LENGTH !== strlen($value) || self::LENGTH !== strspn($value, '1234567890')) {
             throw SortCodeInvalidException::create($value);
         }
@@ -35,10 +31,9 @@ final class SortCode
      *
      * @return self
      */
-    public static function create($value)
+    public static function create(string $value): self
     {
         try {
-            Assert::string($value, 'Value must be a string');
             Assert::regex($value, '{^(?:.*\d.*){6}$}', 'Value must contain 6 digits');
         } catch (\InvalidArgumentException $e) {
             throw E::wrap($e);
@@ -54,7 +49,7 @@ final class SortCode
      *
      * @return int Iff equal 0, 1 if greater than, -1 if less than
      */
-    public function compareTo(SortCode $b)
+    public function compareTo(SortCode $b): int
     {
         if ($this == $b) {
             return 0;
@@ -75,7 +70,7 @@ final class SortCode
      *
      * @return bool
      */
-    public function isBetween(SortCode $start, SortCode $end)
+    public function isBetween(SortCode $start, SortCode $end): bool
     {
         return 0 <= $this->compareTo($start) && -1 === $this->compareTo($end);
     }
@@ -85,7 +80,7 @@ final class SortCode
      *
      * @return string
      */
-    public function getString()
+    public function getString(): string
     {
         return $this->format('%s%s%s');
     }
@@ -95,7 +90,7 @@ final class SortCode
      *
      * @return string
      */
-    public function getDashSeparated()
+    public function getDashSeparated(): string
     {
         return $this->format('%s-%s-%s');
     }
@@ -105,7 +100,7 @@ final class SortCode
      *
      * @return string
      */
-    public function getSpaceSeparated()
+    public function getSpaceSeparated(): string
     {
         return $this->format('%s %s %s');
     }
@@ -115,14 +110,8 @@ final class SortCode
      *
      * @return string
      */
-    public function format($format)
+    public function format(string $format): string
     {
-        try {
-            Assert::string($format, 'Format must be a string, got: %s');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         return sprintf(
             $format,
             $this->parts[0],

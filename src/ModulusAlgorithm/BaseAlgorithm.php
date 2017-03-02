@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 abstract class BaseAlgorithm implements AlgorithmInterface
@@ -14,14 +16,14 @@ abstract class BaseAlgorithm implements AlgorithmInterface
      * @param int $result
      * @param int $divisor
      */
-    public function __construct($result, $divisor)
+    public function __construct(int $result, int $divisor)
     {
         $this->result = $result;
         $this->divisor = $divisor;
     }
 
     /** @return int */
-    final public function quotient()
+    final public function quotient(): int
     {
         if (!function_exists('intdiv')) {
             // This method isn't actually used internally by the library
@@ -41,13 +43,13 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     }
 
     /** @return int */
-    final public function remainder()
+    final public function remainder(): int
     {
         return $this->result % $this->divisor;
     }
 
     /** @return bool */
-    final public function check()
+    final public function check(): bool
     {
         return 0 === $this->remainder();
     }

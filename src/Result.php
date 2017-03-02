@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\Exception\Util as E;
@@ -24,11 +26,9 @@ final class Result implements BankAccountInterface
      * @param bool                 $specKnown
      * @param bool|null            $specResult
      */
-    public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult)
+    public function __construct(BankAccountInterface $bankAccount, bool $specKnown, $specResult)
     {
         try {
-            Assert::boolean($specKnown, 'specKnown should be a boolean, got: `%s`');
-
             if (true === $specKnown) {
                 Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
             } else {
@@ -48,7 +48,7 @@ final class Result implements BankAccountInterface
      *
      * @return SortCode
      */
-    public function getSortCode()
+    public function getSortCode(): SortCode
     {
         return $this->bankAccount->getSortCode();
     }
@@ -58,7 +58,7 @@ final class Result implements BankAccountInterface
      *
      * @return string
      */
-    public function getAccountNumber()
+    public function getAccountNumber(): string
     {
         return $this->bankAccount->getAccountNumber();
     }
@@ -68,7 +68,7 @@ final class Result implements BankAccountInterface
      *
      * @return bool True iff the account has been validated
      */
-    public function isValidated()
+    public function isValidated(): bool
     {
         return $this->specKnown;
     }
@@ -80,14 +80,8 @@ final class Result implements BankAccountInterface
      *
      * @return bool True if details are usable
      */
-    public function isValid($assume = true)
+    public function isValid(bool $assume = true): bool
     {
-        try {
-            Assert::boolean($assume, 'assume should be a boolean, got: `%s`');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
-
         if ($this->specKnown) {
             assert($this->specResult !== null);
 

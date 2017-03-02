@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Mock;
 
 use Cs278\BankModulus\BankAccountInterface;
@@ -9,7 +11,7 @@ use Cs278\BankModulus\SortCode;
 
 final class NormalizerReverse implements NormalizerInterface
 {
-    public function normalize(BankAccountInterface $bankAccount)
+    public function normalize(BankAccountInterface $bankAccount): BankAccountInterface
     {
         return new BankAccountNormalized(
             $bankAccount,
@@ -18,7 +20,7 @@ final class NormalizerReverse implements NormalizerInterface
         );
     }
 
-    public function supports(BankAccountInterface $bankAccount)
+    public function supports(BankAccountInterface $bankAccount): bool
     {
         return true;
     }

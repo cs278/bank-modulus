@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
@@ -25,7 +27,7 @@ final class DefaultNormalizer implements NormalizerInterface
     }
 
     /** @return BankAccountInterface */
-    public function normalize(BankAccountInterface $bankAccount)
+    public function normalize(BankAccountInterface $bankAccount): BankAccountInterface
     {
         foreach ($this->normalizers as $normalizer) {
             if ($normalizer->supports($bankAccount)) {
@@ -37,7 +39,7 @@ final class DefaultNormalizer implements NormalizerInterface
     }
 
     /** @return bool */
-    public function supports(BankAccountInterface $bankAccount)
+    public function supports(BankAccountInterface $bankAccount): bool
     {
         // Supports anything because it checks before normalizing.
         return true;

@@ -1,14 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 final class DblAl extends BaseAlgorithm
 {
-    /**
-     * @param string $input
-     * @param array  $weights
-     */
-    public function __construct($input, array $weights)
+    public function __construct(string $input, array $weights)
     {
         $result = array_map(function ($a, $b) {
             return $a * $b;

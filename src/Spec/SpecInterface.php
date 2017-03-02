@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
@@ -16,5 +18,5 @@ interface SpecInterface
      *
      * @return bool
      */
-    public function check(BankAccountNormalized $bankAccount);
+    public function check(BankAccountNormalized $bankAccount): bool;
 }

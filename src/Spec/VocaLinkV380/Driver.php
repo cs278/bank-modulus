@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
 use Cs278\BankModulus\BankAccountNormalized;
@@ -73,7 +75,7 @@ final class Driver implements SpecInterface
         ]);
     }
 
-    public function check(BankAccountNormalized $bankAccount)
+    public function check(BankAccountNormalized $bankAccount): bool
     {
         $checks = $this->fetch($bankAccount->getSortCode());
         $numChecks = count($checks);

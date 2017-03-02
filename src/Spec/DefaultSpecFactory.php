@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\Exception\InvalidArgumentException;
@@ -16,7 +18,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     /** @var \DateTimeZone */
     private $tz;
 
-    /** @var \DateTime|null */
+    /** @var \DateTimeImmutable|null */
     private $now;
 
     /** @var bool Flag used for testing */
@@ -78,18 +80,18 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     /**
      * @internal Used for testing
      *
-     * @deprecated Replaced by withDate()
-     *
-     * @param \DateTime $now
+     * @param \DateTimeInterface $now
      *
      * @return self
      */
-    public static function withNow(\DateTime $now)
+    public static function withNow(\DateTimeInterface $now): self
     {
         @trigger_error(sprintf(
             '%s() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
             __METHOD__
         ), E_USER_DEPRECATED);
+
+        $now = $now instanceof \DateTime ? \DateTimeImmutable::createFromMutable($now) : $now;
 
         $factory = new self();
 
@@ -97,10 +99,10 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     }
 
     /** {@inheritdoc} */
-    public function create()
+    public function create(): SpecInterface
     {
         if ($this->updateNow) {
-            $this->now = new \DateTime('today', $this->tz);
+            $this->now = new \DateTimeImmutable('today', $this->tz);
         }
 
         if ($this->dateOnOrAfter('2018-10-22')) {
@@ -159,9 +161,9 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         assert(is_string($when));
         assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
 
-        $when = \DateTime::createFromFormat('!Y-m-d', $when);
+        $when = \DateTimeImmutable::createFromFormat('!Y-m-d', $when);
 
-        assert($when instanceof \DateTime);
+        assert($when instanceof \DateTimeImmutable);
 
         return $this->now >= $when;
     }
