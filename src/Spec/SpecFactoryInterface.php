@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec;
 
 interface SpecFactoryInterface
@@ -13,5 +15,5 @@ interface SpecFactoryInterface
      *
      * @return SpecInterface
      */
-    public function create();
+    public function create(): SpecInterface;
 }

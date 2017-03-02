@@ -8,7 +8,7 @@ namespace Cs278\BankModulus;
 final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider dataWithInvalidAccountNumber */
-    public function testWithInvalidAccountNumber($accountNumber)
+    public function testWithInvalidAccountNumber($accountNumber, $isString)
     {
         try {
             new BankAccountNormalized(
@@ -16,15 +16,13 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
                 '112233',
                 $accountNumber
             );
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-            $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
-            $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
-
-            if (is_string($accountNumber)) {
+        } catch (\Throwable $e) {
+            if ($isString) {
                 $this->assertInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
             } else {
-                $this->assertNotInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
+                $this->assertInstanceOf(\Throwable::class, $e);
+                $this->assertInstanceOf(\Error::class, $e);
+                $this->assertInstanceOf(\TypeError::class, $e);
             }
 
             return;
@@ -82,16 +80,15 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
     public function dataWithInvalidAccountNumber()
     {
         return [
-            [true],
-            [12345678],
-            [new \stdClass()],
-            [[]],
-            [''],
-            ['X'],
-            ['1234567A'],
-            ['1234567'],
-            ['123456789'],
-            ['1234567890'],
+            [true, true],
+            [new \stdClass(), false],
+            [[], false],
+            ['', true],
+            ['X', true],
+            ['1234567A', true],
+            ['1234567', true],
+            ['123456789', true],
+            ['1234567890', true],
         ];
     }
 }

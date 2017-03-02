@@ -8,19 +8,15 @@ namespace Cs278\BankModulus;
 final class SortCodeTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider dataConstructInvalid */
-    public function testConstructInvalid($value)
+    public function testConstructInvalid($value, $isString)
     {
         try {
             new SortCode($value);
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('InvalidArgumentException', $e);
-            $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
-            $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
-
-            if (is_string($value)) {
+        } catch (\Throwable $e) {
+            if ($isString) {
                 $this->assertInstanceOf('Cs278\BankModulus\Exception\SortCodeInvalidException', $e);
             } else {
-                $this->assertNotInstanceOf('Cs278\BankModulus\Exception\SortCodeInvalidException', $e);
+                $this->assertInstanceOf(\TypeError::class, $e);
             }
 
             return;
@@ -89,12 +85,11 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('11 22 33', $sortCode->getSpaceSeparated());
     }
 
-    /**
-     * @expectedException Cs278\BankModulus\Exception\InvalidArgumentException
-     */
     public function testFormatInvalud()
     {
         $sortCode = new SortCode('112233');
+
+        $this->expectException(\TypeError::class);
 
         $sortCode->format(null);
     }
@@ -155,31 +150,24 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
     public function dataConstructInvalid()
     {
         return [
-            ['12345'],
-            ['1234567'],
-            [' 12345'],
-            ['123456 '],
-            [123456],
-            [null],
-            [false],
-            [new \stdClass()],
-            [[]],
-            ['12-34-56'],
+            ['12345', true],
+            ['1234567', true],
+            [' 12345', true],
+            ['123456 ', true],
+            [null, false],
+            [false, true],
+            [new \stdClass(), false],
+            [[], false],
+            ['12-34-56', true],
         ];
     }
 
     public function dataCreateInvalid()
     {
         return [
-            [null],
-            [false],
-            [true],
-            [new \stdClass()],
-            [[]],
             [''],
             ['XXXXXX'],
             ['12345'],
-            [12345678],
         ];
     }
 }

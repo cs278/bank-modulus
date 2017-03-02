@@ -18,37 +18,9 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorInvalidSpec()
     {
-        $this->setExpectedException(
-            'Cs278\\BankModulus\\Exception\\InvalidArgumentException',
-            sprintf(
-                'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: stdClass',
-                'Cs278\\BankModulus\\Spec'
-            )
-        );
+        $this->expectException(\TypeError::class);
 
         $modulus = new BankModulus(new \stdClass());
-    }
-
-    /**
-     * Tests the backwards compatability layer in the constructor.
-     *
-     * @requires function error_clear_last
-     * @group legacy
-     */
-    public function testConstructorConcreteSpec()
-    {
-        error_clear_last();
-
-        $modulus = new BankModulus(new Mock\SpecPass());
-        $error = error_get_last();
-
-        $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
-        $this->assertArraySubset([
-            'message' => 'Passing an instance of SpecInterface to Cs278\\BankModulus\\BankModulus::__construct() is deprecated and will be removed in version 2.0.0.',
-            'type' => E_USER_DEPRECATED,
-        ], $error);
-
-        error_clear_last();
     }
 
     public function testCheckValid()
@@ -218,21 +190,13 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         foreach (['lookup', 'normalize', 'check'] as $method) {
             unset($sortCode, $accountNumber);
 
-            foreach ([123456, null, false, true, [], new \stdClass()] as $sortCode) {
+            foreach ([null, [], new \stdClass()] as $sortCode) {
                 $accountNumber = '12345678';
 
                 try {
                     $modulus->$method($sortCode, $accountNumber);
-                } catch (\Exception $e) {
-                    if ($e instanceof \PHPUnit_Exception) {
-                        throw $e;
-                    }
-
-                    $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
-                    $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
-                    $this->assertInstanceOf('InvalidArgumentException', $e);
-                    $this->assertSame('Sort code must be a string', $e->getMessage());
-
+                } catch (\TypeError $e) {
+                    $this->assertStringStartsWith('Argument 1 passed to', $e->getMessage());
                     continue;
                 }
 
@@ -244,27 +208,19 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
 
             unset($sortCode, $accountNumber);
 
-            foreach ([12345678, null, false, true, [], new \stdClass()] as $accountNumber) {
+            foreach ([null, [], new \stdClass()] as $accountNumber) {
                 $sortCode = '123456';
 
                 try {
                     $modulus->$method($sortCode, $accountNumber);
-                } catch (\Exception $e) {
-                    if ($e instanceof \PHPUnit_Exception) {
-                        throw $e;
-                    }
-
-                    $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
-                    $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
-                    $this->assertInstanceOf('InvalidArgumentException', $e);
-                    $this->assertSame('Account number must be a string', $e->getMessage());
-
+                } catch (\TypeError $e) {
+                    $this->assertStringStartsWith('Argument 2 passed to', $e->getMessage());
                     continue;
                 }
 
                 $this->fail(sprintf(
-                    'Expected exception to be thrown on %s sort code',
-                    gettype($sortCode)
+                    'Expected exception to be thrown on %s account number',
+                    gettype($accountNumber)
                 ));
             }
         }

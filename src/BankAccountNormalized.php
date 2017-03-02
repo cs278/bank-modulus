@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\Exception\Util as E;
@@ -18,7 +20,7 @@ final class BankAccountNormalized implements BankAccountInterface
      * @param string|SortCode      $sortCode
      * @param string               $accountNumber
      */
-    public function __construct(BankAccountInterface $bankAccount, $sortCode, $accountNumber)
+    public function __construct(BankAccountInterface $bankAccount, $sortCode, string $accountNumber)
     {
         try {
             if (!$sortCode instanceof SortCode) {
@@ -26,8 +28,6 @@ final class BankAccountNormalized implements BankAccountInterface
 
                 $sortCode = SortCode::create($sortCode);
             }
-
-            Assert::string($accountNumber, 'Account number must be a string');
         } catch (\InvalidArgumentException $e) {
             throw E::wrap($e);
         }
@@ -41,7 +41,7 @@ final class BankAccountNormalized implements BankAccountInterface
         }
     }
 
-    public static function createFromBankAccount(BankAccountInterface $bankAccount)
+    public static function createFromBankAccount(BankAccountInterface $bankAccount): self
     {
         return new self(
             $bankAccount,
@@ -51,25 +51,25 @@ final class BankAccountNormalized implements BankAccountInterface
     }
 
     /** @return BankAccountInterface */
-    public function getOriginalBankAccount()
+    public function getOriginalBankAccount(): BankAccountInterface
     {
         return $this->bankAccount;
     }
 
     /** @return SortCode */
-    public function getSortCode()
+    public function getSortCode(): SortCode
     {
         return $this->sortCode;
     }
 
     /** @return string */
-    public function getAccountNumber()
+    public function getAccountNumber(): string
     {
         return $this->accountNumber;
     }
 
     /** @return string */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->sortCode->format('%s%s%s').$this->accountNumber;
     }

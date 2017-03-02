@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccountNormalized;
@@ -15,7 +17,7 @@ final class VocaLinkV380 implements SpecInterface
         $this->driver = new Driver(new DataV380());
     }
 
-    public function check(BankAccountNormalized $bankAccount)
+    public function check(BankAccountNormalized $bankAccount): bool
     {
         return $this->driver->check($bankAccount);
     }

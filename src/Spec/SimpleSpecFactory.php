@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Cs278\BankModulus\Spec;
 
 /**
@@ -16,7 +18,7 @@ final class SimpleSpecFactory implements SpecFactoryInterface
     }
 
     /** {@inheritdoc} */
-    public function create()
+    public function create(): SpecInterface
     {
         return $this->spec;
     }

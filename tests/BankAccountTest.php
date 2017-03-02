@@ -8,8 +8,17 @@ namespace Cs278\BankModulus;
 final class BankAccountTest extends \PHPUnit_Framework_TestCase
 {
     /** @dataProvider dataWithInvalidAccountNumber */
-    public function testWithInvalidAccountNumber($accountNumber)
+    public function testWithInvalidAccountNumber($accountNumber, $isString)
     {
+        if (!$isString) {
+            $this->expectException(\TypeError::class);
+            $this->expectExceptionMessageRegExp('{^Argument 2}');
+
+            new BankAccount('112233', $accountNumber);
+
+            return;
+        }
+
         try {
             new BankAccount('112233', $accountNumber);
         } catch (\Exception $e) {
@@ -49,14 +58,13 @@ final class BankAccountTest extends \PHPUnit_Framework_TestCase
     public function dataWithInvalidAccountNumber()
     {
         return [
-            [true],
-            [12345678],
-            [new \stdClass()],
-            [[]],
-            [''],
-            ['ABCDEFGH'],
-            ['12345ABC'],
-            ['1ABCDEF6'],
+            [true, true],
+            [new \stdClass(), false],
+            [[], false],
+            ['', true],
+            ['ABCDEFGH', true],
+            ['12345ABC', true],
+            ['1ABCDEF6', true],
         ];
     }
 }
