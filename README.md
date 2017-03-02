@@ -25,8 +25,9 @@ Usage
 This library provides a simple class to perform bank account validation and
 normalisation, through the `BankModulus` class.
 
-By default the `BankModulus` class will use the most recent specification
-available, currently that is V3.90 issued by VocaLink.
+By default the `BankModulus` class will use the current modulus specification
+issued by VocaLink, the default specification factory will pick the correct
+specification based on the date.
 
 * `normalize(string &$sortCode, string &$accountNumber)`
 
@@ -48,10 +49,10 @@ available, currently that is V3.90 issued by VocaLink.
   Use this method to fetch more in depth information on the sort code and account
   number. See documentation on the `Result` class for more information.
 
-* `__construct(SpecInterface $spec, NormalizerInterface $normalizer)`
+* `__construct(SpecFactoryInterface $specFactory, NormalizerInterface $normalizer)`
 
-  You can change which specification and normalizer is used at the time of
-  construction, otherwise the most recent specification will be used.
+  You can change which specification factory and normalizer is used at the time of
+  construction, otherwise defaults will be used.
 
 * Example:
 
