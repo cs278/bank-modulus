@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v1.3.0] - 2017-07-06
+
+### Added
+- Implemented VocaLink V4.30 specification
+
 ## [v1.2.0] - 2017-05-09
 
 ### Added
@@ -56,6 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Implemented VocaLink V3.80 specification
 
+[v1.3.0]: https://github.com/cs278/bank-modulus/compare/v1.2.0...v1.3.0
 [v1.2.0]: https://github.com/cs278/bank-modulus/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/cs278/bank-modulus/compare/v1.0.0...v1.1.0
 [v1.0.0]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta3...v1.0.0
