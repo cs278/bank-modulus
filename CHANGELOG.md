@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   released publicly.
 
 ### Changed
+- Start running tests on PHP 7.2
 - Consider 7.1 mainline PHP version for tests
 
 ## [v1.4.0] - 2017-08-24
