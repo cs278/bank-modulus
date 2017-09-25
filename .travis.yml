@@ -15,17 +15,18 @@ matrix:
     - php: hhvm
     - php: nightly
     - php: 7.0
-      env: COVERAGE=yes
-    - php: 7.0
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
     - php: 7.1
+      env: COVERAGE=yes
+    - php: 7.1
+      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+    - php: 7.2
   allow_failures:
     - php: hhvm
     - php: nightly
   fast_finish: true
 
 before_install:
-  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
+  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$$TRAVIS_PHP_VERSION" != "nightly"] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
   - composer self-update
 
 install: composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
