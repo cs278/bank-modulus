@@ -15,10 +15,10 @@ matrix:
     - php: hhvm
     - php: nightly
     - php: 7.0
-      env: COVERAGE=yes
-    - php: 7.0
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
     - php: 7.1
+      env: COVERAGE=yes
+    - php: 7.1
+      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
   allow_failures:
     - php: hhvm
     - php: nightly

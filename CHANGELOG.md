@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   Includes support for V4.50 specification which does not appear to have been
   released publicly.
 
+### Changed
+- Consider 7.1 mainline PHP version for tests
+
 ## [v1.4.0] - 2017-08-24
 
 ### Added
