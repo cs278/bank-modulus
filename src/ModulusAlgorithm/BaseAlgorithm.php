@@ -4,7 +4,10 @@ namespace Cs278\BankModulus\ModulusAlgorithm;
 
 abstract class BaseAlgorithm implements AlgorithmInterface
 {
+    /** @var int */
     private $result;
+
+    /** @var int */
     private $divisor;
 
     /**

@@ -10,10 +10,20 @@ use Webmozart\Assert\Assert;
  */
 final class Result implements BankAccountInterface
 {
+    /** @var BankAccountInterface */
     private $bankAccount;
+
+    /** @var bool */
     private $specKnown;
+
+    /** @var bool|null */
     private $specResult;
 
+    /**
+     * @param BankAccountInterface $bankAccount
+     * @param bool                 $specKnown
+     * @param bool|null            $specResult
+     */
     public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult)
     {
         try {

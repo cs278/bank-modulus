@@ -118,6 +118,7 @@ final class Driver implements SpecInterface
         }
     }
 
+    /** @return array */
     private function fetch(SortCode $sortCode)
     {
         $sortCode = $sortCode->format('%s%s%s');
@@ -137,18 +138,27 @@ final class Driver implements SpecInterface
         return [$record1];
     }
 
+    /** @return bool */
     private function applyDoubleAndModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
             && $this->applySingleModulus($bankAccount, $checkTwo, 2);
     }
 
+    /** @return bool */
     private function applyDoubleOrModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
             || $this->applySingleModulus($bankAccount, $checkTwo, 2);
     }
 
+    /**
+     * @param BankAccountNormalized $bankAccount
+     * @param array                 $check
+     * @param int                   $pass
+     *
+     * @return bool
+     */
     private function applySingleModulus(BankAccountNormalized $bankAccount, array $check, $pass)
     {
         $chars = (string) $bankAccount;
@@ -274,6 +284,9 @@ final class Driver implements SpecInterface
         return isset($result) && true === $result;
     }
 
+    /**
+     * @param string $input
+     */
     private static function zeroizeFirst8(&$input)
     {
         $input[self::U] = 0;
@@ -286,6 +299,12 @@ final class Driver implements SpecInterface
         $input[self::B] = 0;
     }
 
+    /**
+     * @param string $chars
+     * @param int    $exception
+     *
+     * @return string
+     */
     private function substituteSortCode($chars, $exception)
     {
         if (8 === $exception) {

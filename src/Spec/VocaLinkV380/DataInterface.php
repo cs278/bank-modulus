@@ -7,5 +7,8 @@ namespace Cs278\BankModulus\Spec\VocaLinkV380;
  */
 interface DataInterface
 {
+    /**
+     * @return array|null
+     */
     public function fetchRecord($sortCode, $pass);
 }
