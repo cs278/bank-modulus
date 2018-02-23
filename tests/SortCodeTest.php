@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus;
 
 /**
- * @covers Cs278\BankModulus\SortCode
+ * @covers \Cs278\BankModulus\SortCode
  */
 final class SortCodeTest extends \PHPUnit_Framework_TestCase
 {
@@ -90,7 +90,7 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Cs278\BankModulus\Exception\InvalidArgumentException
+     * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
      */
     public function testFormatInvalud()
     {

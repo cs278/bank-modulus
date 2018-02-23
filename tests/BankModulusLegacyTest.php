@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 /**
  * Snapshot of BankModulus tests that pass in SpecInterface directly.
  *
- * @covers Cs278\BankModulus\BankModulus
+ * @covers \Cs278\BankModulus\BankModulus
  * @group legacy
  */
 final class BankModulusLegacyTest extends \PHPUnit_Framework_TestCase

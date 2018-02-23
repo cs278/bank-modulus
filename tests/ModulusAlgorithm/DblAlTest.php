@@ -3,8 +3,8 @@
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 /**
- * @covers Cs278\BankModulus\ModulusAlgorithm\DblAl
- * @covers Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\DblAl
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
  */
 final class DblAlTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,8 +35,12 @@ final class DblAlTest extends \PHPUnit_Framework_TestCase
     public function data()
     {
         return [
-            [true, 0, 7, function () {return new DblAl('49927312345678', [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]);}],
-            [false, 1, 7, function () {return new DblAl('49927312345679', [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]);}],
+            [true, 0, 7, function () {
+                return new DblAl('49927312345678', [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]);
+            }],
+            [false, 1, 7, function () {
+                return new DblAl('49927312345679', [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]);
+            }],
         ];
     }
 }

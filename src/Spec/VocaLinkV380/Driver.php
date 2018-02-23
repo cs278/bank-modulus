@@ -16,7 +16,7 @@ use Cs278\BankModulus\Spec\SpecInterface;
  * This specification is the basis for subsequent ones so until a breaking change
  * is made by VocaLink this implementation will be used.
  *
- * @internal This class is not part of the public API of this package.
+ * @internal This class is not part of the public API of this package
  */
 final class Driver implements SpecInterface
 {

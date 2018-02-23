@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
 /**
- * @internal This class is not part of the public API of this package.
+ * @internal This class is not part of the public API of this package
  * @codeCoverageIgnore
  */
 final class Generator
@@ -83,9 +83,9 @@ final class Generator
 
         // Write out file content with a single if statement for each unique
         // return value.
-        //
+
         // Statement looks something like this:
-        //
+
         // if (
         //     (
         //         1 === $pass

@@ -56,7 +56,7 @@ final class Result implements BankAccountInterface
     /**
      * Check if the bank account has had a modulus check performed.
      *
-     * @return bool True iff the account has been validated.
+     * @return bool True iff the account has been validated
      */
     public function isValidated()
     {
@@ -66,7 +66,7 @@ final class Result implements BankAccountInterface
     /**
      * Fetch the result of the modulus check on the account.
      *
-     * @param bool $assume Result to use if the account could not be validated.
+     * @param bool $assume Result to use if the account could not be validated
      *
      * @return bool True if details are usable
      */

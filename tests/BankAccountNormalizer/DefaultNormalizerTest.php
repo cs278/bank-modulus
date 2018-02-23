@@ -6,7 +6,7 @@ use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalized;
 
 /**
- * @covers Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer
+ * @covers \Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer
  */
 final class DefaultNormalizerTest extends \PHPUnit_Framework_TestCase
 {

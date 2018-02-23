@@ -5,7 +5,7 @@ namespace Cs278\BankModulus\BankAccountNormalizer;
 use Cs278\BankModulus\BankAccount;
 
 /**
- * @covers Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer
+ * @covers \Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer
  */
 final class NatWestNormalizerTest extends \PHPUnit_Framework_TestCase
 {

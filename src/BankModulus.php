@@ -26,8 +26,8 @@ final class BankModulus
     /**
      * Constructor.
      *
-     * @param SpecInterface|SpecFactoryInterface|null $specFactory Factory to create banking specification.
-     * @param NormalizerInterface|null                $normalizer  Strategy to normalize account numbers/sort codes.
+     * @param SpecInterface|SpecFactoryInterface|null $specFactory Factory to create banking specification
+     * @param NormalizerInterface|null                $normalizer  Strategy to normalize account numbers/sort codes
      */
     public function __construct($specFactory = null, NormalizerInterface $normalizer = null)
     {

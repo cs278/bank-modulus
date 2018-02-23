@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus\Exception;
 
 /**
- * @covers Cs278\BankModulus\Exception\SortCodeInvalidException
+ * @covers \Cs278\BankModulus\Exception\SortCodeInvalidException
  */
 final class SortCodeInvalidExceptionTest extends \PHPUnit_Framework_TestCase
 {
