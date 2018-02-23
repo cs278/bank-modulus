@@ -26,3 +26,5 @@ sed -i '55G' src/Spec/DefaultSpecFactory.php
 sed -i "56i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/DefaultSpecFactory.php
 sed -i "57i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
 sed -i "58i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
+
+atom tests/Spec/VocaLinkV${version}.fixtures.txt tests/Spec/DefaultSpecFactoryTest.php:67
