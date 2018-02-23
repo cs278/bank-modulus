@@ -1,0 +1,28 @@
+#!/bin/sh
+
+set -eu
+
+version="$1"; shift
+date="$1"; shift
+
+cp tests/Spec/VocaLinkV460.fixtures.txt tests/Spec/VocaLinkV${version}.fixtures.txt
+cat tests/Spec/VocaLinkV460Test.php \
+    | sed "s/V460/V${version}/g" \
+    > tests/Spec/VocaLinkV${version}Test.php
+
+php -f src/Spec/VocaLinkV380/Generator.php -- --optimise V${version} \
+    < res/specifications/VocaLink-V${version}/valacdos.txt \
+    > src/Spec/VocaLinkV380/DataV${version}.php
+
+cat src/Spec/VocaLinkV380.php \
+    | sed "s/DataV380/DataV${version}/g" \
+    | sed "s/ VocaLinkV380 / VocaLinkV${version} /g" \
+    > src/Spec/VocaLinkV${version}.php
+
+# Ghetto code generation
+indent="\ \ \ \ "
+
+sed -i '55G' src/Spec/DefaultSpecFactory.php
+sed -i "56i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/DefaultSpecFactory.php
+sed -i "57i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
+sed -i "58i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
