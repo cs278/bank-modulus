@@ -317,6 +317,8 @@ if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($
         }
     }
 
+    assert(isset($spec));
+
     (new Generator(STDIN, STDOUT, $spec))
         ->generate($optimise);
 }

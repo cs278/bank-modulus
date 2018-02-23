@@ -88,8 +88,12 @@ final class Result implements BankAccountInterface
             throw E::wrap($e);
         }
 
-        return $this->specKnown
-            ? $this->specResult
-            : $assume;
+        if ($this->specKnown) {
+            assert($this->specResult !== null);
+
+            return $this->specResult;
+        }
+
+        return $assume;
     }
 }
