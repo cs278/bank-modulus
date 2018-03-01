@@ -150,7 +150,12 @@ final class BankModulus
     private function normalizeBankAccount(BankAccountInterface $account)
     {
         if ($this->normalizer->supports($account)) {
-            return $this->normalizer->normalize($account);
+            $account = $this->normalizer->normalize($account);
+
+            if ($account instanceof BankAccountNormalized)
+            {
+                return $account;
+            }
         }
 
         return BankAccountNormalized::createFromBankAccount($account);
