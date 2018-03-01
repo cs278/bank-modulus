@@ -285,11 +285,11 @@ final class Driver implements SpecInterface
     }
 
     /**
-     * @param string $input
+     * @param array $input
      */
     private static function zeroizeFirst8(&$input)
     {
-        assert(is_string($input) && strlen($input) >= 8);
+        assert(is_array($input) && count($input) >= 8);
 
         $input[self::U] = 0;
         $input[self::V] = 0;
