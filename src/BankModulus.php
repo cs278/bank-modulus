@@ -20,7 +20,10 @@ use Webmozart\Assert\Assert;
  */
 final class BankModulus
 {
+    /** @var SpecFactoryInterface */
     private $specFactory;
+
+    /** @var NormalizerInterface */
     private $normalizer;
 
     /**

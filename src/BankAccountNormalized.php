@@ -7,8 +7,13 @@ use Webmozart\Assert\Assert;
 
 final class BankAccountNormalized implements BankAccountInterface
 {
+    /** @var BankAccountInterface */
     private $bankAccount;
+
+    /** @var SortCode */
     private $sortCode;
+
+    /** @var string */
     private $accountNumber;
 
     const LENGTH = 8;
@@ -41,6 +46,13 @@ final class BankAccountNormalized implements BankAccountInterface
         }
     }
 
+    /**
+     * Create new instance from bank account object.
+     *
+     * @param BankAccountInterface $bankAccount Must be already normalized for this to work.
+     *
+     * @return self
+     */
     public static function createFromBankAccount(BankAccountInterface $bankAccount)
     {
         return new self(
