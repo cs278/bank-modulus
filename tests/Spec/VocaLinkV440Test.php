@@ -6,9 +6,9 @@ use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
 /**
- * @covers Cs278\BankModulus\Spec\VocaLinkV440
- * @covers Cs278\BankModulus\Spec\VocaLinkV380\Driver
- * @covers Cs278\BankModulus\Spec\VocaLinkV380\DataV440
+ * @covers \Cs278\BankModulus\Spec\VocaLinkV440
+ * @covers \Cs278\BankModulus\Spec\VocaLinkV380\Driver
+ * @covers \Cs278\BankModulus\Spec\VocaLinkV380\DataV440
  */
 final class VocaLinkV440Test extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +67,7 @@ final class VocaLinkV440Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Cs278\BankModulus\Exception\CannotValidateException
+     * @expectedException \Cs278\BankModulus\Exception\CannotValidateException
      * @expectedExceptionMessage Unable to determine if the bank details `00-**-00 1******8` are valid or invalid
      */
     public function testUnknownDetails()

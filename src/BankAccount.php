@@ -7,7 +7,10 @@ use Webmozart\Assert\Assert;
 
 final class BankAccount implements BankAccountInterface
 {
+    /** @var SortCode */
     private $sortCode;
+
+    /** @var string */
     private $accountNumber;
 
     /**

@@ -3,16 +3,28 @@
 namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
 /**
- * @internal This class is not part of the public API of this package.
+ * @internal This class is not part of the public API of this package
  * @codeCoverageIgnore
  */
 final class Generator
 {
+    /** @var resource */
     private $input;
+
+    /** @var resource */
     private $output;
+
+    /** @var string */
     private $spec;
+
+    /** @var int */
     private $indentLevel = 0;
 
+    /**
+     * @param resource|string $input
+     * @param resource|string $output
+     * @param string          $spec
+     */
     public function __construct($input, $output, $spec)
     {
         $this->input = is_resource($input) ? $input : fopen($input, 'r');
@@ -20,6 +32,9 @@ final class Generator
         $this->spec = $spec;
     }
 
+    /**
+     * @param bool $optimise
+     */
     public function generate($optimise)
     {
         $this->emit('<'."?php\n");
@@ -83,9 +98,9 @@ final class Generator
 
         // Write out file content with a single if statement for each unique
         // return value.
-        //
+
         // Statement looks something like this:
-        //
+
         // if (
         //     (
         //         1 === $pass
@@ -209,6 +224,13 @@ final class Generator
         $this->gobble(1); // Remove a \n
     }
 
+    /**
+     * @param int|null $pass
+     * @param string   $start
+     * @param string   $end
+     *
+     * @return string
+     */
     private static function getComparison($pass, $start, $end)
     {
         $conditons = [];
@@ -238,6 +260,10 @@ final class Generator
         );
     }
 
+    /**
+     * @param string $code
+     * @param bool   $line
+     */
     private function emit($code, $line = true)
     {
         if ($line && $this->indentLevel) {
@@ -256,6 +282,9 @@ final class Generator
         fwrite($this->output, "\n");
     }
 
+    /**
+     * @param int $n
+     */
     private function gobble($n)
     {
         fseek($this->output, ftell($this->output) - $n);
@@ -287,6 +316,8 @@ if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($
             $spec = $arg;
         }
     }
+
+    assert(isset($spec));
 
     (new Generator(STDIN, STDOUT, $spec))
         ->generate($optimise);

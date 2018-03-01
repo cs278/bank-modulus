@@ -32,6 +32,8 @@ final class SortCode
 
     /**
      * @param string $value
+     *
+     * @return self
      */
     public static function create($value)
     {

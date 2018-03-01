@@ -16,7 +16,7 @@ use Cs278\BankModulus\Spec\SpecInterface;
  * This specification is the basis for subsequent ones so until a breaking change
  * is made by VocaLink this implementation will be used.
  *
- * @internal This class is not part of the public API of this package.
+ * @internal This class is not part of the public API of this package
  */
 final class Driver implements SpecInterface
 {
@@ -118,6 +118,7 @@ final class Driver implements SpecInterface
         }
     }
 
+    /** @return array */
     private function fetch(SortCode $sortCode)
     {
         $sortCode = $sortCode->format('%s%s%s');
@@ -137,18 +138,27 @@ final class Driver implements SpecInterface
         return [$record1];
     }
 
+    /** @return bool */
     private function applyDoubleAndModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
             && $this->applySingleModulus($bankAccount, $checkTwo, 2);
     }
 
+    /** @return bool */
     private function applyDoubleOrModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
             || $this->applySingleModulus($bankAccount, $checkTwo, 2);
     }
 
+    /**
+     * @param BankAccountNormalized $bankAccount
+     * @param array                 $check
+     * @param int                   $pass
+     *
+     * @return bool
+     */
     private function applySingleModulus(BankAccountNormalized $bankAccount, array $check, $pass)
     {
         $chars = (string) $bankAccount;
@@ -274,8 +284,13 @@ final class Driver implements SpecInterface
         return isset($result) && true === $result;
     }
 
+    /**
+     * @param array $input
+     */
     private static function zeroizeFirst8(&$input)
     {
+        assert(is_array($input) && count($input) >= 8);
+
         $input[self::U] = 0;
         $input[self::V] = 0;
         $input[self::W] = 0;
@@ -286,6 +301,12 @@ final class Driver implements SpecInterface
         $input[self::B] = 0;
     }
 
+    /**
+     * @param string $chars
+     * @param int    $exception
+     *
+     * @return string
+     */
     private function substituteSortCode($chars, $exception)
     {
         if (8 === $exception) {

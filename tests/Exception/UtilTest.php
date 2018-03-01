@@ -5,7 +5,7 @@ namespace Cs278\BankModulus\Exception;
 use Cs278\BankModulus\SortCode;
 
 /**
- * @covers Cs278\BankModulus\Exception\Util
+ * @covers \Cs278\BankModulus\Exception\Util
  */
 final class UtilTest extends \PHPUnit_Framework_TestCase
 {

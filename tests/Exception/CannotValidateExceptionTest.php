@@ -6,7 +6,7 @@ use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalized;
 
 /**
- * @covers Cs278\BankModulus\Exception\CannotValidateException
+ * @covers \Cs278\BankModulus\Exception\CannotValidateException
  */
 final class CannotValidateExceptionTest extends \PHPUnit_Framework_TestCase
 {

@@ -3,8 +3,8 @@
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 /**
- * @covers Cs278\BankModulus\ModulusAlgorithm\Mod11
- * @covers Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\Mod11
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
  */
 final class Mod11Test extends \PHPUnit_Framework_TestCase
 {
@@ -35,8 +35,12 @@ final class Mod11Test extends \PHPUnit_Framework_TestCase
     public function data()
     {
         return [
-            [true, 0, 16, function () {return new Mod11('00000058177632', [0, 0, 0, 0, 0, 0, 7, 5, 8, 3, 4, 6, 2, 1]);}],
-            [false, 4, 16, function () {return new Mod11('00000058177636', [0, 0, 0, 0, 0, 0, 7, 5, 8, 3, 4, 6, 2, 1]);}],
+            [true, 0, 16, function () {
+                return new Mod11('00000058177632', [0, 0, 0, 0, 0, 0, 7, 5, 8, 3, 4, 6, 2, 1]);
+            }],
+            [false, 4, 16, function () {
+                return new Mod11('00000058177636', [0, 0, 0, 0, 0, 0, 7, 5, 8, 3, 4, 6, 2, 1]);
+            }],
         ];
     }
 }

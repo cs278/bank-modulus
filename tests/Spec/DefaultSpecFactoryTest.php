@@ -3,7 +3,7 @@
 namespace Cs278\BankModulus\Spec;
 
 /**
- * @covers Cs278\BankModulus\Spec\DefaultSpecFactory
+ * @covers \Cs278\BankModulus\Spec\DefaultSpecFactory
  */
 final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 {

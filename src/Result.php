@@ -10,10 +10,20 @@ use Webmozart\Assert\Assert;
  */
 final class Result implements BankAccountInterface
 {
+    /** @var BankAccountInterface */
     private $bankAccount;
+
+    /** @var bool */
     private $specKnown;
+
+    /** @var bool|null */
     private $specResult;
 
+    /**
+     * @param BankAccountInterface $bankAccount
+     * @param bool                 $specKnown
+     * @param bool|null            $specResult
+     */
     public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult)
     {
         try {
@@ -56,7 +66,7 @@ final class Result implements BankAccountInterface
     /**
      * Check if the bank account has had a modulus check performed.
      *
-     * @return bool True iff the account has been validated.
+     * @return bool True iff the account has been validated
      */
     public function isValidated()
     {
@@ -66,7 +76,7 @@ final class Result implements BankAccountInterface
     /**
      * Fetch the result of the modulus check on the account.
      *
-     * @param bool $assume Result to use if the account could not be validated.
+     * @param bool $assume Result to use if the account could not be validated
      *
      * @return bool True if details are usable
      */
@@ -78,8 +88,12 @@ final class Result implements BankAccountInterface
             throw E::wrap($e);
         }
 
-        return $this->specKnown
-            ? $this->specResult
-            : $assume;
+        if ($this->specKnown) {
+            assert($this->specResult !== null);
+
+            return $this->specResult;
+        }
+
+        return $assume;
     }
 }
