@@ -37,15 +37,16 @@ install: |
         composer require --dev phpstan/phpstan:^0.9
     fi
 
-script: |
-    if [ -f vendor/bin/phpstan ]; then
-        vendor/bin/phpstan analyse --level max src
-    fi
-
-    if [ "$COVERAGE" = "yes" ]; then
-        vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --coverage-text
-    else
-        vendor/bin/phpunit --verbose
-    fi
+script:
+    - |
+        if [ -f vendor/bin/phpstan ]; then
+            vendor/bin/phpstan analyse --level max src
+        fi
+    - |
+        if [ "$COVERAGE" = "yes" ]; then
+            vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --coverage-text
+        else
+            vendor/bin/phpunit --verbose
+        fi
 
 after_script: if [ "$COVERAGE" = "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
