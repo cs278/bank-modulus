@@ -49,7 +49,7 @@ final class BankAccountNormalized implements BankAccountInterface
     /**
      * Create new instance from bank account object.
      *
-     * @param BankAccountInterface $bankAccount Must be already normalized for this to work.
+     * @param BankAccountInterface $bankAccount Must be already normalized for this to work
      *
      * @return self
      */

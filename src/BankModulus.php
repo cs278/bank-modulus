@@ -152,8 +152,7 @@ final class BankModulus
         if ($this->normalizer->supports($account)) {
             $account = $this->normalizer->normalize($account);
 
-            if ($account instanceof BankAccountNormalized)
-            {
+            if ($account instanceof BankAccountNormalized) {
                 return $account;
             }
         }
