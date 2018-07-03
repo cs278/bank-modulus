@@ -19,12 +19,12 @@ matrix:
     - php: hhvm
     - php: nightly
     - php: 7.0
-      env: PHPSTAN=yes
     - php: 7.1
       env: COVERAGE=yes
     - php: 7.1
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
     - php: 7.2
+      env: PHPSTAN=yes
   allow_failures:
     - php: hhvm
     - php: nightly
@@ -38,13 +38,13 @@ install: |
   composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
 
   if [ "$PHPSTAN" = "yes" ]; then
-    composer require --dev phpstan/phpstan:^0.9
+    composer require --dev phpstan/phpstan:^0.10.1
   fi
 
 script:
   - |
     if [ -f vendor/bin/phpstan ]; then
-      vendor/bin/phpstan analyse --level max src
+      vendor/bin/phpstan analyse -c .phpstan.neon
     fi
   - |
     if [ "$COVERAGE" = "yes" ]; then

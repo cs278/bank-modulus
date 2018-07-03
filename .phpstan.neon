@@ -1,0 +1,18 @@
+parameters:
+  paths:
+    - src
+  level: max
+  excludes_analyse:
+    - src/Spec/VocaLinkV380/DataV380.php
+    - src/Spec/VocaLinkV380/DataV390.php
+    - src/Spec/VocaLinkV380/DataV400.php
+    - src/Spec/VocaLinkV380/DataV410.php
+    - src/Spec/VocaLinkV380/DataV420.php
+    - src/Spec/VocaLinkV380/DataV430.php
+    - src/Spec/VocaLinkV380/DataV440.php
+    - src/Spec/VocaLinkV380/DataV450.php
+    - src/Spec/VocaLinkV380/DataV460.php
+    - src/Spec/VocaLinkV380/DataV470.php
+    - src/Spec/VocaLinkV380/DataV480.php
+    - src/Spec/VocaLinkV380/DataV490.php
+    - src/Spec/VocaLinkV380/DataV500.php
