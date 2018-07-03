@@ -33,6 +33,7 @@ matrix:
 before_install:
   - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
   - composer self-update
+  - echo 'zend.assertions=1' > $HOME/.phpenv/versions/$(phpenv version-name)/etc/conf.d/assert.ini
 
 install: |
   composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
