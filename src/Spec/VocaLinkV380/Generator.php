@@ -27,8 +27,8 @@ final class Generator
      */
     public function __construct($input, $output, $spec)
     {
-        $this->input = is_resource($input) ? $input : fopen($input, 'r');
-        $this->output = is_resource($output) ? $output : fopen($output, 'x');
+        $this->input = is_resource($input) ? $input : self::mustOpen($input, 'r');
+        $this->output = is_resource($output) ? $output : self::mustOpen($output, 'x');
         $this->spec = $spec;
     }
 
@@ -70,8 +70,9 @@ final class Generator
 
         // Initial pass over data file, organise the unqiue return values and the
         // conditions required to hit them.
-        while ($line = trim(fgets($this->input))) {
+        while ($line = trim((string) fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
+            assert($cols !== false);
 
             $sortCodeStart = $cols[0];
             $sortCodeEnd = $cols[1];
@@ -127,6 +128,7 @@ final class Generator
                 $this->emit('&& (');
                 $this->indent();
 
+                /** @var string[] $row */
                 foreach ($sortCodes[$digest] as $i => $row) {
                     $combiner = ($i === 0) ? '   ' : '|| ';
 
@@ -151,6 +153,7 @@ final class Generator
                         return $pass === $row[0];
                     }));
 
+                    /** @var string[] $row */
                     foreach ($passSortCodes as $i => $row) {
                         $combiner = ($i === 0) ? '   ' : '|| ';
 
@@ -185,8 +188,9 @@ final class Generator
     {
         $seen = [];
 
-        while ($line = trim(fgets($this->input))) {
+        while ($line = trim((string) fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
+            assert($cols !== false);
 
             $sortCodeStart = $cols[0];
             $sortCodeEnd = $cols[1];
@@ -298,6 +302,14 @@ final class Generator
     private function unindent()
     {
         $this->indentLevel = max($this->indentLevel - 1, 0);
+    }
+
+    private static function mustOpen($file, $mode)
+    {
+        $handle = fopen($file, $mode);
+        assert(is_resource($handle));
+
+        return $handle;
     }
 }
 
