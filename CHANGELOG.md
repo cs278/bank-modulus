@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased - YYYY-mm-dd
+
+### Added
+- Implemented VocaLink V4.90 specification.
+
 ## [v1.6.0] - 2018-03-19
 
 ### Added
