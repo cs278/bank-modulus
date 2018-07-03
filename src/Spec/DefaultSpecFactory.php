@@ -99,7 +99,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     private function dateOnOrAfter($when)
     {
         assert(is_string($when));
-        assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when));
+        assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
 
         $when = \DateTime::createFromFormat('!Y-m-d', $when);
 
