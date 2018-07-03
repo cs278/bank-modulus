@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Implemented VocaLink V4.90 specification.
+- Implemented VocaLink V5.00 specification.
 
 ## [v1.6.0] - 2018-03-19
 
