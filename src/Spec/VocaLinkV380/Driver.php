@@ -42,9 +42,35 @@ final class Driver implements SpecInterface
     /** @var DataInterface */
     private $data;
 
+    /** @var \SplFixedArray */
+    private $sortCodeSubstitutions;
+
     public function __construct(DataInterface $data)
     {
         $this->data = $data;
+        $this->sortCodeSubstitutions = \SplFixedArray::fromArray([
+            '938173' => '938017',
+            '938289' => '938068',
+            '938297' => '938076',
+            '938600' => '938611',
+            '938602' => '938343',
+            '938604' => '938603',
+            '938608' => '938408',
+            '938609' => '938424',
+            '938613' => '938017',
+            '938616' => '938068',
+            '938618' => '938657',
+            '938620' => '938343',
+            '938622' => '938130',
+            '938628' => '938181',
+            '938643' => '938246',
+            '938647' => '938611',
+            '938648' => '938246',
+            '938649' => '938394',
+            '938651' => '938335',
+            '938653' => '938424',
+            '938654' => '938621',
+        ]);
     }
 
     public function check(BankAccountNormalized $bankAccount)
@@ -314,34 +340,10 @@ final class Driver implements SpecInterface
         }
 
         if (5 === $exception) {
-            $replacements = [
-                '938173' => '938017',
-                '938289' => '938068',
-                '938297' => '938076',
-                '938600' => '938611',
-                '938602' => '938343',
-                '938604' => '938603',
-                '938608' => '938408',
-                '938609' => '938424',
-                '938613' => '938017',
-                '938616' => '938068',
-                '938618' => '938657',
-                '938620' => '938343',
-                '938622' => '938130',
-                '938628' => '938181',
-                '938643' => '938246',
-                '938647' => '938611',
-                '938648' => '938246',
-                '938649' => '938394',
-                '938651' => '938335',
-                '938653' => '938424',
-                '938654' => '938621',
-            ];
-
             $sortCode = substr($chars, 0, 6);
 
-            if (isset($replacements[$sortCode])) {
-                return $replacements[$sortCode].substr($chars, 6);
+            if (isset($this->sortCodeSubstitutions[$sortCode])) {
+                return $this->sortCodeSubstitutions[$sortCode].substr($chars, 6);
             }
         }
 

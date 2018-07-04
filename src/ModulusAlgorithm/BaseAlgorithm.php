@@ -51,4 +51,18 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     {
         return 0 === $this->remainder();
     }
+
+    /**
+     * @param string $input
+     *
+     * @return string[]
+     */
+    final protected function toChars($input)
+    {
+        $chars = str_split($input, 1);
+
+        assert($chars !== false);
+
+        return $chars;
+    }
 }

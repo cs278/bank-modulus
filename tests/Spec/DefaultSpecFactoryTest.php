@@ -18,7 +18,7 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataCreateAtDate
-     * @require function error_clear_last
+     * @requires function error_clear_last
      */
     public function testCreateAtDate($expectedSpec, \DateTime $now)
     {
