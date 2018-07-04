@@ -314,6 +314,7 @@ final class Generator
 }
 
 // Violation of PSR1/2 but it's a dev file so sue me.
+// @codeCoverageIgnoreStart
 if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($_SERVER['PHP_SELF'])) {
     array_shift($argv); // discard
 
@@ -334,3 +335,4 @@ if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($
     (new Generator(STDIN, STDOUT, $spec))
         ->generate($optimise);
 }
+// @codeCoverageIgnoreEnd
