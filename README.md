@@ -98,6 +98,17 @@ normalisation results.
   sort code and account number could not be validated the value of the `$assume`
   argument is returned.
 
+### Specification Factory
+
+The default specification factory (`Spec\DefaultSpecFactory`) picks the most
+appropriate specification for the current time.
+
+If you need to test the validity of a sort code and account number at a particular
+point in time, you can use the `withDate(\DateTimeInterface|string $date): self`
+method to overload the currently used time reference. If you supply an object to
+this method it will convert it to the date in `Europe/London`, string date is
+used verbatim.
+
 ### Exceptions
 
 This library will throw exceptions implementing `Exception\Exception` if
