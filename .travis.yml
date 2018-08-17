@@ -50,6 +50,8 @@ script:
   - |
     if [ "$COVERAGE" = "yes" ]; then
       vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --coverage-text
+      phpenv config-rm xdebug.ini
+      vendor/bin/php-cs-fixer fix --diff --dry-run
     else
       vendor/bin/phpunit --verbose
     fi
