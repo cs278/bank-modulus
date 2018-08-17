@@ -49,6 +49,7 @@ script:
     fi
   - |
     if [ "$COVERAGE" = "yes" ]; then
+      vendor/bin/php-cs-fixer fix --diff --dry-run
       vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --coverage-text
     else
       vendor/bin/phpunit --verbose
