@@ -16,7 +16,6 @@ matrix:
     - php: 5.5
     - php: 5.6
       env: COVERAGE=yes
-    - php: hhvm
     - php: nightly
     - php: 7.0
     - php: 7.1
@@ -26,12 +25,11 @@ matrix:
     - php: 7.2
       env: PHPSTAN=yes
   allow_failures:
-    - php: hhvm
     - php: nightly
   fast_finish: true
 
 before_install:
-  - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
+  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
   - composer self-update
   - echo 'zend.assertions=1' > $HOME/.phpenv/versions/$(phpenv version-name)/etc/conf.d/assert.ini
 

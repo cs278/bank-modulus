@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   not impact consumers of this library. Use instance method
   `DefaultSpecFactory::withDate()` instead.
 
+### Removed
+- No longer testing on HHVM as PHP language support being dropped.
+
 ## [v1.7.0] - 2018-07-04
 
 ### Added
