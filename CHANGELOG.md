@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Implemented VocaLink V5.10 specification.
+- New `DefaultSpecFactory::withDate()` method to overload the date reference
+  point for selection specifications.
+
+### Deprecated
+- Marked `DefaultSpecFactory::withNow()` for removal, was `@internal` so should
+  not impact consumers of this library. Use instance method
+  `DefaultSpecFactory::withDate()` instead.
 
 ## [v1.7.0] - 2018-07-04
 

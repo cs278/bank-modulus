@@ -2,6 +2,10 @@
 
 namespace Cs278\BankModulus\Spec;
 
+use Cs278\BankModulus\Exception\InvalidArgumentException;
+use Cs278\BankModulus\Exception\Util as E;
+use Webmozart\Assert\Assert;
+
 /**
  * Default factory implementation.
  *
@@ -26,7 +30,55 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     }
 
     /**
+     * Override current date.
+     *
+     * This allows validation at a particular point in time.
+     *
+     * @param \DateTimeInterface|string $date Either object or ISO8601 date string
+     *
+     * @return self
+     */
+    public function withDate($date)
+    {
+        if (is_string($date)) {
+            try {
+                Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
+            } catch (\InvalidArgumentException $e) {
+                throw E::wrap($e);
+            }
+
+            $now = \DateTime::createFromFormat('!Y-m-d', $date, $this->tz);
+
+            if (!$now instanceof \DateTime || $now->format('Y-m-d') !== $date) {
+                throw new InvalidArgumentException(sprintf(
+                    'Expecting valid ISO8601 date (YYYY-MM-DD). Got: "%s"',
+                    $date
+                ));
+            }
+        } else {
+            self::assertDateTimeObject($date);
+
+            // Internally this library has to support PHP 5.4 so ensure using DateTime
+            // this also has the benefit of removing any time component which is not
+            // required.
+            $now = \DateTime::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
+            assert($now instanceof \DateTime && $now->format('Y-m-d') === $date->format('Y-m-d'));
+            $now->setTimezone($this->tz);
+        }
+
+        assert($now instanceof \DateTime);
+
+        $factory = new self();
+        $factory->now = $now;
+        $factory->updateNow = false;
+
+        return $factory;
+    }
+
+    /**
      * @internal Used for testing
+     *
+     * @deprecated Replaced by withDate()
      *
      * @param \DateTime $now
      *
@@ -34,16 +86,14 @@ final class DefaultSpecFactory implements SpecFactoryInterface
      */
     public static function withNow(\DateTime $now)
     {
-        // Uses an error so error suppression ignores it.
-        trigger_error(sprintf('%s() is for testing only!', __METHOD__), E_USER_WARNING);
+        @trigger_error(sprintf(
+            '%s() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
+            __METHOD__
+        ), E_USER_DEPRECATED);
 
-        $spec = new self();
-        $spec->now = clone $now;
-        $spec->now->setTime(0, 0, 0);
-        $spec->now->setTimezone($spec->tz);
-        $spec->updateNow = false;
+        $factory = new self();
 
-        return $spec;
+        return $factory->withDate($now);
     }
 
     /** {@inheritdoc} */
@@ -110,5 +160,29 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         assert($when instanceof \DateTime);
 
         return $this->now >= $when;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @todo Remove when PHP < 5.5 is not supported
+     *
+     * @internal
+     *
+     * @param mixed $input
+     */
+    private static function assertDateTimeObject($input)
+    {
+        try {
+            if (interface_exists('DateTimeInterface')) {
+                Assert::isInstanceOf($input, 'DateTimeInterface');
+
+                return;
+            }
+
+            Assert::isInstanceOf($input, 'DateTime');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
     }
 }

@@ -57,5 +57,15 @@ final class UtilTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($e2, $e->getPrevious());
         $this->assertSame($e2->getMessage(), $e->getMessage());
         $this->assertSame($e2->getCode(), $e->getCode());
+
+        return $e;
+    }
+
+    /**
+     * @depends testWrap
+     */
+    public function testDoubleWrap(InvalidArgumentException $input)
+    {
+        $this->assertSame($input, Util::wrap($input));
     }
 }
