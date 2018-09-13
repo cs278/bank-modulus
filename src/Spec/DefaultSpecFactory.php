@@ -66,6 +66,8 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             $now->setTimezone($this->tz);
         }
 
+        assert($now instanceof \DateTime);
+
         $factory = new self();
         $factory->now = $now;
         $factory->updateNow = false;
