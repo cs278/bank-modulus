@@ -117,9 +117,24 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
      * @expectedExceptionMessage Expected an instance of DateTimeInterface. Got: stdClass
+     * @requires PHP 5.5
      */
     public function testWithDateObjectInvalid()
     {
+        $factory = new DefaultSpecFactory();
+        $factory->withDate(new \stdClass());
+    }
+
+    /**
+     * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Expected an instance of DateTime. Got: stdClass
+     */
+    public function testWithDateObjectInvalidPhp54()
+    {
+        if (PHP_VERSION_ID >= 50500) {
+            $this->markTestSkipped('Test requires PHP < 5.5');
+        }
+
         $factory = new DefaultSpecFactory();
         $factory->withDate(new \stdClass());
     }
