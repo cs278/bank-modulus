@@ -56,21 +56,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
                 ));
             }
         } else {
-            // @todo Remove this compatability check, didn't want to force upgrade of assert library.
-            if (method_exists('Webmozart\\Assert\\Assert', 'isInstanceOfAny')) {
-                try {
-                    Assert::isInstanceOfAny($date, [
-                        'DateTimeInterface',
-                        'DateTime',
-                        'DateTimeImmutable',
-                    ]);
-                } catch (\InvalidArgumentException $e) {
-                    throw E::wrap($e);
-                }
-            // Only need to check two here as \DateTimeImmutable is an instance of DateTimeInterface.
-            } elseif (!$date instanceof \DateTime && !$date instanceof \DateTimeInterface) {
-                throw new InvalidArgumentException('Expected an instance of any of "DateTimeInterface", "DateTime", "DateTimeImmutable".');
-            }
+            self::assertDateTimeObject($date);
 
             // Internally this library has to support PHP 5.4 so ensure using DateTime
             // this also has the benefit of removing any time component which is not
@@ -172,5 +158,29 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         assert($when instanceof \DateTime);
 
         return $this->now >= $when;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @todo Remove when PHP < 5.5 is not supported
+     *
+     * @internal
+     *
+     * @param mixed $input
+     */
+    private static function assertDateTimeObject($input)
+    {
+        try {
+            if (interface_exists('DateTimeInterface')) {
+                Assert::isInstanceOf($input, 'DateTimeInterface');
+
+                return;
+            }
+
+            Assert::isInstanceOf($input, 'DateTime');
+        } catch (\InvalidArgumentException $e) {
+            throw E::wrap($e);
+        }
     }
 }

@@ -116,7 +116,7 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Expected an instance of any of "DateTimeInterface", "DateTime", "DateTimeImmutable".
+     * @expectedExceptionMessage Expected an instance of DateTimeInterface. Got: stdClass
      */
     public function testWithDateObjectInvalid()
     {
