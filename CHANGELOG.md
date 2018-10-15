@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [v1.8.0] - 2018-10-16
 
 ### Added
 - Implemented VocaLink V5.10 specification.
 - New `DefaultSpecFactory::withDate()` method to overload the date reference
   point for selection specifications.
+- Implemented VocaLink V5.20 specification.
 
 ### Deprecated
 - Marked `DefaultSpecFactory::withNow()` for removal, was `@internal` so should
@@ -105,6 +106,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Implemented VocaLink V3.80 specification
 
+[v1.8.0]: https://github.com/cs278/bank-modulus/compare/v1.7.0...v1.8.0
 [v1.7.0]: https://github.com/cs278/bank-modulus/compare/v1.6.0...v1.7.0
 [v1.6.0]: https://github.com/cs278/bank-modulus/compare/v1.5.0...v1.6.0
 [v1.5.0]: https://github.com/cs278/bank-modulus/compare/v1.4.0...v1.5.0
