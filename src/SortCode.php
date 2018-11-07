@@ -44,7 +44,7 @@ final class SortCode
             throw E::wrap($e);
         }
 
-        return new self(preg_replace('{[^0-9]}', '', $value));
+        return new self(StringUtil::removeNonDigits($value));
     }
 
     /**

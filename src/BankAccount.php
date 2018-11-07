@@ -33,7 +33,7 @@ final class BankAccount implements BankAccountInterface
         }
 
         $this->sortCode = $sortCode;
-        $this->accountNumber = preg_replace('{[^0-9]}', '', $accountNumber);
+        $this->accountNumber = StringUtil::removeNonDigits($accountNumber);
     }
 
     /** @return SortCode */

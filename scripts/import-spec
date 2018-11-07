@@ -24,6 +24,8 @@ cat src/Spec/VocaLinkV380.php \
     | sed "s/ VocaLinkV380 / VocaLinkV${version} /g" \
     > src/Spec/VocaLinkV${version}.php
 
+echo "    - src/Spec/VocaLinkV380/DataV${version}.php" >> .phpstan.neon
+
 # Ghetto code generation
 indent="\ \ \ \ "
 
