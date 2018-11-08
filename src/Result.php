@@ -19,13 +19,24 @@ final class Result implements BankAccountInterface
     /** @var bool|null */
     private $specResult;
 
+    /** @var \DateTimeImmutable */
+    private $validatedAt;
+
     /**
-     * @param BankAccountInterface $bankAccount
-     * @param bool                 $specKnown
-     * @param bool|null            $specResult
+     * @param BankAccountInterface    $bankAccount
+     * @param bool                    $specKnown
+     * @param bool|null               $specResult
+     * @param \DateTimeImmutable|null $validatedAt
      */
-    public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult)
+    public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult, \DateTimeImmutable $validatedAt = null)
     {
+        if ($validatedAt === null) {
+            @trigger_error(sprintf(
+                '$validatedAt will become a required argument of %s() in version 2.0.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
+
         try {
             Assert::boolean($specKnown, 'specKnown should be a boolean, got: `%s`');
 
@@ -41,6 +52,7 @@ final class Result implements BankAccountInterface
         $this->bankAccount = $bankAccount;
         $this->specKnown = $specKnown;
         $this->specResult = $specResult;
+        $this->validatedAt = $validatedAt ?: new \DateTimeImmutable();
     }
 
     /**
@@ -95,5 +107,15 @@ final class Result implements BankAccountInterface
         }
 
         return $assume;
+    }
+
+    /**
+     * Return time validation was performed.
+     *
+     * @return \DateTimeImmutable
+     */
+    public function getValidatedAt()
+    {
+        return $this->validatedAt;
     }
 }

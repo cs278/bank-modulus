@@ -139,7 +139,7 @@ final class BankModulus
             $valid = null;
         }
 
-        return new Result($account, $validated, $valid);
+        return new Result($account, $validated, $valid, new \DateTimeImmutable());
     }
 
     /**
