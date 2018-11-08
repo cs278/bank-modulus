@@ -7,12 +7,10 @@ namespace Cs278\BankModulus;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
-use Cs278\BankModulus\Exception\Util as E;
 use Cs278\BankModulus\Spec\DefaultSpecFactory;
 use Cs278\BankModulus\Spec\SimpleSpecFactory;
 use Cs278\BankModulus\Spec\SpecFactoryInterface;
 use Cs278\BankModulus\Spec\SpecInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Simple class to validate UK bank account details.

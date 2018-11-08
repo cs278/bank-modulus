@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Cs278\BankModulus;
 
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
-
 final class BankAccount implements BankAccountInterface
 {
     /** @var SortCode */
@@ -21,17 +18,13 @@ final class BankAccount implements BankAccountInterface
      */
     public function __construct($sortCode, string $accountNumber)
     {
-        try {
-            if (!$sortCode instanceof SortCode) {
-                Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
+        if (!$sortCode instanceof SortCode) {
+            Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
 
-                $sortCode = SortCode::create($sortCode);
-            }
-
-            Assert::regex($accountNumber, '{^(?:.*\d.*){6}$}', 'Account number must contain at least 6 digits');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
+            $sortCode = SortCode::create($sortCode);
         }
+
+        Assert::regex($accountNumber, '{^(?:.*\d.*){6}$}', 'Account number must contain at least 6 digits');
 
         $this->sortCode = $sortCode;
         $this->accountNumber = StringUtil::removeNonDigits($accountNumber);

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Cs278\BankModulus;
 
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
-
 /**
  * Represents the result of a modulus check operation.
  */
@@ -28,14 +25,10 @@ final class Result implements BankAccountInterface
      */
     public function __construct(BankAccountInterface $bankAccount, bool $specKnown, $specResult)
     {
-        try {
-            if (true === $specKnown) {
-                Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
-            } else {
-                Assert::null($specResult, 'specResult should be null, got: `%s`');
-            }
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
+        if (true === $specKnown) {
+            Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
+        } else {
+            Assert::null($specResult, 'specResult should be null, got: `%s`');
         }
 
         $this->bankAccount = $bankAccount;

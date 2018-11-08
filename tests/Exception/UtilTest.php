@@ -46,26 +46,4 @@ final class UtilTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame('11-**-33', Util::maskSortCode(new SortCode('112233')));
     }
-
-    public function testWrap()
-    {
-        $e = Util::wrap($e2 = new \InvalidArgumentException('foobar', 1337));
-
-        $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
-        $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
-        $this->assertInstanceOf('InvalidArgumentException', $e);
-        $this->assertSame($e2, $e->getPrevious());
-        $this->assertSame($e2->getMessage(), $e->getMessage());
-        $this->assertSame($e2->getCode(), $e->getCode());
-
-        return $e;
-    }
-
-    /**
-     * @depends testWrap
-     */
-    public function testDoubleWrap(InvalidArgumentException $input)
-    {
-        $this->assertSame($input, Util::wrap($input));
-    }
 }

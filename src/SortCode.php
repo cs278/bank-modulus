@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\Exception\SortCodeInvalidException;
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
 
 final class SortCode
 {
@@ -33,11 +31,7 @@ final class SortCode
      */
     public static function create(string $value): self
     {
-        try {
-            Assert::regex($value, '{^(?:.*\d.*){6}$}', 'Value must contain 6 digits');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::regex($value, '{^(?:.*\d.*){6}$}', 'Value must contain 6 digits');
 
         return new self(StringUtil::removeNonDigits($value));
     }

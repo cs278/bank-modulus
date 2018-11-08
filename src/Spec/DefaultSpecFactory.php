@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Cs278\BankModulus\Spec;
 
+use Cs278\BankModulus\Assert;
 use Cs278\BankModulus\Exception\InvalidArgumentException;
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
 
 /**
  * Default factory implementation.
@@ -43,11 +42,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     public function withDate($date)
     {
         if (is_string($date)) {
-            try {
-                Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
-            } catch (\InvalidArgumentException $e) {
-                throw E::wrap($e);
-            }
+            Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
 
             $now = \DateTimeImmutable::createFromFormat('!Y-m-d', $date, $this->tz);
 
@@ -58,11 +53,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
                 ));
             }
         } else {
-            try {
-                Assert::isInstanceOf($date, \DateTimeInterface::class);
-            } catch (\InvalidArgumentException $e) {
-                throw E::wrap($e);
-            }
+            Assert::isInstanceOf($date, \DateTimeInterface::class);
 
             $now = \DateTimeImmutable::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
             assert($now instanceof \DateTimeImmutable && $now->format('Y-m-d') === $date->format('Y-m-d'));
