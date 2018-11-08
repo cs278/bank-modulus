@@ -10,6 +10,7 @@ use Cs278\BankModulus\Spec\VocaLinkV380\Driver;
 
 final class VocaLinkV390 implements SpecInterface
 {
+    /** @var Driver */
     private $driver;
 
     public function __construct()

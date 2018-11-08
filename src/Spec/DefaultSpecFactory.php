@@ -127,9 +127,8 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         return new VocaLinkV390();
     }
 
-    private function dateOnOrAfter($when)
+    private function dateOnOrAfter(string $when): bool
     {
-        assert(is_string($when));
         assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
 
         $when = \DateTimeImmutable::createFromFormat('!Y-m-d', $when);

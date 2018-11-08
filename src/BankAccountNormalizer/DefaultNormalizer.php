@@ -9,6 +9,7 @@ use Cs278\BankModulus\BankAccountNormalized;
 
 final class DefaultNormalizer implements NormalizerInterface
 {
+    /** @var array<NormalizerInterface> */
     private $normalizers = [];
 
     public function __construct(array $normalizers = null)

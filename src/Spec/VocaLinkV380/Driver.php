@@ -159,7 +159,7 @@ final class Driver implements SpecInterface
 
         $record2 = $this->data->fetchRecord($sortCode, 2);
 
-        if ($record2) {
+        if (null === $record2) {
             return [$record1, $record2];
         }
 
@@ -313,11 +313,11 @@ final class Driver implements SpecInterface
     }
 
     /**
-     * @param array $input
+     * @param array<int> $input
      */
-    private static function zeroizeFirst8(&$input)
+    private static function zeroizeFirst8(array &$input): void
     {
-        assert(is_array($input) && count($input) >= 8);
+        assert(count($input) >= 8);
 
         $input[self::U] = 0;
         $input[self::V] = 0;
@@ -329,13 +329,7 @@ final class Driver implements SpecInterface
         $input[self::B] = 0;
     }
 
-    /**
-     * @param string $chars
-     * @param int    $exception
-     *
-     * @return string
-     */
-    private function substituteSortCode($chars, $exception)
+    private function substituteSortCode(string $chars, int $exception): string
     {
         if (8 === $exception) {
             return '090126'.substr($chars, 6);

@@ -10,6 +10,7 @@ final class SortCode
 {
     const LENGTH = 6;
 
+    /** @var array<string> */
     private $parts;
 
     /**

@@ -46,7 +46,7 @@ final class BankModulus
      * @param string $sortCode
      * @param string $accountNumber
      */
-    public function normalize(string &$sortCode, string &$accountNumber)
+    public function normalize(string &$sortCode, string &$accountNumber): void
     {
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizeBankAccount($account);

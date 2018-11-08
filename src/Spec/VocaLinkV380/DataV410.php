@@ -8,7 +8,7 @@ namespace Cs278\BankModulus\Spec\VocaLinkV380;
 final class DataV410 implements DataInterface
 {
     /** @internal */
-    final public function fetchRecord($sortCode, $pass)
+    final public function fetchRecord(string $sortCode, int $pass): ?array
     {
         if (
             1 === $pass

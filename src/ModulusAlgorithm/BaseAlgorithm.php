@@ -42,6 +42,7 @@ abstract class BaseAlgorithm implements AlgorithmInterface
             return [];
         }
 
+        /** @var array<string>|false */
         $chars = str_split($input, 1);
 
         assert($chars !== false);

@@ -7,14 +7,12 @@ use Cs278\BankModulus\StringUtil;
 
 final class Util
 {
-    /** @return string */
-    public static function maskAccountNumber($accountNumber)
+    public static function maskAccountNumber(string $accountNumber): string
     {
         return self::maskString($accountNumber, 8);
     }
 
-    /** @return string */
-    public static function maskString($string, $minLength)
+    public static function maskString(string $string, int $minLength): string
     {
         if (strlen($string) >= max($minLength, 3)) {
             return StringUtil::regexReplaceCallback($string, '{^(.)(.+)(.)$}', function ($m) {
@@ -25,8 +23,7 @@ final class Util
         return str_repeat('*', strlen($string));
     }
 
-    /** @return string */
-    public static function maskSortCode(SortCode $sortCode)
+    public static function maskSortCode(SortCode $sortCode): string
     {
         return $sortCode->format('%1$s-**-%3$s');
     }

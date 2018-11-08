@@ -32,10 +32,7 @@ final class Generator
         $this->spec = $spec;
     }
 
-    /**
-     * @param bool $optimise
-     */
-    public function generate($optimise)
+    public function generate(bool $optimise): void
     {
         $this->emit('<'."?php\n");
         $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
@@ -62,7 +59,7 @@ final class Generator
         $this->emit('}');
     }
 
-    private function generateOptimised()
+    private function generateOptimised(): void
     {
         $seen = [];
         $uniqueWeights = [];
@@ -184,7 +181,7 @@ final class Generator
         $this->gobble(1); // Remove a \n
     }
 
-    private function generateSimple()
+    private function generateSimple(): void
     {
         $seen = [];
 
@@ -228,14 +225,7 @@ final class Generator
         $this->gobble(1); // Remove a \n
     }
 
-    /**
-     * @param int|null $pass
-     * @param string   $start
-     * @param string   $end
-     *
-     * @return string
-     */
-    private static function getComparison($pass, $start, $end)
+    private static function getComparison(?int $pass, string $start, string $end): string
     {
         $conditons = [];
 
@@ -264,13 +254,9 @@ final class Generator
         );
     }
 
-    /**
-     * @param string $code
-     * @param bool   $line
-     */
-    private function emit($code, $line = true)
+    private function emit(string $code, bool $line = true): void
     {
-        if ($line && $this->indentLevel) {
+        if ($line && $this->indentLevel > 0) {
             fwrite($this->output, str_repeat('    ', $this->indentLevel));
         }
 
@@ -281,30 +267,34 @@ final class Generator
         }
     }
 
-    private function nl()
+    private function nl(): void
     {
         fwrite($this->output, "\n");
     }
 
-    /**
-     * @param int $n
-     */
-    private function gobble($n)
+    private function gobble(int $n): void
     {
-        fseek($this->output, ftell($this->output) - $n);
+        $pos = ftell($this->output);
+
+        assert($pos !== false);
+
+        fseek($this->output, $pos - $n);
     }
 
-    private function indent()
+    private function indent(): void
     {
         ++$this->indentLevel;
     }
 
-    private function unindent()
+    private function unindent(): void
     {
         $this->indentLevel = max($this->indentLevel - 1, 0);
     }
 
-    private static function mustOpen($file, $mode)
+    /**
+     * @return resource
+     */
+    private static function mustOpen(string $file, string $mode)
     {
         $handle = fopen($file, $mode);
         assert(is_resource($handle));
