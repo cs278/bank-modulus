@@ -20,7 +20,6 @@
         "webmozart/assert": "^1.0.2"
     },
     "require-dev": {
-        "cs278/coding-standard": "^1",
         "phpunit/phpunit": "^7"
     },
     "autoload": {
