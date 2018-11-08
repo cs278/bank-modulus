@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 /**
  * @covers \Cs278\BankModulus\SortCode
  */
-final class SortCodeTest extends \PHPUnit_Framework_TestCase
+final class SortCodeTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataConstructInvalid */
     public function testConstructInvalid($value, $isString)

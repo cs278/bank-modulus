@@ -15,7 +15,7 @@ final class VocaLinkV520 implements SpecInterface
         $this->driver = new Driver(new DataV520());
     }
 
-    public function check(BankAccountNormalized $bankAccount)
+    public function check(BankAccountNormalized $bankAccount): bool
     {
         return $this->driver->check($bankAccount);
     }

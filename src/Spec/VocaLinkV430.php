@@ -15,7 +15,7 @@ final class VocaLinkV430 implements SpecInterface
         $this->driver = new Driver(new DataV430());
     }
 
-    public function check(BankAccountNormalized $bankAccount)
+    public function check(BankAccountNormalized $bankAccount): bool
     {
         return $this->driver->check($bankAccount);
     }

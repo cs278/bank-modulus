@@ -5,7 +5,7 @@ namespace Cs278\BankModulus\Spec;
 /**
  * @covers \Cs278\BankModulus\Spec\SimpleSpecFactory
  */
-final class SimpleSpecFactoryTest extends \PHPUnit_Framework_TestCase
+final class SimpleSpecFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {

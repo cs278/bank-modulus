@@ -9,7 +9,7 @@ final class DblAl extends BaseAlgorithm
     public function __construct(string $input, array $weights)
     {
         $result = array_map(function ($a, $b) {
-            return $a * $b;
+            return (string) ($a * $b);
         }, self::toChars($input), $weights);
 
         // Sum individual digits.

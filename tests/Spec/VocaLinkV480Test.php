@@ -10,7 +10,7 @@ use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380\Driver
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380\DataV480
  */
-final class VocaLinkV480Test extends \PHPUnit_Framework_TestCase
+final class VocaLinkV480Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataCheckValid

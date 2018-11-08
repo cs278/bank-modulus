@@ -49,53 +49,33 @@ final class DefaultSpecFactory implements SpecFactoryInterface
                 throw E::wrap($e);
             }
 
-            $now = \DateTime::createFromFormat('!Y-m-d', $date, $this->tz);
+            $now = \DateTimeImmutable::createFromFormat('!Y-m-d', $date, $this->tz);
 
-            if (!$now instanceof \DateTime || $now->format('Y-m-d') !== $date) {
+            if (!$now instanceof \DateTimeImmutable || $now->format('Y-m-d') !== $date) {
                 throw new InvalidArgumentException(sprintf(
                     'Expecting valid ISO8601 date (YYYY-MM-DD). Got: "%s"',
                     $date
                 ));
             }
         } else {
-            self::assertDateTimeObject($date);
+            try {
+                Assert::isInstanceOf($date, \DateTimeInterface::class);
+            } catch (\InvalidArgumentException $e) {
+                throw E::wrap($e);
+            }
 
-            // Internally this library has to support PHP 5.4 so ensure using DateTime
-            // this also has the benefit of removing any time component which is not
-            // required.
-            $now = \DateTime::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
-            assert($now instanceof \DateTime && $now->format('Y-m-d') === $date->format('Y-m-d'));
-            $now->setTimezone($this->tz);
+            $now = \DateTimeImmutable::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
+            assert($now instanceof \DateTimeImmutable && $now->format('Y-m-d') === $date->format('Y-m-d'));
+            $now = $now->setTimezone($this->tz);
         }
 
-        assert($now instanceof \DateTime);
+        assert($now instanceof \DateTimeImmutable);
 
         $factory = new self();
         $factory->now = $now;
         $factory->updateNow = false;
 
         return $factory;
-    }
-
-    /**
-     * @internal Used for testing
-     *
-     * @param \DateTimeInterface $now
-     *
-     * @return self
-     */
-    public static function withNow(\DateTimeInterface $now): self
-    {
-        @trigger_error(sprintf(
-            '%s() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        $now = $now instanceof \DateTime ? \DateTimeImmutable::createFromMutable($now) : $now;
-
-        $factory = new self();
-
-        return $factory->withDate($now);
     }
 
     /** {@inheritdoc} */
@@ -166,29 +146,5 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         assert($when instanceof \DateTimeImmutable);
 
         return $this->now >= $when;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @todo Remove when PHP < 5.5 is not supported
-     *
-     * @internal
-     *
-     * @param mixed $input
-     */
-    private static function assertDateTimeObject($input)
-    {
-        try {
-            if (interface_exists('DateTimeInterface')) {
-                Assert::isInstanceOf($input, 'DateTimeInterface');
-
-                return;
-            }
-
-            Assert::isInstanceOf($input, 'DateTime');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
     }
 }

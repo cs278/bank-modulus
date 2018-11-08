@@ -7,7 +7,7 @@ use Cs278\BankModulus\Spec\SimpleSpecFactory;
 /**
  * @covers \Cs278\BankModulus\BankModulus
  */
-final class BankModulusTest extends \PHPUnit_Framework_TestCase
+final class BankModulusTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructorNoArgs()
     {
