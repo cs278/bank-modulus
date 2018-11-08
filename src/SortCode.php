@@ -13,9 +13,6 @@ final class SortCode
     /** @var array<string> */
     private $parts;
 
-    /**
-     * @param string $value
-     */
     public function __construct(string $value)
     {
         if (self::LENGTH !== strlen($value) || self::LENGTH !== strspn($value, '1234567890')) {
@@ -25,11 +22,6 @@ final class SortCode
         $this->parts = str_split($value, 2);
     }
 
-    /**
-     * @param string $value
-     *
-     * @return self
-     */
     public static function create(string $value): self
     {
         Assert::regex($value, '{^(?:.*\d.*){6}$}', 'Value must contain 6 digits');
@@ -39,8 +31,6 @@ final class SortCode
 
     /**
      * Compare to another sort code.
-     *
-     * @param SortCode $b
      *
      * @return int Iff equal 0, 1 if greater than, -1 if less than
      */
@@ -62,8 +52,6 @@ final class SortCode
      *
      * @param SortCode $start Inclusive lower bound
      * @param SortCode $end   Exclusive upper bound
-     *
-     * @return bool
      */
     public function isBetween(SortCode $start, SortCode $end): bool
     {
@@ -72,8 +60,6 @@ final class SortCode
 
     /**
      * Return the sort code as one concatenated string.
-     *
-     * @return string
      */
     public function getString(): string
     {
@@ -82,8 +68,6 @@ final class SortCode
 
     /**
      * Return the sort code as one concatenated string.
-     *
-     * @return string
      */
     public function getDashSeparated(): string
     {
@@ -92,19 +76,12 @@ final class SortCode
 
     /**
      * Return the sort code as one concatenated string.
-     *
-     * @return string
      */
     public function getSpaceSeparated(): string
     {
         return $this->format('%s %s %s');
     }
 
-    /**
-     * @param string $format
-     *
-     * @return string
-     */
     public function format(string $format): string
     {
         return sprintf(

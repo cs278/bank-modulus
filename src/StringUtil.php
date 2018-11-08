@@ -9,12 +9,8 @@ final class StringUtil
 {
     /**
      * Removes all characters that are not 0 through 9.
-     *
-     * @param string $input
-     *
-     * @return string
      */
-    public static function removeNonDigits($input)
+    public static function removeNonDigits(string $input): string
     {
         $result = preg_replace('{[^0-9]}', '', $input);
 
@@ -25,14 +21,8 @@ final class StringUtil
 
     /**
      * Convenience wrapper around `preg_replace_callback()` to ensure string results.
-     *
-     * @param string   $input
-     * @param string   $regex
-     * @param \Closure $callback
-     *
-     * @return string
      */
-    public static function regexReplaceCallback($input, $regex, \Closure $callback)
+    public static function regexReplaceCallback(string $input, string $regex, \Closure $callback): string
     {
         $result = preg_replace_callback($regex, $callback, $input);
 

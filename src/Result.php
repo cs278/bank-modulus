@@ -18,12 +18,7 @@ final class Result implements BankAccountInterface
     /** @var bool|null */
     private $specResult;
 
-    /**
-     * @param BankAccountInterface $bankAccount
-     * @param bool                 $specKnown
-     * @param bool|null            $specResult
-     */
-    public function __construct(BankAccountInterface $bankAccount, bool $specKnown, $specResult)
+    public function __construct(BankAccountInterface $bankAccount, bool $specKnown, ?bool $specResult)
     {
         if (true === $specKnown) {
             Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
@@ -38,8 +33,6 @@ final class Result implements BankAccountInterface
 
     /**
      * Return the normalized sort code.
-     *
-     * @return SortCode
      */
     public function getSortCode(): SortCode
     {
@@ -48,8 +41,6 @@ final class Result implements BankAccountInterface
 
     /**
      * Return the normalized account number.
-     *
-     * @return string
      */
     public function getAccountNumber(): string
     {

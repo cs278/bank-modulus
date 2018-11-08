@@ -12,11 +12,7 @@ interface SpecInterface
     /**
      * Check if bank account is valid.
      *
-     * @param BankAccountNormalized $bankAccount
-     *
      * @throws CannotValidateException If the supplied sort code is unknown
-     *
-     * @return bool
      */
     public function check(BankAccountNormalized $bankAccount): bool;
 }

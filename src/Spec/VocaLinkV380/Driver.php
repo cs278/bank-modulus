@@ -181,9 +181,7 @@ final class Driver implements SpecInterface
     }
 
     /**
-     * @param BankAccountNormalized $bankAccount
-     * @param array                 $check
-     * @param int                   $pass
+     * @param int $pass
      *
      * @return bool
      */

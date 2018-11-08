@@ -13,8 +13,7 @@ final class BankAccount implements BankAccountInterface
     private $accountNumber;
 
     /**
-     * @param string|SortCode $sortCode
-     * @param string          $accountNumber
+     * @param SortCode|string $sortCode
      */
     public function __construct($sortCode, string $accountNumber)
     {

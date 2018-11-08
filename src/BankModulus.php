@@ -42,9 +42,6 @@ final class BankModulus
      * Normalize the supplied sort code and account number.
      *
      * The result is returned by reference.
-     *
-     * @param string $sortCode
-     * @param string $accountNumber
      */
     public function normalize(string &$sortCode, string &$accountNumber): void
     {
@@ -60,9 +57,6 @@ final class BankModulus
      *
      * If the specification cannot validate the bank account they are assumed
      * to be valid.
-     *
-     * @param string $sortCode
-     * @param string $accountNumber
      *
      * @return bool True if the details are valid or not known to be invalid
      */
@@ -81,11 +75,6 @@ final class BankModulus
      * Perform evaluation of the supplied sort code and account number.
      *
      * This will normalize the supplied input and then perform modulus check.
-     *
-     * @param string $sortCode
-     * @param string $accountNumber
-     *
-     * @return Result
      */
     public function lookup(string $sortCode, string $accountNumber): Result
     {
@@ -103,11 +92,6 @@ final class BankModulus
         return new Result($account, $validated, $valid);
     }
 
-    /**
-     * @param BankAccountInterface $account
-     *
-     * @return BankAccountNormalized
-     */
     private function normalizeBankAccount(BankAccountInterface $account): BankAccountNormalized
     {
         if ($this->normalizer->supports($account)) {

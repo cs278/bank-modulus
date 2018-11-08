@@ -6,10 +6,6 @@ namespace Cs278\BankModulus\ModulusAlgorithm;
 
 final class Mod10 extends BaseAlgorithm
 {
-    /**
-     * @param string $input
-     * @param array  $weights
-     */
     public function __construct(string $input, array $weights)
     {
         $result = array_sum(array_map(function ($a, $b) {
