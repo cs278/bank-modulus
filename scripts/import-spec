@@ -29,9 +29,10 @@ echo "    - src/Spec/VocaLinkV380/DataV${version}.php" >> .phpstan.neon
 # Ghetto code generation
 indent="\ \ \ \ "
 
-sed -i '55G' src/Spec/DefaultSpecFactory.php
-sed -i "56i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/DefaultSpecFactory.php
-sed -i "57i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
-sed -i "58i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
+# Line number of the blank line above the first if condition.
+sed -i '105G' src/Spec/DefaultSpecFactory.php
+sed -i "106i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/DefaultSpecFactory.php
+sed -i "107i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
+sed -i "108i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
 
 atom tests/Spec/VocaLinkV${version}.fixtures.txt tests/Spec/DefaultSpecFactoryTest.php:67
