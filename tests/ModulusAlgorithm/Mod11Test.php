@@ -3,8 +3,8 @@
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 /**
- * @covers \Cs278\BankModulus\ModulusAlgorithm\Mod11
  * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\Mod11
  */
 final class Mod11Test extends \PHPUnit\Framework\TestCase
 {

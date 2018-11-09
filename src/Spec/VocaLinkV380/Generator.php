@@ -243,7 +243,7 @@ final class Generator
         $format = implode(' && ', $conditons);
 
         if (count($conditons) > 1) {
-            $format = "($format)";
+            $format = "(${format})";
         }
 
         return sprintf(

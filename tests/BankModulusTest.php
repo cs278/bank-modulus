@@ -194,9 +194,10 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                 $accountNumber = '12345678';
 
                 try {
-                    $modulus->$method($sortCode, $accountNumber);
+                    $modulus->{$method}($sortCode, $accountNumber);
                 } catch (\TypeError $e) {
                     $this->assertStringStartsWith('Argument 1 passed to', $e->getMessage());
+
                     continue;
                 }
 
@@ -212,9 +213,10 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                 $sortCode = '123456';
 
                 try {
-                    $modulus->$method($sortCode, $accountNumber);
+                    $modulus->{$method}($sortCode, $accountNumber);
                 } catch (\TypeError $e) {
                     $this->assertStringStartsWith('Argument 2 passed to', $e->getMessage());
+
                     continue;
                 }
 

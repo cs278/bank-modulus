@@ -22,24 +22,24 @@ use Cs278\BankModulus\Spec\SpecInterface;
  */
 final class Driver implements SpecInterface
 {
-    const U = 0;
-    const V = 1;
-    const W = 2;
-    const X = 3;
-    const Y = 4;
-    const Z = 5;
-    const A = 6;
-    const B = 7;
-    const C = 8;
-    const D = 9;
-    const E = 10;
-    const F = 11;
-    const G = 12;
-    const H = 13;
+    public const U = 0;
+    public const V = 1;
+    public const W = 2;
+    public const X = 3;
+    public const Y = 4;
+    public const Z = 5;
+    public const A = 6;
+    public const B = 7;
+    public const C = 8;
+    public const D = 9;
+    public const E = 10;
+    public const F = 11;
+    public const G = 12;
+    public const H = 13;
 
-    const MOD10 = 'MOD10';
-    const MOD11 = 'MOD11';
-    const DBLAL = 'DBLAL';
+    public const MOD10 = 'MOD10';
+    public const MOD11 = 'MOD11';
+    public const DBLAL = 'DBLAL';
 
     /** @var DataInterface */
     private $data;
@@ -96,7 +96,8 @@ final class Driver implements SpecInterface
                 $check,
                 1
             );
-        } elseif (2 === $numChecks) {
+        }
+        if (2 === $numChecks) {
             if (2 === $checks[0][2] && 9 === $checks[1][2]) {
                 // Exception 2 & 9
                 $chars = (string) $bankAccount;
@@ -141,9 +142,9 @@ final class Driver implements SpecInterface
             }
 
             return $this->applyDoubleAndModulus($bankAccount, $checks[0], $checks[1]);
-        } else {
-            throw CannotValidateException::createFromBankAccount($bankAccount);
         }
+
+        throw CannotValidateException::createFromBankAccount($bankAccount);
     }
 
     /** @return array */
@@ -240,6 +241,7 @@ final class Driver implements SpecInterface
         switch ($algorithm) {
             case self::MOD10:
                 $result = (new Mod10($chars, $weights))->check();
+
                 break;
             case self::MOD11:
                 $modulus = new Mod11($chars, $weights);
@@ -268,6 +270,7 @@ final class Driver implements SpecInterface
                 }
 
                 $result = $modulus->check();
+
                 break;
             case self::DBLAL:
                 if (3 === $exception) {

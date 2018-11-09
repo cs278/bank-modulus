@@ -8,7 +8,7 @@ use Cs278\BankModulus\Exception\SortCodeInvalidException;
 
 final class SortCode
 {
-    const LENGTH = 6;
+    public const LENGTH = 6;
 
     /** @var array<string> */
     private $parts;
@@ -27,6 +27,24 @@ final class SortCode
         Assert::regex($value, '{^(?:.*\d.*){6}$}', 'Value must contain 6 digits');
 
         return new self(StringUtil::removeNonDigits($value));
+    }
+
+    /**
+     * Create new SortCode object or return supplied one.
+     *
+     * @param SortCode|string $value
+     *
+     * @return self If SortCode is supplied same object is returned
+     */
+    public static function createOrReturn($value): self
+    {
+        if ($value instanceof SortCode) {
+            return $value;
+        }
+
+        Assert::string($sortCode, 'Sort code must be a string or an instance of SortCode');
+
+        return SortCode::create($sortCode);
     }
 
     /**
@@ -82,6 +100,9 @@ final class SortCode
         return $this->format('%s %s %s');
     }
 
+    /**
+     * Supply sprintf() pattern to format the 3 sort code components.
+     */
     public function format(string $format): string
     {
         return sprintf(

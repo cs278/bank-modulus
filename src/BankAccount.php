@@ -17,15 +17,9 @@ final class BankAccount implements BankAccountInterface
      */
     public function __construct($sortCode, string $accountNumber)
     {
-        if (!$sortCode instanceof SortCode) {
-            Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
-
-            $sortCode = SortCode::create($sortCode);
-        }
-
         Assert::regex($accountNumber, '{^(?:.*\d.*){6}$}', 'Account number must contain at least 6 digits');
 
-        $this->sortCode = $sortCode;
+        $this->sortCode = SortCode::createOrReturn($sortCode);
         $this->accountNumber = StringUtil::removeNonDigits($accountNumber);
     }
 

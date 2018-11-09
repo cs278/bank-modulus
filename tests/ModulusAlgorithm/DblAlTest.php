@@ -3,8 +3,8 @@
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
 /**
- * @covers \Cs278\BankModulus\ModulusAlgorithm\DblAl
  * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
+ * @covers \Cs278\BankModulus\ModulusAlgorithm\DblAl
  */
 final class DblAlTest extends \PHPUnit\Framework\TestCase
 {

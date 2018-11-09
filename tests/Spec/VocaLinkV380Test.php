@@ -7,8 +7,8 @@ use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 
 /**
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380
- * @covers \Cs278\BankModulus\Spec\VocaLinkV380\Driver
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380\DataV380
+ * @covers \Cs278\BankModulus\Spec\VocaLinkV380\Driver
  */
 final class VocaLinkV380Test extends \PHPUnit\Framework\TestCase
 {
