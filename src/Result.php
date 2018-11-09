@@ -51,12 +51,15 @@ final class Result implements BankAccountInterface
             ), E_USER_DEPRECATED);
 
             if (class_exists('DateTimeImmutable')) {
-                $validatedAt = new \DateTimeImmutable();
+                $realValidatedAt = new \DateTimeImmutable();
             } else {
                 // @codeCoverageIgnoreStart
-                $validatedAt = new \DateTime();
+                $realValidatedAt = new \DateTime();
                 // @codeCoverageIgnoreEnd
             }
+        } else {
+            /** @var object|null PHPStan type overload */
+            $realValidatedAt = $validatedAt;
         }
 
         try {
@@ -68,7 +71,7 @@ final class Result implements BankAccountInterface
                 Assert::null($specResult, 'specResult should be null, got: `%s`');
             }
 
-            if (!$validatedAt instanceof \DateTimeImmutable && !$validatedAt instanceof \DateTime) {
+            if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
                 throw new InvalidArgumentException(sprintf(
                     'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
                     is_object($validatedAt) ? get_class($validatedAt) : gettype($validatedAt)
@@ -81,7 +84,7 @@ final class Result implements BankAccountInterface
         $this->bankAccount = $bankAccount;
         $this->specKnown = $specKnown;
         $this->specResult = $specResult;
-        $this->validatedAt = $validatedAt;
+        $this->validatedAt = $realValidatedAt;
     }
 
     /**
