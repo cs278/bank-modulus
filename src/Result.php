@@ -2,6 +2,7 @@
 
 namespace Cs278\BankModulus;
 
+use Cs278\BankModulus\Exception\InvalidArgumentException;
 use Cs278\BankModulus\Exception\Util as E;
 use Webmozart\Assert\Assert;
 
@@ -20,12 +21,47 @@ final class Result implements BankAccountInterface
     private $specResult;
 
     /**
-     * @param BankAccountInterface $bankAccount
-     * @param bool                 $specKnown
-     * @param bool|null            $specResult
+     * @todo Change this to \DateTimeImmutable in v2
+     *
+     * @var \DateTime|\DateTimeImmutable
      */
-    public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult)
+    private $validatedAt;
+
+    /**
+     * @param BankAccountInterface              $bankAccount
+     * @param bool                              $specKnown
+     * @param bool|null                         $specResult
+     * @param \DateTimeImmutable|\DateTime|null $validatedAt
+     */
+    public function __construct(BankAccountInterface $bankAccount, $specKnown, $specResult, $validatedAt = null)
     {
+        // Trigger warning about mutable DateTime's for minimum supported PHP version
+        // of the v2 library.
+        if (PHP_VERSION_ID >= 70100 && $validatedAt instanceof \DateTime) {
+            @trigger_error(sprintf(
+                '$validatedAt argument of %s() will require a DateTimeImmutable instance in version 2.0.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+        }
+
+        if ($validatedAt === null) {
+            @trigger_error(sprintf(
+                '$validatedAt will become a required argument of %s() in version 2.0.0.',
+                __METHOD__
+            ), E_USER_DEPRECATED);
+
+            if (class_exists('DateTimeImmutable')) {
+                $realValidatedAt = new \DateTimeImmutable();
+            } else {
+                // @codeCoverageIgnoreStart
+                $realValidatedAt = new \DateTime();
+                // @codeCoverageIgnoreEnd
+            }
+        } else {
+            /** @var object|null PHPStan type overload */
+            $realValidatedAt = $validatedAt;
+        }
+
         try {
             Assert::boolean($specKnown, 'specKnown should be a boolean, got: `%s`');
 
@@ -34,6 +70,13 @@ final class Result implements BankAccountInterface
             } else {
                 Assert::null($specResult, 'specResult should be null, got: `%s`');
             }
+
+            if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
+                throw new InvalidArgumentException(sprintf(
+                    'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
+                    is_object($validatedAt) ? get_class($validatedAt) : gettype($validatedAt)
+                ));
+            }
         } catch (\InvalidArgumentException $e) {
             throw E::wrap($e);
         }
@@ -41,6 +84,7 @@ final class Result implements BankAccountInterface
         $this->bankAccount = $bankAccount;
         $this->specKnown = $specKnown;
         $this->specResult = $specResult;
+        $this->validatedAt = $realValidatedAt;
     }
 
     /**
@@ -95,5 +139,15 @@ final class Result implements BankAccountInterface
         }
 
         return $assume;
+    }
+
+    /**
+     * Return time validation was performed.
+     *
+     * @return \DateTimeImmutable|\DateTime Immutable instance is returned when available
+     */
+    public function getValidatedAt()
+    {
+        return $this->validatedAt;
     }
 }

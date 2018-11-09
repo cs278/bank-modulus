@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Implemented VocaLink V5.30 specification.
+- New `Result::getValidatedAt()` method to get time the validation was performed.
 
 ## [v1.8.0] - 2018-10-16
 
