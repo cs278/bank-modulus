@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Implemented VocaLink V5.40 specification.
+- Implemented VocaLink V5.50 specification.
 
 ### Changed
 - Dropped testing on the following PHP versions:
