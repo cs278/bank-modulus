@@ -12,24 +12,18 @@ cache:
 
 matrix:
   include:
-    - php: 5.4
-    - php: 5.5
     - php: 5.6
       env: COVERAGE=yes
-    - php: nightly
-    - php: 7.0
-    - php: 7.1
-      env: COVERAGE=yes
-    - php: 7.1
-      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
     - php: 7.2
+      env: COVERAGE=yes
+    - php: 7.2
+      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+    - php: 7.3
       env: PHPSTAN=yes
-  allow_failures:
-    - php: nightly
   fast_finish: true
 
 before_install:
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ] && [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
+  - if [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
   - composer self-update
   - echo 'zend.assertions=1' > $HOME/.phpenv/versions/$(phpenv version-name)/etc/conf.d/assert.ini
 

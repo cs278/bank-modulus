@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## UNRELEASED
+
+### Changed
+- Dropped testing on the following PHP versions:
+  * 5.4 (No longer supported by Travis)
+  * 5.5 (No longer supported by Travis)
+  * 7.0
+  * 7.1
+  * Nightly
+- Added testing for the following PHP versions:
+  * 7.3
+
 ## [v1.9.0] - 2018-11-09
 
 ### Added
