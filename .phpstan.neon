@@ -21,3 +21,4 @@ parameters:
     - src/Spec/VocaLinkV380/DataV530.php
     - src/Spec/VocaLinkV380/DataV540.php
     - src/Spec/VocaLinkV380/DataV550.php
+    - src/Spec/VocaLinkV380/DataV570.php
