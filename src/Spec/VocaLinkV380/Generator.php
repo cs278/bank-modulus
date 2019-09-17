@@ -27,8 +27,8 @@ final class Generator
      */
     public function __construct($input, $output, $spec)
     {
-        $this->input = is_resource($input) ? $input : self::mustOpen($input, 'r');
-        $this->output = is_resource($output) ? $output : self::mustOpen($output, 'x');
+        $this->input = \is_resource($input) ? $input : self::mustOpen($input, 'r');
+        $this->output = \is_resource($output) ? $output : self::mustOpen($output, 'x');
         $this->spec = $spec;
     }
 
@@ -73,12 +73,12 @@ final class Generator
         // conditions required to hit them.
         while ($line = trim((string) fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
-            assert($cols !== false);
+            \assert($cols !== false);
 
             $sortCodeStart = $cols[0];
             $sortCodeEnd = $cols[1];
             $algorithm = strtoupper($cols[2]);
-            $weights = array_map('intval', array_slice($cols, 3, 6 + 8));
+            $weights = array_map('intval', \array_slice($cols, 3, 6 + 8));
             $exception = isset($cols[17]) ? (int) $cols[17] : 0;
             $cols = null;
 
@@ -124,7 +124,7 @@ final class Generator
 
             $passes = array_unique(array_column($sortCodes[$digest], 0));
 
-            if (1 === count($passes)) {
+            if (1 === \count($passes)) {
                 $this->emit(sprintf('%u === $pass', array_shift($passes)));
                 $this->emit('&& (');
                 $this->indent();
@@ -191,12 +191,12 @@ final class Generator
 
         while ($line = trim((string) fgets($this->input))) {
             $cols = preg_split('{\s+}', $line);
-            assert($cols !== false);
+            \assert($cols !== false);
 
             $sortCodeStart = $cols[0];
             $sortCodeEnd = $cols[1];
             $algorithm = strtoupper($cols[2]);
-            $weights = array_map('intval', array_slice($cols, 3, 6 + 8));
+            $weights = array_map('intval', \array_slice($cols, 3, 6 + 8));
             $exception = isset($cols[17]) ? (int) $cols[17] : 0;
             $cols = null;
 
@@ -253,7 +253,7 @@ final class Generator
 
         $format = implode(' && ', $conditons);
 
-        if (count($conditons) > 1) {
+        if (\count($conditons) > 1) {
             $format = "($format)";
         }
 
@@ -308,7 +308,7 @@ final class Generator
     private static function mustOpen($file, $mode)
     {
         $handle = fopen($file, $mode);
-        assert(is_resource($handle));
+        \assert(\is_resource($handle));
 
         return $handle;
     }
@@ -316,7 +316,7 @@ final class Generator
 
 // Violation of PSR1/2 but it's a dev file so sue me.
 // @codeCoverageIgnoreStart
-if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($_SERVER['PHP_SELF'])) {
+if ('cli' === \PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($_SERVER['PHP_SELF'])) {
     array_shift($argv); // discard
 
     $optimise = false;
@@ -331,9 +331,9 @@ if ('cli' === PHP_SAPI && isset($_SERVER['PHP_SELF']) && __FILE__ === realpath($
         }
     }
 
-    assert(isset($spec));
+    \assert(isset($spec));
 
-    (new Generator(STDIN, STDOUT, $spec))
+    (new Generator(\STDIN, \STDOUT, $spec))
         ->generate($optimise);
 }
 // @codeCoverageIgnoreEnd

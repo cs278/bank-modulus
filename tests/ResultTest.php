@@ -111,10 +111,10 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cs278\\BankModulus\\Result', $result);
         $this->assertArraySubset([
             'message' => '$validatedAt will become a required argument of Cs278\\BankModulus\\Result::__construct() in version 2.0.0.',
-            'type' => E_USER_DEPRECATED,
+            'type' => \E_USER_DEPRECATED,
         ], $error);
 
-        $this->assertInstanceOf(get_class(self::now()), $result->getValidatedAt());
+        $this->assertInstanceOf(\get_class(self::now()), $result->getValidatedAt());
     }
 
     public function testConstructorWithInvalidValidatedAt()
@@ -152,7 +152,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cs278\\BankModulus\\Result', $result);
         $this->assertArraySubset([
             'message' => '$validatedAt argument of Cs278\BankModulus\Result::__construct() will require a DateTimeImmutable instance in version 2.0.0.',
-            'type' => E_USER_DEPRECATED,
+            'type' => \E_USER_DEPRECATED,
         ], $error);
     }
 

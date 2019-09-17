@@ -21,7 +21,7 @@ final class BankAccountNormalizedTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
             $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
 
-            if (is_string($accountNumber)) {
+            if (\is_string($accountNumber)) {
                 $this->assertInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);
             } else {
                 $this->assertNotInstanceOf('Cs278\BankModulus\Exception\AccountNumberInvalidException', $e);

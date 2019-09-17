@@ -23,7 +23,7 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     /** @return int */
     final public function quotient()
     {
-        if (!function_exists('intdiv')) {
+        if (!\function_exists('intdiv')) {
             // This method isn't actually used internally by the library
             // currently so no hard dependency on these polyfills.
 
@@ -61,7 +61,7 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     {
         $chars = str_split($input, 1);
 
-        assert($chars !== false);
+        \assert($chars !== false);
 
         return $chars;
     }

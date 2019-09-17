@@ -13,7 +13,7 @@ final class Mod11 extends BaseAlgorithm
         $result = array_sum(array_map(function ($a, $b) {
             return $a * $b;
         }, self::toChars($input), $weights));
-        assert(is_int($result));
+        \assert(\is_int($result));
 
         parent::__construct(
             $result,

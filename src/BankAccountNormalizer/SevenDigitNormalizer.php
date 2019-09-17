@@ -20,6 +20,6 @@ final class SevenDigitNormalizer implements NormalizerInterface
     /** @return bool */
     public function supports(BankAccountInterface $bankAccount)
     {
-        return 7 === strlen($bankAccount->getAccountNumber());
+        return 7 === \strlen($bankAccount->getAccountNumber());
     }
 }

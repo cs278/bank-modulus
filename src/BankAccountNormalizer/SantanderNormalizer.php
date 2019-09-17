@@ -29,7 +29,7 @@ final class SantanderNormalizer implements NormalizerInterface
         $accountNumber = $bankAccount->getAccountNumber();
         $sortCode = $bankAccount->getSortCode();
 
-        return 9 === strlen($accountNumber)
+        return 9 === \strlen($accountNumber)
             && (
                 $sortCode->isBetween(new SortCode('090000'), new SortCode('092000')) // London clearing
                 || $sortCode->isBetween(new SortCode('720000'), new SortCode('730000')) // ex. Girobank

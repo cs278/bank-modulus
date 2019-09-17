@@ -40,7 +40,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
      */
     public function withDate($date)
     {
-        if (is_string($date)) {
+        if (\is_string($date)) {
             try {
                 Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
             } catch (\InvalidArgumentException $e) {
@@ -62,11 +62,11 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             // this also has the benefit of removing any time component which is not
             // required.
             $now = \DateTime::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
-            assert($now instanceof \DateTime && $now->format('Y-m-d') === $date->format('Y-m-d'));
+            \assert($now instanceof \DateTime && $now->format('Y-m-d') === $date->format('Y-m-d'));
             $now->setTimezone($this->tz);
         }
 
-        assert($now instanceof \DateTime);
+        \assert($now instanceof \DateTime);
 
         $factory = new self();
         $factory->now = $now;
@@ -89,7 +89,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         @trigger_error(sprintf(
             '%s() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
             __METHOD__
-        ), E_USER_DEPRECATED);
+        ), \E_USER_DEPRECATED);
 
         $factory = new self();
 
@@ -160,12 +160,12 @@ final class DefaultSpecFactory implements SpecFactoryInterface
 
     private function dateOnOrAfter($when)
     {
-        assert(is_string($when));
-        assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
+        \assert(\is_string($when));
+        \assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
 
         $when = \DateTime::createFromFormat('!Y-m-d', $when);
 
-        assert($when instanceof \DateTime);
+        \assert($when instanceof \DateTime);
 
         return $this->now >= $when;
     }

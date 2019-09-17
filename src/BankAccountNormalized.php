@@ -41,7 +41,7 @@ final class BankAccountNormalized implements BankAccountInterface
         $this->sortCode = $sortCode;
         $this->accountNumber = StringUtil::removeNonDigits($accountNumber);
 
-        if (self::LENGTH !== strlen($this->accountNumber)) {
+        if (self::LENGTH !== \strlen($this->accountNumber)) {
             throw Exception\AccountNumberInvalidException::create($accountNumber);
         }
     }

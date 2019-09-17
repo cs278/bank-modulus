@@ -38,7 +38,7 @@ final class BankModulus
             @trigger_error(sprintf(
                 'Passing an instance of SpecInterface to %s() is deprecated and will be removed in version 2.0.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
 
             $specFactory = new SimpleSpecFactory($specFactory);
         }

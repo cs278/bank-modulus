@@ -17,7 +17,7 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
             $this->assertInstanceOf('Cs278\BankModulus\Exception\InvalidArgumentException', $e);
             $this->assertInstanceOf('Cs278\BankModulus\Exception\Exception', $e);
 
-            if (is_string($value)) {
+            if (\is_string($value)) {
                 $this->assertInstanceOf('Cs278\BankModulus\Exception\SortCodeInvalidException', $e);
             } else {
                 $this->assertNotInstanceOf('Cs278\BankModulus\Exception\SortCodeInvalidException', $e);

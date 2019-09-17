@@ -76,7 +76,7 @@ final class Driver implements SpecInterface
     public function check(BankAccountNormalized $bankAccount)
     {
         $checks = $this->fetch($bankAccount->getSortCode());
-        $numChecks = count($checks);
+        $numChecks = \count($checks);
 
         if (1 === $numChecks) {
             $check = $checks[0];
@@ -245,7 +245,7 @@ final class Driver implements SpecInterface
                 $modulus = new Mod11($chars, $weights);
 
                 if (4 === $exception) {
-                    return $modulus->remainder() === intval($chars[self::G].$chars[self::H]);
+                    return $modulus->remainder() === \intval($chars[self::G].$chars[self::H]);
                 }
 
                 if (5 === $exception) {
@@ -315,7 +315,7 @@ final class Driver implements SpecInterface
      */
     private static function zeroizeFirst8(&$input)
     {
-        assert(is_array($input) && count($input) >= 8);
+        \assert(\is_array($input) && \count($input) >= 8);
 
         $input[self::U] = 0;
         $input[self::V] = 0;

@@ -16,13 +16,13 @@ final class Util
     /** @return string */
     public static function maskString($string, $minLength)
     {
-        if (strlen($string) >= max($minLength, 3)) {
+        if (\strlen($string) >= max($minLength, 3)) {
             return StringUtil::regexReplaceCallback($string, '{^(.)(.+)(.)$}', function ($m) {
-                return $m[1].str_repeat('*', strlen($m[2])).$m[3];
+                return $m[1].str_repeat('*', \strlen($m[2])).$m[3];
             });
         }
 
-        return str_repeat('*', strlen($string));
+        return str_repeat('*', \strlen($string));
     }
 
     /** @return string */
