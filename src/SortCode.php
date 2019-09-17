@@ -23,7 +23,7 @@ final class SortCode
             throw E::wrap($e);
         }
 
-        if (self::LENGTH !== strlen($value) || self::LENGTH !== strspn($value, '1234567890')) {
+        if (self::LENGTH !== \strlen($value) || self::LENGTH !== strspn($value, '1234567890')) {
             throw SortCodeInvalidException::create($value);
         }
 

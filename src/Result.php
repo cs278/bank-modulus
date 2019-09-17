@@ -37,18 +37,18 @@ final class Result implements BankAccountInterface
     {
         // Trigger warning about mutable DateTime's for minimum supported PHP version
         // of the v2 library.
-        if (PHP_VERSION_ID >= 70100 && $validatedAt instanceof \DateTime) {
+        if (\PHP_VERSION_ID >= 70100 && $validatedAt instanceof \DateTime) {
             @trigger_error(sprintf(
                 '$validatedAt argument of %s() will require a DateTimeImmutable instance in version 2.0.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
         }
 
         if ($validatedAt === null) {
             @trigger_error(sprintf(
                 '$validatedAt will become a required argument of %s() in version 2.0.0.',
                 __METHOD__
-            ), E_USER_DEPRECATED);
+            ), \E_USER_DEPRECATED);
 
             if (class_exists('DateTimeImmutable')) {
                 $realValidatedAt = new \DateTimeImmutable();
@@ -74,7 +74,7 @@ final class Result implements BankAccountInterface
             if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
                 throw new InvalidArgumentException(sprintf(
                     'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
-                    is_object($validatedAt) ? get_class($validatedAt) : gettype($validatedAt)
+                    \is_object($validatedAt) ? \get_class($validatedAt) : \gettype($validatedAt)
                 ));
             }
         } catch (\InvalidArgumentException $e) {
@@ -133,7 +133,7 @@ final class Result implements BankAccountInterface
         }
 
         if ($this->specKnown) {
-            assert($this->specResult !== null);
+            \assert($this->specResult !== null);
 
             return $this->specResult;
         }

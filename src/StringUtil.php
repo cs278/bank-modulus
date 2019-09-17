@@ -18,7 +18,7 @@ final class StringUtil
     {
         $result = preg_replace('{[^0-9]}', '', $input);
 
-        assert($result !== null);
+        \assert($result !== null);
 
         return $result;
     }
@@ -36,7 +36,7 @@ final class StringUtil
     {
         $result = preg_replace_callback($regex, $callback, $input);
 
-        assert(is_string($result));
+        \assert(\is_string($result));
 
         return $result;
     }

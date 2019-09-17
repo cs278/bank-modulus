@@ -16,10 +16,16 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
     }
 
+    /**
+     * @requires PHPUnit 6
+     */
     public function testConstructorInvalidSpec()
     {
-        $this->setExpectedException(
-            'Cs278\\BankModulus\\Exception\\InvalidArgumentException',
+        $this->expectException(
+            'Cs278\\BankModulus\\Exception\\InvalidArgumentException'
+        );
+
+        $this->expectExceptionMessage(
             sprintf(
                 'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: stdClass',
                 'Cs278\\BankModulus\\Spec'
@@ -45,7 +51,7 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
         $this->assertArraySubset([
             'message' => 'Passing an instance of SpecInterface to Cs278\\BankModulus\\BankModulus::__construct() is deprecated and will be removed in version 2.0.0.',
-            'type' => E_USER_DEPRECATED,
+            'type' => \E_USER_DEPRECATED,
         ], $error);
 
         error_clear_last();
@@ -238,7 +244,7 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
 
                 $this->fail(sprintf(
                     'Expected exception to be thrown on %s sort code',
-                    gettype($sortCode)
+                    \gettype($sortCode)
                 ));
             }
 
@@ -264,7 +270,7 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
 
                 $this->fail(sprintf(
                     'Expected exception to be thrown on %s sort code',
-                    gettype($sortCode)
+                    \gettype($sortCode)
                 ));
             }
         }

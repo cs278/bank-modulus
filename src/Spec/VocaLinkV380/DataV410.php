@@ -3,6 +3,7 @@
 namespace Cs278\BankModulus\Spec\VocaLinkV380;
 
 /**
+ * @generated Generated automatically using Cs278\BankModulus\Spec\VocaLinkV380\Generator
  * @internal This class is not part of the public API of this package
  */
 final class DataV410 implements DataInterface

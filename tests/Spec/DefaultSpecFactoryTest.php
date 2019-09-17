@@ -29,7 +29,7 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArraySubset([
             'message' => 'Cs278\\BankModulus\\Spec\\DefaultSpecFactory::withNow() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
-            'type' => E_USER_DEPRECATED,
+            'type' => \E_USER_DEPRECATED,
         ], $error);
 
         error_clear_last();
@@ -135,7 +135,7 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithDateObjectInvalidPhp54()
     {
-        if (PHP_VERSION_ID >= 50500) {
+        if (\PHP_VERSION_ID >= 50500) {
             $this->markTestSkipped('Test requires PHP < 5.5');
         }
 

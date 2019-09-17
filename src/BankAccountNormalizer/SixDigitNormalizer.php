@@ -20,6 +20,6 @@ final class SixDigitNormalizer implements NormalizerInterface
     /** @return bool */
     public function supports(BankAccountInterface $bankAccount)
     {
-        return 6 === strlen($bankAccount->getAccountNumber());
+        return 6 === \strlen($bankAccount->getAccountNumber());
     }
 }
