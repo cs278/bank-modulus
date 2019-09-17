@@ -40,6 +40,7 @@ final class Generator
         $this->emit('<'."?php\n");
         $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
         $this->emit('/'.'**');
+        $this->emit(' * @'.'generated Generated automatically using Cs278\BankModulus\Spec\VocaLinkV380\Generator');
         $this->emit(' * @internal This class is not part of the public API of this package');
         $this->emit(' */');
         $this->emit(sprintf('final class Data%s implements DataInterface', $this->spec));
