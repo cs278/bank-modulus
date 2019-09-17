@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## UNRELEASED
 
+### Added
+- Implemented VocaLink V5.40 specification.
+- Implemented VocaLink V5.50 specification.
+- Implemented VocaLink V5.70 specification.
+- Implemented VocaLink V5.80 specification.
+
 ### Changed
 - Dropped testing on the following PHP versions:
   * 5.4 (No longer supported by Travis)

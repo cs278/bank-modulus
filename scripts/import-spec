@@ -35,4 +35,7 @@ sed -i "106i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/
 sed -i "107i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
 sed -i "108i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
 
-atom tests/Spec/VocaLinkV${version}.fixtures.txt tests/Spec/DefaultSpecFactoryTest.php:67
+if command -v code >/dev/null 2>&1; then
+    code --goto tests/Spec/VocaLinkV${version}.fixtures.txt
+    code --goto tests/Spec/DefaultSpecFactoryTest.php:67
+fi
