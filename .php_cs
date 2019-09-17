@@ -1,11 +1,16 @@
 
 <?php
 
-return (new Cs278\CsFixer\ConfigBuilder)
-    ->finder(
-        Symfony\CS\Finder\DefaultFinder::create()
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        '@PSR2' => true,
+        'list_syntax' => ['syntax' => 'long'],
+    ])
+    ->setFinder(
+        PhpCsFixer\Finder::create()
             ->in(__DIR__)
-            ->notPath('src/Spec/VocaLinkV380Data.php')
+            // Ignore generated code.
+            ->notContains('@generated')
     )
-    ->build()
 ;

@@ -20,7 +20,7 @@
         "webmozart/assert": "^1.0.2"
     },
     "require-dev": {
-        "cs278/coding-standard": "^1",
+        "friendsofphp/php-cs-fixer": "^2.15",
         "symfony/polyfill-php70": "^1.3.0",
         "phpunit/phpunit": "^4.8.21"
     },
