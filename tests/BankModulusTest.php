@@ -16,10 +16,16 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
     }
 
+    /**
+     * @requires PHPUnit 6
+     */
     public function testConstructorInvalidSpec()
     {
-        $this->setExpectedException(
-            'Cs278\\BankModulus\\Exception\\InvalidArgumentException',
+        $this->expectException(
+            'Cs278\\BankModulus\\Exception\\InvalidArgumentException'
+        );
+
+        $this->expectExceptionMessage(
             sprintf(
                 'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: stdClass',
                 'Cs278\\BankModulus\\Spec'

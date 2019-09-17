@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   * Nightly
 - Added testing for the following PHP versions:
   * 7.3
+- Updated minimum PHPUnit version to 5.0.0 for unit tests.
+- PHPUnit 6.5 and 7.5 can now be used to run unit tests.
 
 ## [v1.9.0] - 2018-11-09
 
