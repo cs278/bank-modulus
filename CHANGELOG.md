@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Began testing on PHP 7.4.
 - Upgraded to PHPStan 0.12.x.
 
+### Deprecated
+- `NormalizerInterface::normalize()` will return `BankAccountNormalizedInterface`
+  in version 2.0.
+
 ## [v1.10.0] - 2019-09-18
 
 ### Added
