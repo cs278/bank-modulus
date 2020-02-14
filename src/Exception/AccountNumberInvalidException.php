@@ -4,6 +4,11 @@ namespace Cs278\BankModulus\Exception;
 
 final class AccountNumberInvalidException extends InvalidArgumentException
 {
+    /**
+     * @param string $accountNumber
+     *
+     * @return self
+     */
     public static function create($accountNumber, \Exception $e = null)
     {
         return new self(sprintf(

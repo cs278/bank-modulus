@@ -34,6 +34,8 @@ final class Generator
 
     /**
      * @param bool $optimise
+     *
+     * @return void
      */
     public function generate($optimise)
     {
@@ -63,6 +65,9 @@ final class Generator
         $this->emit('}');
     }
 
+    /**
+     * @return void
+     */
     private function generateOptimised()
     {
         $seen = [];
@@ -185,6 +190,9 @@ final class Generator
         $this->gobble(1); // Remove a \n
     }
 
+    /**
+     * @return void
+     */
     private function generateSimple()
     {
         $seen = [];
@@ -268,6 +276,8 @@ final class Generator
     /**
      * @param string $code
      * @param bool   $line
+     *
+     * @return void
      */
     private function emit($code, $line = true)
     {
@@ -282,29 +292,48 @@ final class Generator
         }
     }
 
+    /**
+     * @return void
+     */
     private function nl()
     {
         fwrite($this->output, "\n");
     }
 
     /**
+     * 🦃
+     *
      * @param int $n
+     *
+     * @return void
      */
     private function gobble($n)
     {
         fseek($this->output, ftell($this->output) - $n);
     }
 
+    /**
+     * @return void
+     */
     private function indent()
     {
         ++$this->indentLevel;
     }
 
+    /**
+     * @return void
+     */
     private function unindent()
     {
         $this->indentLevel = max($this->indentLevel - 1, 0);
     }
 
+    /**
+     * @param string $file
+     * @param string $mode
+     *
+     * @return resource
+     */
     private static function mustOpen($file, $mode)
     {
         $handle = fopen($file, $mode);

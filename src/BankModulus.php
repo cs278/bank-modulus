@@ -63,6 +63,8 @@ final class BankModulus
      *
      * @param string $sortCode
      * @param string $accountNumber
+     *
+     * @return void
      */
     public function normalize(&$sortCode, &$accountNumber)
     {

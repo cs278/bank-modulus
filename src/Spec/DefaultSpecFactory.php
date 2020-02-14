@@ -174,6 +174,11 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         return new VocaLinkV390();
     }
 
+    /**
+     * @param string $when
+     *
+     * @return bool
+     */
     private function dateOnOrAfter($when)
     {
         \assert(\is_string($when));
@@ -194,6 +199,8 @@ final class DefaultSpecFactory implements SpecFactoryInterface
      * @internal
      *
      * @param mixed $input
+     *
+     * @return void
      */
     private static function assertDateTimeObject($input)
     {

@@ -42,35 +42,35 @@ final class Driver implements SpecInterface
     /** @var DataInterface */
     private $data;
 
-    /** @var \SplFixedArray */
-    private $sortCodeSubstitutions;
+    /** @var array<string,string> */
+    private $sortCodeSubstitutions = [
+        // Underscore is to force PHP to keep keys as a string.
+        '_938173' => '938017',
+        '_938289' => '938068',
+        '_938297' => '938076',
+        '_938600' => '938611',
+        '_938602' => '938343',
+        '_938604' => '938603',
+        '_938608' => '938408',
+        '_938609' => '938424',
+        '_938613' => '938017',
+        '_938616' => '938068',
+        '_938618' => '938657',
+        '_938620' => '938343',
+        '_938622' => '938130',
+        '_938628' => '938181',
+        '_938643' => '938246',
+        '_938647' => '938611',
+        '_938648' => '938246',
+        '_938649' => '938394',
+        '_938651' => '938335',
+        '_938653' => '938424',
+        '_938654' => '938621',
+    ];
 
     public function __construct(DataInterface $data)
     {
         $this->data = $data;
-        $this->sortCodeSubstitutions = \SplFixedArray::fromArray([
-            '938173' => '938017',
-            '938289' => '938068',
-            '938297' => '938076',
-            '938600' => '938611',
-            '938602' => '938343',
-            '938604' => '938603',
-            '938608' => '938408',
-            '938609' => '938424',
-            '938613' => '938017',
-            '938616' => '938068',
-            '938618' => '938657',
-            '938620' => '938343',
-            '938622' => '938130',
-            '938628' => '938181',
-            '938643' => '938246',
-            '938647' => '938611',
-            '938648' => '938246',
-            '938649' => '938394',
-            '938651' => '938335',
-            '938653' => '938424',
-            '938654' => '938621',
-        ]);
     }
 
     public function check(BankAccountNormalized $bankAccount)
@@ -144,7 +144,9 @@ final class Driver implements SpecInterface
         }
     }
 
-    /** @return array */
+    /**
+     * @return array<int,array{string,int[],int}>
+     */
     private function fetch(SortCode $sortCode)
     {
         $sortCode = $sortCode->format('%s%s%s');
@@ -164,14 +166,24 @@ final class Driver implements SpecInterface
         return [$record1];
     }
 
-    /** @return bool */
+    /**
+     * @param array{string,int[],int} $checkOne
+     * @param array{string,int[],int} $checkTwo
+     *
+     * @return bool
+     */
     private function applyDoubleAndModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
             && $this->applySingleModulus($bankAccount, $checkTwo, 2);
     }
 
-    /** @return bool */
+    /**
+     * @param array{string,int[],int} $checkOne
+     * @param array{string,int[],int} $checkTwo
+     *
+     * @return bool
+     */
     private function applyDoubleOrModulus(BankAccountNormalized $bankAccount, array $checkOne, array $checkTwo)
     {
         return $this->applySingleModulus($bankAccount, $checkOne, 1)
@@ -179,9 +191,9 @@ final class Driver implements SpecInterface
     }
 
     /**
-     * @param BankAccountNormalized $bankAccount
-     * @param array                 $check
-     * @param int                   $pass
+     * @param BankAccountNormalized   $bankAccount
+     * @param array{string,int[],int} $check
+     * @param int                     $pass
      *
      * @return bool
      */
@@ -311,7 +323,9 @@ final class Driver implements SpecInterface
     }
 
     /**
-     * @param array $input
+     * @param int[] $input
+     *
+     * @return void
      */
     private static function zeroizeFirst8(&$input)
     {
@@ -336,14 +350,15 @@ final class Driver implements SpecInterface
     private function substituteSortCode($chars, $exception)
     {
         if (8 === $exception) {
-            return '090126'.substr($chars, 6);
+            return '090126'.substr($chars, SortCode::LENGTH);
         }
 
         if (5 === $exception) {
-            $sortCode = substr($chars, 0, 6);
+            $sortCode = substr($chars, 0, SortCode::LENGTH);
+            \assert(\strlen($sortCode) === SortCode::LENGTH);
 
-            if (isset($this->sortCodeSubstitutions[$sortCode])) {
-                return $this->sortCodeSubstitutions[$sortCode].substr($chars, 6);
+            if (isset($this->sortCodeSubstitutions['_'.$sortCode])) {
+                return $this->sortCodeSubstitutions['_'.$sortCode].substr($chars, SortCode::LENGTH);
             }
         }
 
