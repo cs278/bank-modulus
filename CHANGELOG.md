@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## Unreleased
 
 ### Changed
+- Began testing on PHP 7.4.
 - Upgraded to PHPStan 0.12.x.
 
 ## [v1.10.0] - 2019-09-18
