@@ -2,6 +2,8 @@
 
 namespace Cs278\BankModulus;
 
+use PHPUnit\Framework\TestCase;
+
 trait AssertArrayContainsTrait
 {
     /**
@@ -10,8 +12,8 @@ trait AssertArrayContainsTrait
     public static function assertArrayContains(array $expected, array $actual)
     {
         foreach ($expected as $key => $value) {
-            \PHPUnit_Framework_TestCase::assertArrayHasKey($key, $actual);
-            \PHPUnit_Framework_TestCase::assertSame($value, $actual[$key]);
+            TestCase::assertArrayHasKey($key, $actual);
+            TestCase::assertSame($value, $actual[$key]);
         }
     }
 }

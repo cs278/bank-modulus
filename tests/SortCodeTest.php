@@ -7,7 +7,7 @@ use Cs278\BankModulus\Exception\InvalidArgumentException;
 /**
  * @covers \Cs278\BankModulus\SortCode
  */
-final class SortCodeTest extends \PHPUnit_Framework_TestCase
+final class SortCodeTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataConstructInvalid */
     public function testConstructInvalid($value)

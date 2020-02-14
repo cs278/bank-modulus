@@ -8,7 +8,7 @@ use Cs278\BankModulus\BankAccountNormalized;
 /**
  * @covers \Cs278\BankModulus\Exception\CannotValidateException
  */
-final class CannotValidateExceptionTest extends \PHPUnit_Framework_TestCase
+final class CannotValidateExceptionTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {

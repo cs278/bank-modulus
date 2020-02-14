@@ -8,7 +8,7 @@ namespace Cs278\BankModulus;
  * @covers \Cs278\BankModulus\BankModulus
  * @group legacy
  */
-final class BankModulusLegacyTest extends \PHPUnit_Framework_TestCase
+final class BankModulusLegacyTest extends \PHPUnit\Framework\TestCase
 {
     public function testCheckValid()
     {

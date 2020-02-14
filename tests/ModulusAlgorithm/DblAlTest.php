@@ -6,7 +6,7 @@ namespace Cs278\BankModulus\ModulusAlgorithm;
  * @covers \Cs278\BankModulus\ModulusAlgorithm\DblAl
  * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
  */
-final class DblAlTest extends \PHPUnit_Framework_TestCase
+final class DblAlTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider data */
     public function testCheck($isValid, $remainder, $quotient, $modulus)

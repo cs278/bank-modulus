@@ -8,7 +8,7 @@ use Cs278\BankModulus\Exception\InvalidArgumentException;
 /**
  * @covers \Cs278\BankModulus\Spec\DefaultSpecFactory
  */
-final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
+final class DefaultSpecFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use AssertArrayContainsTrait;
 

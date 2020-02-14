@@ -8,7 +8,7 @@ use Cs278\BankModulus\BankAccountNormalized;
 /**
  * @covers \Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer
  */
-final class DefaultNormalizerTest extends \PHPUnit_Framework_TestCase
+final class DefaultNormalizerTest extends \PHPUnit\Framework\TestCase
 {
     public function testPassingInNormalizers()
     {

@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 /**
  * @covers \Cs278\BankModulus\BankAccount
  */
-final class BankAccountTest extends \PHPUnit_Framework_TestCase
+final class BankAccountTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataWithInvalidAccountNumber */
     public function testWithInvalidAccountNumber($accountNumber)

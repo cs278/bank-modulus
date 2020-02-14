@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Raised minimum PHP version required to 5.6.0 or 7.2.0.
-- Updated minimum PHPUnit version to 5.2.0 for unit tests.
+- Updated minimum PHPUnit version to 5.4.3 for unit tests.
 - PHPUnit 8.5 and 9.0 can now be used to run the unit tests.
 - PHPUnit 6 and 7 are no longer supported.
 

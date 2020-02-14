@@ -11,7 +11,7 @@ use Cs278\BankModulus\Exception\CannotValidateException;
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380\Driver
  * @covers \Cs278\BankModulus\Spec\VocaLinkV380\DataV550
  */
-final class VocaLinkV550Test extends \PHPUnit_Framework_TestCase
+final class VocaLinkV550Test extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataCheckValid

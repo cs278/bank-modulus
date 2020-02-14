@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 /**
  * @covers \Cs278\BankModulus\Result
  */
-final class ResultTest extends \PHPUnit_Framework_TestCase
+final class ResultTest extends \PHPUnit\Framework\TestCase
 {
     use AssertArrayContainsTrait;
 

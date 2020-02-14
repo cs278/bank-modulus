@@ -5,7 +5,7 @@ namespace Cs278\BankModulus\Exception;
 /**
  * @covers \Cs278\BankModulus\Exception\AccountNumberInvalidException
  */
-final class AccountNumberInvalidExceptionTest extends \PHPUnit_Framework_TestCase
+final class AccountNumberInvalidExceptionTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {
