@@ -4,6 +4,7 @@ namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
 use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\BankAccountNormalizedInterface;
 
 final class DefaultNormalizer implements NormalizerInterface
 {
@@ -28,7 +29,7 @@ final class DefaultNormalizer implements NormalizerInterface
         $this->normalizers = $normalizers;
     }
 
-    /** @return BankAccountInterface */
+    /** @return BankAccountInterface|BankAccountNormalizedInterface */
     public function normalize(BankAccountInterface $bankAccount)
     {
         foreach ($this->normalizers as $normalizer) {

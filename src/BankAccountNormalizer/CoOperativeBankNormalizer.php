@@ -4,11 +4,12 @@ namespace Cs278\BankModulus\BankAccountNormalizer;
 
 use Cs278\BankModulus\BankAccountInterface;
 use Cs278\BankModulus\BankAccountNormalized;
+use Cs278\BankModulus\BankAccountNormalizedInterface;
 use Cs278\BankModulus\SortCode;
 
 final class CoOperativeBankNormalizer implements NormalizerInterface
 {
-    /** @return BankAccountInterface */
+    /** @return BankAccountInterface|BankAccountNormalizedInterface */
     public function normalize(BankAccountInterface $bankAccount)
     {
         return new BankAccountNormalized(
