@@ -2,40 +2,72 @@
 
 set -eu
 
-version="${1#V}"; shift
-date="$1"; shift
+ask() {
+    read -rp "$1 " _
+    echo "$_"
+}
 
-if ! [ -d "res/specifications/VocaLink-V${version}" ]; then
-    echo "Cannot find specification in res/specifications/VocaLink-V${version}!" >&2
-    exit 1
-fi
+dl_txt() {
+    wget -qO- "$1" | tr -d '\r' > "$2"
+}
 
-cp tests/Spec/VocaLinkV460.fixtures.txt tests/Spec/VocaLinkV${version}.fixtures.txt
-cat tests/Spec/VocaLinkV460Test.php \
-    | sed "s/V460/V${version}/g" \
-    > tests/Spec/VocaLinkV${version}Test.php
+dl() {
+    wget -qO"$2" "$1"
+}
 
-php -f src/Spec/VocaLinkV380/Generator.php -- --optimise V${version} \
-    < res/specifications/VocaLink-V${version}/valacdos.txt \
-    > src/Spec/VocaLinkV380/DataV${version}.php
+main() {
+    VERSION="$(ask "Version: (e.g. 490)")"
+    DATE="$(ask "Effective date: (e.g. 2019-03-12)")"
+    PDF_URL="$(ask "Specification PDF URL:")"
+    WEIGHTS_URL="$(ask "Weights URL:")"
+    SUBSTITUTIONS_URL="https://www.vocalink.com/media/1517/scsubtab.txt"
 
-cat src/Spec/VocaLinkV380.php \
-    | sed "s/DataV380/DataV${version}/g" \
-    | sed "s/ VocaLinkV380 / VocaLinkV${version} /g" \
-    > src/Spec/VocaLinkV${version}.php
+    SPECIFICATION_DIR="res/specifications/VocaLink-V${VERSION}"
 
-echo "    - src/Spec/VocaLinkV380/DataV${version}.php" >> .phpstan.neon
+    mkdir -p "$SPECIFICATION_DIR"
+    echo 'Copyright © VocaLink Limited' > "${SPECIFICATION_DIR}/LICENSE"
+    dl "$PDF_URL" "${SPECIFICATION_DIR}/specification.pdf"
+    dl_txt "$WEIGHTS_URL" "${SPECIFICATION_DIR}/valacdos.txt"
+    dl_txt "$SUBSTITUTIONS_URL" "${SPECIFICATION_DIR}/scsubtab.txt"
 
-# Ghetto code generation
-indent="\ \ \ \ "
+    git add "$SPECIFICATION_DIR"
+    git commit -m "Import specification"
 
-# Line number of the blank line above the first if condition.
-sed -i '105G' src/Spec/DefaultSpecFactory.php
-sed -i "106i${indent}${indent}if (\$this->dateOnOrAfter('${date}')) {" src/Spec/DefaultSpecFactory.php
-sed -i "107i${indent}${indent}${indent}return new VocaLinkV${version}();" src/Spec/DefaultSpecFactory.php
-sed -i "108i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
+    (
+        echo "# These fixtures come from the VocaLink V${VERSION} specification document."
+        echo "# © VocaLink Limited"
+        echo "# ${PDF_URL}"
+        sed '1,3d' tests/Spec/VocaLinkV460.fixtures.txt
+    ) > tests/Spec/VocaLinkV${VERSION}.fixtures.txt
 
-if command -v code >/dev/null 2>&1; then
-    code --goto tests/Spec/VocaLinkV${version}.fixtures.txt
-    code --goto tests/Spec/DefaultSpecFactoryTest.php:67
-fi
+    cat tests/Spec/VocaLinkV460Test.php \
+        | sed "s/V460/V${VERSION}/g" \
+        > tests/Spec/VocaLinkV${VERSION}Test.php
+
+    php -f src/Spec/VocaLinkV380/Generator.php -- --optimise V${VERSION} \
+        < "${SPECIFICATION_DIR}/valacdos.txt" \
+        > src/Spec/VocaLinkV380/DataV${VERSION}.php
+
+    cat src/Spec/VocaLinkV380.php \
+        | sed "s/DataV380/DataV${VERSION}/g" \
+        | sed "s/ VocaLinkV380 / VocaLinkV${VERSION} /g" \
+        > "src/Spec/VocaLinkV${VERSION}.php"
+
+    echo "    - src/Spec/VocaLinkV380/DataV${VERSION}.php" >> .phpstan.neon
+
+    # Ghetto code generation
+    indent="\ \ \ \ "
+
+    # Line number of the blank line above the first if condition.
+    sed -i '105G' src/Spec/DefaultSpecFactory.php
+    sed -i "106i${indent}${indent}if (\$this->dateOnOrAfter('${DATE}')) {" src/Spec/DefaultSpecFactory.php
+    sed -i "107i${indent}${indent}${indent}return new VocaLinkV${VERSION}();" src/Spec/DefaultSpecFactory.php
+    sed -i "108i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
+
+    if command -v code >/dev/null 2>&1; then
+        code --goto tests/Spec/VocaLinkV${VERSION}.fixtures.txt
+        code --goto tests/Spec/DefaultSpecFactoryTest.php:67
+    fi
+}
+
+main "$@"
