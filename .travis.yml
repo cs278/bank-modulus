@@ -16,6 +16,7 @@ matrix:
       env: COVERAGE=yes
     - php: 7.2
       env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+    - php: 7.2 # This should get PHPUnit 8
     - php: 7.3
       env: PHPSTAN=yes
     - php: 7.4

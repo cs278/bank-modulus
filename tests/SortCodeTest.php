@@ -2,10 +2,12 @@
 
 namespace Cs278\BankModulus;
 
+use Cs278\BankModulus\Exception\InvalidArgumentException;
+
 /**
  * @covers \Cs278\BankModulus\SortCode
  */
-final class SortCodeTest extends \PHPUnit_Framework_TestCase
+final class SortCodeTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataConstructInvalid */
     public function testConstructInvalid($value)
@@ -89,12 +91,11 @@ final class SortCodeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('11 22 33', $sortCode->getSpaceSeparated());
     }
 
-    /**
-     * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
-     */
     public function testFormatInvalud()
     {
         $sortCode = new SortCode('112233');
+
+        self::expectException(InvalidArgumentException::class);
 
         $sortCode->format(null);
     }

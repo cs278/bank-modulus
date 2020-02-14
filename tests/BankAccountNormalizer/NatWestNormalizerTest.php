@@ -7,7 +7,7 @@ use Cs278\BankModulus\BankAccount;
 /**
  * @covers \Cs278\BankModulus\BankAccountNormalizer\NatWestNormalizer
  */
-final class NatWestNormalizerTest extends \PHPUnit_Framework_TestCase
+final class NatWestNormalizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataSupports */
     public function testSupports($expected, $bankAccount)

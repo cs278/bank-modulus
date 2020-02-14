@@ -6,7 +6,7 @@ namespace Cs278\BankModulus\ModulusAlgorithm;
  * @covers \Cs278\BankModulus\ModulusAlgorithm\Mod11
  * @covers \Cs278\BankModulus\ModulusAlgorithm\BaseAlgorithm
  */
-final class Mod11Test extends \PHPUnit_Framework_TestCase
+final class Mod11Test extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider data */
     public function testCheck($isValid, $remainder, $quotient, $modulus)

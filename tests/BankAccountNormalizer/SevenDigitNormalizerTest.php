@@ -7,7 +7,7 @@ use Cs278\BankModulus\BankAccount;
 /**
  * @covers \Cs278\BankModulus\BankAccountNormalizer\SevenDigitNormalizer
  */
-final class SevenDigitNormalizerTest extends \PHPUnit_Framework_TestCase
+final class SevenDigitNormalizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataSupports */
     public function testSupports($expected, $accountNumber)

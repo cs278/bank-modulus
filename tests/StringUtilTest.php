@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 /**
  * @covers \Cs278\BankModulus\StringUtil
  */
-final class StringUtilTest extends \PHPUnit_Framework_TestCase
+final class StringUtilTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider dataRemoveNonDigits

@@ -7,8 +7,10 @@ use Cs278\BankModulus\Spec\SimpleSpecFactory;
 /**
  * @covers \Cs278\BankModulus\BankModulus
  */
-final class BankModulusTest extends \PHPUnit_Framework_TestCase
+final class BankModulusTest extends \PHPUnit\Framework\TestCase
 {
+    use AssertArrayContainsTrait;
+
     public function testConstructorNoArgs()
     {
         $modulus = new BankModulus();
@@ -49,7 +51,7 @@ final class BankModulusTest extends \PHPUnit_Framework_TestCase
         $error = error_get_last();
 
         $this->assertInstanceOf('Cs278\\BankModulus\\BankModulus', $modulus);
-        $this->assertArraySubset([
+        $this->assertArrayContains([
             'message' => 'Passing an instance of SpecInterface to Cs278\\BankModulus\\BankModulus::__construct() is deprecated and will be removed in version 2.0.0.',
             'type' => \E_USER_DEPRECATED,
         ], $error);

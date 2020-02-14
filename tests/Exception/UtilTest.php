@@ -7,7 +7,7 @@ use Cs278\BankModulus\SortCode;
 /**
  * @covers \Cs278\BankModulus\Exception\Util
  */
-final class UtilTest extends \PHPUnit_Framework_TestCase
+final class UtilTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider dataMaskAccountNumber */
     public function testMaskAccountNumber($expected, $string)
