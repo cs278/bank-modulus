@@ -7,6 +7,9 @@ use Cs278\BankModulus\BankAccountNormalized;
 
 final class CannotValidateException extends \RuntimeException implements Exception
 {
+    /**
+     * @return self
+     */
     public static function createFromBankAccount(BankAccountInterface $bankAccount, \Exception $e = null)
     {
         if ($bankAccount instanceof BankAccountNormalized) {

@@ -7,13 +7,22 @@ use Cs278\BankModulus\StringUtil;
 
 final class Util
 {
-    /** @return string */
+    /**
+     * @param string $accountNumber
+     *
+     * @return string
+     */
     public static function maskAccountNumber($accountNumber)
     {
         return self::maskString($accountNumber, 8);
     }
 
-    /** @return string */
+    /**
+     * @param string $string
+     * @param int    $minLength
+     *
+     * @return string
+     */
     public static function maskString($string, $minLength)
     {
         if (\strlen($string) >= max($minLength, 3)) {
@@ -31,6 +40,7 @@ final class Util
         return $sortCode->format('%1$s-**-%3$s');
     }
 
+    /** @return InvalidArgumentException */
     public static function wrap(\InvalidArgumentException $e)
     {
         if ($e instanceof InvalidArgumentException) {

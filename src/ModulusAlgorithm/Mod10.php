@@ -6,10 +6,12 @@ final class Mod10 extends BaseAlgorithm
 {
     /**
      * @param string $input
-     * @param array  $weights
+     * @param int[]  $weights
      */
     public function __construct($input, array $weights)
     {
+        \assert(\strlen($input) === \count($weights));
+
         $result = array_sum(array_map(function ($a, $b) {
             return $a * $b;
         }, self::toChars($input), $weights));

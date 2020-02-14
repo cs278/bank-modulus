@@ -10,6 +10,7 @@ final class SortCode
 {
     const LENGTH = 6;
 
+    /** @var array{string,string,string} */
     private $parts;
 
     /**
@@ -27,7 +28,12 @@ final class SortCode
             throw SortCodeInvalidException::create($value);
         }
 
-        $this->parts = str_split($value, 2);
+        // https://github.com/phpstan/phpstan/issues/2992
+        $parts = str_split($value, 2);
+        \assert(isset($parts[0]) && \is_string($parts[0]));
+        \assert(isset($parts[1]) && \is_string($parts[1]));
+        \assert(isset($parts[2]) && \is_string($parts[2]));
+        $this->parts = $parts;
     }
 
     /**

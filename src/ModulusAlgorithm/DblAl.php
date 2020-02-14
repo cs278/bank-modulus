@@ -6,10 +6,12 @@ final class DblAl extends BaseAlgorithm
 {
     /**
      * @param string $input
-     * @param array  $weights
+     * @param int[]  $weights
      */
     public function __construct($input, array $weights)
     {
+        \assert(\strlen($input) === \count($weights));
+
         $result = array_map(function ($a, $b) {
             return $a * $b;
         }, self::toChars($input), $weights);
