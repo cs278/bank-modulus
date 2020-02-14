@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Changed
+- Raised minimum PHP version required to 5.6.0 or 7.2.0.
+
 ## [v1.11.0] - 2020-02-14
 
 ### Added
