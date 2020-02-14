@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Implemented VocaLink V5.90 specification.
+- `BankAccountNormalized` now implements new interface `BankAccountNormalizedInterface`.
 
 ### Changed
 - Began testing on PHP 7.4.

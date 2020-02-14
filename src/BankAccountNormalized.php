@@ -5,7 +5,7 @@ namespace Cs278\BankModulus;
 use Cs278\BankModulus\Exception\Util as E;
 use Webmozart\Assert\Assert;
 
-final class BankAccountNormalized implements BankAccountInterface
+final class BankAccountNormalized implements BankAccountInterface, BankAccountNormalizedInterface
 {
     /** @var BankAccountInterface */
     private $bankAccount;
