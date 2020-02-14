@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Deprecated
 - `NormalizerInterface::normalize()` will return `BankAccountNormalizedInterface`
   in version 2.0.
+- `BankAccountNormalized::LENGTH` will be removed in version 2.0, replace with
+  `BankAccountNormalizedInterface::ACCOUNT_NUMBER_LENGTH`.
 
 ## [v1.10.0] - 2019-09-18
 

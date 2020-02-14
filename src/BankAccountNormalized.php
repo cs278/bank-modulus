@@ -16,7 +16,8 @@ final class BankAccountNormalized implements BankAccountInterface, BankAccountNo
     /** @var string */
     private $accountNumber;
 
-    const LENGTH = 8;
+    /** @deprecated Use BankAccountNormalizedInterface::ACCOUNT_NUMBER_LENGTH instead. */
+    const LENGTH = self::ACCOUNT_NUMBER_LENGTH;
 
     /**
      * @param BankAccountInterface $bankAccount
@@ -41,7 +42,7 @@ final class BankAccountNormalized implements BankAccountInterface, BankAccountNo
         $this->sortCode = $sortCode;
         $this->accountNumber = StringUtil::removeNonDigits($accountNumber);
 
-        if (self::LENGTH !== \strlen($this->accountNumber)) {
+        if (self::ACCOUNT_NUMBER_LENGTH !== \strlen($this->accountNumber)) {
             throw Exception\AccountNumberInvalidException::create($accountNumber);
         }
     }
