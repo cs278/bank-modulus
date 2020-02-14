@@ -4,6 +4,7 @@ namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\BankAccount;
 use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
+use Cs278\BankModulus\Exception\CannotValidateException;
 
 /**
  * @covers \Cs278\BankModulus\Spec\VocaLinkV580
@@ -66,10 +67,6 @@ final class VocaLinkV580Test extends \PHPUnit_Framework_TestCase
         }));
     }
 
-    /**
-     * @expectedException \Cs278\BankModulus\Exception\CannotValidateException
-     * @expectedExceptionMessage Unable to determine if the bank details `00-**-00 1******8` are valid or invalid
-     */
     public function testUnknownDetails()
     {
         $checker = new VocaLinkV580();
@@ -77,6 +74,9 @@ final class VocaLinkV580Test extends \PHPUnit_Framework_TestCase
         $bankAccount = $normalizer->normalize(
             new BankAccount('001100', '12345678')
         );
+
+        self::expectException(CannotValidateException::class);
+        self::expectExceptionMessage('Unable to determine if the bank details `00-**-00 1******8` are valid or invalid');
 
         $checker->check($bankAccount);
     }

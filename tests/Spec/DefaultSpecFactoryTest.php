@@ -2,11 +2,16 @@
 
 namespace Cs278\BankModulus\Spec;
 
+use Cs278\BankModulus\AssertArrayContainsTrait;
+use Cs278\BankModulus\Exception\InvalidArgumentException;
+
 /**
  * @covers \Cs278\BankModulus\Spec\DefaultSpecFactory
  */
 final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    use AssertArrayContainsTrait;
+
     public function testCreate()
     {
         $factory = new DefaultSpecFactory();
@@ -27,7 +32,7 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = @DefaultSpecFactory::withNow($now);
         $error = error_get_last();
 
-        $this->assertArraySubset([
+        $this->assertArrayContains([
             'message' => 'Cs278\\BankModulus\\Spec\\DefaultSpecFactory::withNow() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
             'type' => \E_USER_DEPRECATED,
         ], $error);
@@ -129,13 +134,15 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Expected an instance of DateTimeInterface. Got: stdClass
      * @requires PHP 5.5
      */
     public function testWithDateObjectInvalid()
     {
         $factory = new DefaultSpecFactory();
+
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Expected an instance of DateTimeInterface. Got: stdClass');
+
         $factory->withDate(new \stdClass());
     }
 
@@ -164,12 +171,14 @@ final class DefaultSpecFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider dataWithDateStringInvalid
-     * @expectedException \Cs278\BankModulus\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Expecting valid ISO8601 date (YYYY-MM-DD). Got:
      */
     public function testWithDateStringInvalid($input)
     {
         $factory = new DefaultSpecFactory();
+
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Expecting valid ISO8601 date (YYYY-MM-DD). Got:');
+
         $factory->withDate($input);
     }
 

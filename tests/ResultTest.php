@@ -7,6 +7,8 @@ namespace Cs278\BankModulus;
  */
 final class ResultTest extends \PHPUnit_Framework_TestCase
 {
+    use AssertArrayContainsTrait;
+
     public function testGetSortCode()
     {
         $account = $this->getMockForAbstractClass('Cs278\BankModulus\BankAccountInterface');
@@ -109,7 +111,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         $error = error_get_last();
 
         $this->assertInstanceOf('Cs278\\BankModulus\\Result', $result);
-        $this->assertArraySubset([
+        $this->assertArrayContains([
             'message' => '$validatedAt will become a required argument of Cs278\\BankModulus\\Result::__construct() in version 2.0.0.',
             'type' => \E_USER_DEPRECATED,
         ], $error);
@@ -150,7 +152,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
         $error = error_get_last();
 
         $this->assertInstanceOf('Cs278\\BankModulus\\Result', $result);
-        $this->assertArraySubset([
+        $this->assertArrayContains([
             'message' => '$validatedAt argument of Cs278\BankModulus\Result::__construct() will require a DateTimeImmutable instance in version 2.0.0.',
             'type' => \E_USER_DEPRECATED,
         ], $error);
