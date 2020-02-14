@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+- Implemented VocaLink V5.90 specification.
+
 ### Changed
 - Began testing on PHP 7.4.
 - Upgraded to PHPStan 0.12.x.
