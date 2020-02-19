@@ -1,0 +1,67 @@
+#!/bin/sh
+
+set -eu
+
+php_version() {
+    php -r 'printf("%u.%u\n", PHP_MAJOR_VERSION, PHP_MINOR_VERSION);'
+}
+
+git_is_dirty() {
+    if ! git diff-index --exit-code --ignore-submodules HEAD >/dev/null; then
+        return 0
+    fi
+
+    return 1
+}
+
+main() {
+    PREFERENCE="$1"; shift # highest/lowest
+
+    WITH_PHP="${WITH_PHP:-$(php_version)}" # 5.6/7.2/etc
+    WITH_PHPSTAN="${WITH_PHPSTAN:-0}"
+
+    COMPOSER_ARGS="--no-suggest --no-progress --prefer-dist"
+
+    if git_is_dirty; then
+        echo "Working tree is dirty, aborting" >&2
+        return 1
+    fi
+
+    echo "Using PHP ${WITH_PHP}" >&2
+
+    if [ "$PREFERENCE" = "lowest" ];
+    then
+        COMPOSER_ARGS="${COMPOSER_ARGS} --prefer-lowest --prefer-stable"
+    fi
+
+    if [ "$WITH_PHP" = "7.4" ]; then
+        # PHP 7.4+ needs this fix: https://github.com/sebastianbergmann/phpunit/commit/e11397fed729bfef7a9c76f7b193c27ad5710f6b
+        jq '.conflict["phpunit/phpunit"] = "< 7.5.15 || >= 8 < 8.3.0"' < composer.json > .composer.json.tmp
+        mv .composer.json.tmp composer.json
+    fi
+
+    composer update $COMPOSER_ARGS
+
+    PHPUNIT_VERSION=$(jq -r '.["packages-dev"][]|select(.name=="phpunit/phpunit").version' < composer.lock)
+
+    if [ "$WITH_PHPSTAN" = "1" ]; then
+        composer require $COMPOSER_ARGS --dev \
+            phpstan/phpstan:=0.12.10
+    fi
+
+    if [ "$WITH_PHP" != "5.6" ]; then
+        composer require $COMPOSER_ARGS --dev \
+            staabm/annotate-pull-request-from-checkstyle
+    fi
+
+    # @todo Only works with PHPUnit 8 currently.
+    if echo "$PHPUNIT_VERSION" | grep '^8\.' >/dev/null; then
+        composer require $COMPOSER_ARGS --dev \
+            mheap/phpunit-github-actions-printer
+    fi
+
+    # Undo modifications to composer.json
+    git checkout -- composer.json
+}
+
+main "$@"
