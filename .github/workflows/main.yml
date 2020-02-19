@@ -35,7 +35,7 @@ jobs:
             php: '5.6'
             coverage: 1
       fail-fast: true
-    name: PHP ${{ matrix.php }} (${{ matrix.deps }})
+    name: PHP ${{ matrix.php }} / ${{ matrix.deps }}
     steps:
       - uses: actions/checkout@v2
       - uses: shivammathur/setup-php@383a511d0ed762f8bdb060ec71ff6cbefc41f73a
