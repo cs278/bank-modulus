@@ -1,6 +1,7 @@
 UK Bank Modulus Check Library
 =============================
 
+[![Main](https://github.com/cs278/bank-modulus/workflows/Main/badge.svg?branch=master)](https://github.com/cs278/bank-modulus/actions)
 [![Build Status](https://travis-ci.org/cs278/bank-modulus.svg?branch=master)](https://travis-ci.org/cs278/bank-modulus)
 [![Code Quality](https://scrutinizer-ci.com/g/cs278/bank-modulus/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/cs278/bank-modulus/?branch=master)
 [![Coverage](https://scrutinizer-ci.com/g/cs278/bank-modulus/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/cs278/bank-modulus/?branch=master)
