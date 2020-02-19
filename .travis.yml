@@ -13,40 +13,17 @@ cache:
 matrix:
   include:
     - php: 5.6
-      env: COVERAGE=yes
-    - php: 7.2
-      env: DEPS=lowest
-    - php: 7.2 # This should get PHPUnit 8
-    - php: 7.3
-      env: PHPSTAN=yes
     - php: 7.4
-      env: COVERAGE=yes
   fast_finish: true
 
 before_install:
-  - if [ "$COVERAGE" != "yes" ]; then phpenv config-rm xdebug.ini; fi;
+  - phpenv config-rm xdebug.ini
   - composer self-update
   - echo 'zend.assertions=1' > $HOME/.phpenv/versions/$(phpenv version-name)/etc/conf.d/assert.ini
 
 install: |
-  if [ "$PHPSTAN" = "yes" ]; then
-    export WITH_PHPSTAN=1
-  fi
-
   scripts/deps "${DEPS:-highest}"
 
 script:
   - |
-    if [ -f vendor/bin/phpstan ]; then
-      vendor/bin/phpstan analyse -c .phpstan.neon
-    fi
-  - |
-    if [ "$COVERAGE" = "yes" ]; then
-      vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --coverage-text
-      phpenv config-rm xdebug.ini
-      vendor/bin/php-cs-fixer fix --diff --dry-run
-    else
-      vendor/bin/phpunit --verbose
-    fi
-
-after_script: if [ "$COVERAGE" = "yes" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+    vendor/bin/phpunit --verbose
