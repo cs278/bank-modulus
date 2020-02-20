@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Updated minimum PHPUnit version to 5.4.3 for unit tests.
 - PHPUnit 8.5 and 9.0 can now be used to run the unit tests.
 - PHPUnit 6 and 7 are no longer supported.
+- Raised minimum version of `webmozart/assert` to 1.2.0.
 
 ## [v1.11.0] - 2020-02-14
 
