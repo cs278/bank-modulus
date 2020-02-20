@@ -39,14 +39,4 @@ final class Util
     {
         return $sortCode->format('%1$s-**-%3$s');
     }
-
-    /** @return InvalidArgumentException */
-    public static function wrap(\InvalidArgumentException $e)
-    {
-        if ($e instanceof InvalidArgumentException) {
-            return $e;
-        }
-
-        return new InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
-    }
 }
