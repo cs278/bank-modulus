@@ -4,7 +4,7 @@ namespace Cs278\BankModulus\Spec;
 
 use Cs278\BankModulus\Exception\InvalidArgumentException;
 use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
+use Cs278\BankModulus\Internal\Assert;
 
 /**
  * Default factory implementation.
@@ -41,11 +41,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     public function withDate($date)
     {
         if (\is_string($date)) {
-            try {
-                Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
-            } catch (\InvalidArgumentException $e) {
-                throw E::wrap($e);
-            }
+            Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
 
             $now = \DateTime::createFromFormat('!Y-m-d', $date, $this->tz);
 
@@ -208,16 +204,12 @@ final class DefaultSpecFactory implements SpecFactoryInterface
      */
     private static function assertDateTimeObject($input)
     {
-        try {
-            if (interface_exists('DateTimeInterface')) {
-                Assert::isInstanceOf($input, 'DateTimeInterface');
+        if (interface_exists('DateTimeInterface')) {
+            Assert::isInstanceOf($input, 'DateTimeInterface');
 
-                return;
-            }
-
-            Assert::isInstanceOf($input, 'DateTime');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
+            return;
         }
+
+        Assert::isInstanceOf($input, 'DateTime');
     }
 }

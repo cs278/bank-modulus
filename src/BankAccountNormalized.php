@@ -2,8 +2,7 @@
 
 namespace Cs278\BankModulus;
 
-use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
+use Cs278\BankModulus\Internal\Assert;
 
 final class BankAccountNormalized implements BankAccountInterface, BankAccountNormalizedInterface
 {
@@ -26,17 +25,13 @@ final class BankAccountNormalized implements BankAccountInterface, BankAccountNo
      */
     public function __construct(BankAccountInterface $bankAccount, $sortCode, $accountNumber)
     {
-        try {
-            if (!$sortCode instanceof SortCode) {
-                Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
+        if (!$sortCode instanceof SortCode) {
+            Assert::string($sortCode, 'Sort code must be a string or instance of SortCode');
 
-                $sortCode = SortCode::create($sortCode);
-            }
-
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
+            $sortCode = SortCode::create($sortCode);
         }
+
+        Assert::string($accountNumber, 'Account number must be a string');
 
         $this->bankAccount = $bankAccount;
         $this->sortCode = $sortCode;

@@ -6,11 +6,11 @@ use Cs278\BankModulus\BankAccountNormalizer\DefaultNormalizer;
 use Cs278\BankModulus\BankAccountNormalizer\NormalizerInterface;
 use Cs278\BankModulus\Exception\CannotValidateException;
 use Cs278\BankModulus\Exception\Util as E;
+use Cs278\BankModulus\Internal\Assert;
 use Cs278\BankModulus\Spec\DefaultSpecFactory;
 use Cs278\BankModulus\Spec\SimpleSpecFactory;
 use Cs278\BankModulus\Spec\SpecFactoryInterface;
 use Cs278\BankModulus\Spec\SpecInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Simple class to validate UK bank account details.
@@ -43,14 +43,10 @@ final class BankModulus
             $specFactory = new SimpleSpecFactory($specFactory);
         }
 
-        try {
-            Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', sprintf(
-                'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: %%s',
-                'Cs278\\BankModulus\\Spec'
-            ));
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', sprintf(
+            'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: %%s',
+            'Cs278\\BankModulus\\Spec'
+        ));
 
         $this->specFactory = $specFactory ?: new DefaultSpecFactory();
         $this->normalizer = $normalizer ?: new DefaultNormalizer();
@@ -68,12 +64,8 @@ final class BankModulus
      */
     public function normalize(&$sortCode, &$accountNumber)
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::string($sortCode, 'Sort code must be a string');
+        Assert::string($accountNumber, 'Account number must be a string');
 
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizeBankAccount($account);
@@ -95,12 +87,8 @@ final class BankModulus
      */
     public function check($sortCode, $accountNumber)
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::string($sortCode, 'Sort code must be a string');
+        Assert::string($accountNumber, 'Account number must be a string');
 
         $result = $this->lookup($sortCode, $accountNumber);
 
@@ -123,12 +111,8 @@ final class BankModulus
      */
     public function lookup($sortCode, $accountNumber)
     {
-        try {
-            Assert::string($sortCode, 'Sort code must be a string');
-            Assert::string($accountNumber, 'Account number must be a string');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::string($sortCode, 'Sort code must be a string');
+        Assert::string($accountNumber, 'Account number must be a string');
 
         $account = new BankAccount($sortCode, $accountNumber);
         $account = $this->normalizeBankAccount($account);

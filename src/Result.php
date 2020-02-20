@@ -4,7 +4,7 @@ namespace Cs278\BankModulus;
 
 use Cs278\BankModulus\Exception\InvalidArgumentException;
 use Cs278\BankModulus\Exception\Util as E;
-use Webmozart\Assert\Assert;
+use Cs278\BankModulus\Internal\Assert;
 
 /**
  * Represents the result of a modulus check operation.
@@ -62,23 +62,19 @@ final class Result implements BankAccountInterface
             $realValidatedAt = $validatedAt;
         }
 
-        try {
-            Assert::boolean($specKnown, 'specKnown should be a boolean, got: `%s`');
+        Assert::boolean($specKnown, 'specKnown should be a boolean, got: `%s`');
 
-            if (true === $specKnown) {
-                Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
-            } else {
-                Assert::null($specResult, 'specResult should be null, got: `%s`');
-            }
+        if (true === $specKnown) {
+            Assert::boolean($specResult, 'specResult should be a boolean, got: `%s`');
+        } else {
+            Assert::null($specResult, 'specResult should be null, got: `%s`');
+        }
 
-            if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
-                throw new InvalidArgumentException(sprintf(
-                    'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
-                    \is_object($validatedAt) ? \get_class($validatedAt) : \gettype($validatedAt)
-                ));
-            }
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
+        if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
+            throw new InvalidArgumentException(sprintf(
+                'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
+                \is_object($validatedAt) ? \get_class($validatedAt) : \gettype($validatedAt)
+            ));
         }
 
         $this->bankAccount = $bankAccount;
@@ -126,11 +122,7 @@ final class Result implements BankAccountInterface
      */
     public function isValid($assume = true)
     {
-        try {
-            Assert::boolean($assume, 'assume should be a boolean, got: `%s`');
-        } catch (\InvalidArgumentException $e) {
-            throw E::wrap($e);
-        }
+        Assert::boolean($assume, 'assume should be a boolean, got: `%s`');
 
         if ($this->specKnown) {
             \assert($this->specResult !== null);
