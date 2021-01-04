@@ -21,10 +21,14 @@ jobs:
           - '7.2'
           - '7.3'
           - '7.4'
+          - '8.0'
         deps:
           - highest
           - lowest
         include:
+          - os: ubuntu-latest
+            php: '8.0'
+            coverage: 1
           - os: ubuntu-latest
             php: '7.4'
             coverage: 1
