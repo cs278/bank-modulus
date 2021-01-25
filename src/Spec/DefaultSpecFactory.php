@@ -99,6 +99,10 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             $this->now = new \DateTime('today', $this->tz);
         }
 
+        if ($this->dateOnOrAfter('2020-10-12')) {
+            return new VocaLinkV640();
+        }
+
         if ($this->dateOnOrAfter('2020-02-03')) {
             return new VocaLinkV590();
         }
