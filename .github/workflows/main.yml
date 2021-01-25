@@ -42,7 +42,7 @@ jobs:
     name: PHP ${{ matrix.php }} / ${{ matrix.deps }}
     steps:
       - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@383a511d0ed762f8bdb060ec71ff6cbefc41f73a
+      - uses: shivammathur/setup-php@a83d4379b1200b3d0d19ad4fe0d7a440e00749c1
         with:
           php-version: ${{ matrix.php }}
       - name: Cache dependencies
