@@ -51,6 +51,8 @@ jobs:
           path: ~/.composer/cache
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
+      - name: debug
+        run: ls -l /etc/php/ /etc/php/${{ matrix.php }} /etc/php/${{ matrix.php }}/cli
       - name: Enable assertions
         run: echo 'zend.assertions=1' | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/assert.ini >/dev/null
       - name: Validate composer.json
