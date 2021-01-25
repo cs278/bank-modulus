@@ -46,7 +46,7 @@ main() {
 
     if [ "$WITH_PHPSTAN" = "1" ]; then
         composer require $COMPOSER_ARGS --dev \
-            phpstan/phpstan:=0.12.10
+            phpstan/phpstan:=0.12.69
     fi
 
     if [ "$WITH_PHP" != "5.6" ]; then
