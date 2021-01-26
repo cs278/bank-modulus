@@ -49,11 +49,6 @@ main() {
             phpstan/phpstan:=0.12.10
     fi
 
-    if [ "$WITH_PHP" != "5.6" ]; then
-        composer require $COMPOSER_ARGS --dev \
-            staabm/annotate-pull-request-from-checkstyle
-    fi
-
     # @todo Only works with PHPUnit 8 currently.
     if echo "$PHPUNIT_VERSION" | grep '^8\.' >/dev/null; then
         composer require $COMPOSER_ARGS --dev \
