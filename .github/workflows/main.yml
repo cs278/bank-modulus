@@ -65,8 +65,7 @@ jobs:
         run: |
           vendor/bin/phpunit --version | head -n1 >&2
 
-          # @todo Only works on PHPUnit 8 currently.
-          if [ -d vendor/mheap/phpunit-github-actions-printer ]; then
+          if [ "${{ matrix.php }}" != "5.6" ]; then
             args="--printer mheap\\GithubActionsReporter\\Printer"
           else
             args=

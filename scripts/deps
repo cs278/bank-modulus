@@ -40,15 +40,6 @@ main() {
     fi
 
     composer update $COMPOSER_ARGS
-
-    PHPUNIT_VERSION=$(jq -r '.["packages-dev"][]|select(.name=="phpunit/phpunit").version' < composer.lock)
-
-    # @todo Only works with PHPUnit 8 currently.
-    if echo "$PHPUNIT_VERSION" | grep '^8\.' >/dev/null; then
-        composer require $COMPOSER_ARGS --dev \
-            mheap/phpunit-github-actions-printer
-    fi
-
     composer bin all install
 
     # Undo modifications to composer.json
