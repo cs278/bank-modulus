@@ -40,7 +40,6 @@ main() {
     fi
 
     composer update $COMPOSER_ARGS
-    composer bin all install
 
     # Undo modifications to composer.json
     git checkout -- composer.json
