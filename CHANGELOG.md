@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implemented VocaLink V6.40 specification.
 
 ### Changed
-- Raised minimum PHP version required to 5.6.0 or 7.2.0.
+- Raised minimum PHP version required to 5.6.0, 7.2.0 or 8.0.0.
 - Updated minimum PHPUnit version to 5.4.3 for unit tests.
 - PHPUnit 8.5 and 9.0 can now be used to run the unit tests.
 - PHPUnit 6 and 7 are no longer supported.
