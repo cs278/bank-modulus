@@ -18,7 +18,6 @@ main() {
     PREFERENCE="$1"; shift # highest/lowest
 
     WITH_PHP="${WITH_PHP:-$(php_version)}" # 5.6/7.2/etc
-    WITH_PHPSTAN="${WITH_PHPSTAN:-0}"
 
     COMPOSER_ARGS="--no-suggest --no-progress --prefer-dist"
 
@@ -41,24 +40,6 @@ main() {
     fi
 
     composer update $COMPOSER_ARGS
-
-    PHPUNIT_VERSION=$(jq -r '.["packages-dev"][]|select(.name=="phpunit/phpunit").version' < composer.lock)
-
-    if [ "$WITH_PHPSTAN" = "1" ]; then
-        composer require $COMPOSER_ARGS --dev \
-            phpstan/phpstan:=0.12.10
-    fi
-
-    if [ "$WITH_PHP" != "5.6" ]; then
-        composer require $COMPOSER_ARGS --dev \
-            staabm/annotate-pull-request-from-checkstyle
-    fi
-
-    # @todo Only works with PHPUnit 8 currently.
-    if echo "$PHPUNIT_VERSION" | grep '^8\.' >/dev/null; then
-        composer require $COMPOSER_ARGS --dev \
-            mheap/phpunit-github-actions-printer
-    fi
 
     # Undo modifications to composer.json
     git checkout -- composer.json

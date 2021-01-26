@@ -42,7 +42,7 @@ jobs:
     name: PHP ${{ matrix.php }} / ${{ matrix.deps }}
     steps:
       - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@383a511d0ed762f8bdb060ec71ff6cbefc41f73a
+      - uses: shivammathur/setup-php@a83d4379b1200b3d0d19ad4fe0d7a440e00749c1
         with:
           php-version: ${{ matrix.php }}
       - name: Cache dependencies
@@ -53,8 +53,6 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Enable assertions
         run: echo 'zend.assertions=1' | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/assert.ini >/dev/null
-      - name: Validate composer.json
-        run: composer validate --strict
       - name: Install dependencies
         run: |
           sudo phpdismod xdebug
@@ -63,43 +61,21 @@ jobs:
           export WITH_PHPSTAN="${{ matrix.phpstan }}"
 
           scripts/deps "${{ matrix.deps }}"
-
-          if [ "${{ matrix.coverage }}" = "1" ]; then
-            sudo wget https://scrutinizer-ci.com/ocular.phar -O/usr/local/bin/ocular
-            sudo chmod +x /usr/local/bin/ocular
-          fi
-      - name: PHP-CS-Fixer
-        run: |
-          if [ -f vendor/bin/cs2pr ]; then
-            (vendor/bin/php-cs-fixer fix --dry-run --format checkstyle || true) | vendor/bin/cs2pr
-          else
-            vendor/bin/php-cs-fixer fix --dry-run --diff --diff-format udiff
-          fi
       - name: PHPUnit
         run: |
           vendor/bin/phpunit --version | head -n1 >&2
-
-          # @todo Only works on PHPUnit 8 currently.
-          if [ -d vendor/mheap/phpunit-github-actions-printer ]; then
-            args="--printer mheap\\GithubActionsReporter\\Printer"
-          else
-            args=
-          fi
 
           if [ "${{ matrix.coverage }}" = "1" ]; then
             sudo phpenmod xdebug
             vendor/bin/phpunit --verbose $args --coverage-clover=coverage.clover --coverage-text
             sudo phpdismod xdebug
-
-            ocular code-coverage:upload --format=php-clover coverage.clover
           else
             vendor/bin/phpunit --verbose $args
           fi
       - name: PHPStan
         if: matrix.phpstan == 1
         run: |
-          if [ -f vendor/bin/cs2pr ]; then
-            (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr
-          else
-            vendor/bin/phpstan analyse -c .phpstan.neon --no-progress
-          fi
+          composer bin cs install
+          composer bin phpstan install
+
+          (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr
