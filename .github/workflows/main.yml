@@ -61,11 +61,6 @@ jobs:
           export WITH_PHPSTAN="${{ matrix.phpstan }}"
 
           scripts/deps "${{ matrix.deps }}"
-
-          if [ "${{ matrix.coverage }}" = "1" ]; then
-            sudo wget https://scrutinizer-ci.com/ocular.phar -O/usr/local/bin/ocular
-            sudo chmod +x /usr/local/bin/ocular
-          fi
       - name: PHPUnit
         run: |
           vendor/bin/phpunit --version | head -n1 >&2
@@ -81,8 +76,6 @@ jobs:
             sudo phpenmod xdebug
             vendor/bin/phpunit --verbose $args --coverage-clover=coverage.clover --coverage-text
             sudo phpdismod xdebug
-
-            ocular code-coverage:upload --format=php-clover coverage.clover
           else
             vendor/bin/phpunit --verbose $args
           fi
