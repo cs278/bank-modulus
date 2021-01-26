@@ -1,0 +1,35 @@
+name: Coding Standards
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        php:
+          - '7.4'
+      fail-fast: true
+    name: PHP ${{ matrix.php }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@383a511d0ed762f8bdb060ec71ff6cbefc41f73a
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Validate composer.json
+        run: composer validate --strict
+      - name: Install dependencies
+        run: composer install && composer bin cs install
+      - name: PHP-CS-Fixer
+        run: |
+          (vendor/bin/php-cs-fixer fix --dry-run --format checkstyle || true) | vendor/bin/cs2pr

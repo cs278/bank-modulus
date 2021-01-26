@@ -53,8 +53,6 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
       - name: Enable assertions
         run: echo 'zend.assertions=1' | sudo tee /etc/php/${{ matrix.php }}/cli/conf.d/assert.ini >/dev/null
-      - name: Validate composer.json
-        run: composer validate --strict
       - name: Install dependencies
         run: |
           sudo phpdismod xdebug
@@ -67,13 +65,6 @@ jobs:
           if [ "${{ matrix.coverage }}" = "1" ]; then
             sudo wget https://scrutinizer-ci.com/ocular.phar -O/usr/local/bin/ocular
             sudo chmod +x /usr/local/bin/ocular
-          fi
-      - name: PHP-CS-Fixer
-        run: |
-          if [ -f vendor/bin/cs2pr ]; then
-            (vendor/bin/php-cs-fixer fix --dry-run --format checkstyle || true) | vendor/bin/cs2pr
-          else
-            vendor/bin/php-cs-fixer fix --dry-run --diff --diff-format udiff
           fi
       - name: PHPUnit
         run: |
