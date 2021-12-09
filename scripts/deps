@@ -19,7 +19,7 @@ main() {
 
     WITH_PHP="${WITH_PHP:-$(php_version)}" # 5.6/7.2/etc
 
-    COMPOSER_ARGS="--no-suggest --no-progress --prefer-dist"
+    COMPOSER_ARGS="--no-progress --prefer-dist"
 
     if git_is_dirty; then
         echo "Working tree is dirty, aborting" >&2
