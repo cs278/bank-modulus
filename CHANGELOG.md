@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Update PHPStan to 1.2.0.
+- Improve type safety in modulus calculation code.
 
 ## [v1.12.0] - 2021-01-26
 
