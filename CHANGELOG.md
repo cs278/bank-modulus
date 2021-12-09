@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Update PHPStan to 1.2.0.
 - Improve type safety in modulus calculation code.
 - Configure dependabot for dependency updates.
+- Began testing on PHP 8.1.
 
 ## [v1.12.0] - 2021-01-26
 

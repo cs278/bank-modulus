@@ -14,6 +14,11 @@ git_is_dirty() {
     return 1
 }
 
+modify_composerjson() {
+    jq "$1" < composer.json > .composer.json.tmp
+    mv .composer.json.tmp composer.json
+}
+
 main() {
     PREFERENCE="$1"; shift # highest/lowest
 
@@ -35,8 +40,12 @@ main() {
 
     if [ "$WITH_PHP" = "7.4" ]; then
         # PHP 7.4+ needs this fix: https://github.com/sebastianbergmann/phpunit/commit/e11397fed729bfef7a9c76f7b193c27ad5710f6b
-        jq '.conflict["phpunit/phpunit"] = "< 7.5.15 || >= 8 < 8.3.0"' < composer.json > .composer.json.tmp
-        mv .composer.json.tmp composer.json
+        modify_composerjson '.conflict["phpunit/phpunit"] = "< 7.5.15 || >= 8 < 8.3.0"'
+    fi
+
+    if [ "$WITH_PHP" = "8.1" ]; then
+        # PHP 8.1 needs this fix: https://github.com/sebastianbergmann/phpunit/commit/83491f4d19d18c868829a013f0ee0839dd53c684
+        modify_composerjson '.conflict["phpunit/phpunit"] = ">= 8 < 8.5.14"'
     fi
 
     composer update $COMPOSER_ARGS
