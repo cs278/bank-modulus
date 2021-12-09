@@ -75,7 +75,7 @@ jobs:
       - name: PHPStan
         if: matrix.phpstan == 1
         run: |
-          composer bin cs install
+          composer bin cs2pr install
           composer bin phpstan install
 
           (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr

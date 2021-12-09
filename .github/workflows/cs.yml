@@ -29,7 +29,7 @@ jobs:
       - name: Validate composer.json
         run: composer validate --strict
       - name: Install dependencies
-        run: composer install && composer bin cs install
+        run: composer install && composer bin cs install && composer bin cs2pr install
       - name: PHP-CS-Fixer
         run: |
           (vendor/bin/php-cs-fixer fix --dry-run --format checkstyle || true) | vendor/bin/cs2pr

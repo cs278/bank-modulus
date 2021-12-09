@@ -12,6 +12,16 @@ updates:
       include: scope
     labels: []
   - package-ecosystem: composer
+    directory: /vendor-bin/cs2pr
+    schedule:
+      interval: daily
+    reviewers:
+      - cs278
+    commit-message:
+      prefix: composer
+      include: scope
+    labels: []
+  - package-ecosystem: composer
     directory: /vendor-bin/phpstan
     schedule:
       interval: daily
