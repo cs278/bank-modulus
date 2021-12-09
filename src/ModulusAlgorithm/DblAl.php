@@ -12,13 +12,11 @@ final class DblAl extends BaseAlgorithm
     {
         \assert(\strlen($input) === \count($weights));
 
-        $result = array_map(function ($a, $b) {
-            return $a * $b;
-        }, self::toChars($input), $weights);
+        $result = $this->applyWeights($input, $weights);
 
         // Sum individual digits.
         $result = array_reduce($result, function ($carry, $value) {
-            return $carry + array_sum(self::toChars($value));
+            return $carry + array_sum($this->toChars((string) $value));
         }, 0);
 
         parent::__construct($result, 10);

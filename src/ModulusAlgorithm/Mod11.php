@@ -10,11 +10,7 @@ final class Mod11 extends BaseAlgorithm
      */
     public function __construct($input, array $weights)
     {
-        \assert(\strlen($input) === \count($weights));
-
-        $result = array_sum(array_map(function ($a, $b) {
-            return $a * $b;
-        }, self::toChars($input), $weights));
+        $result = array_sum($this->applyWeights($input, $weights));
         \assert(\is_int($result));
 
         parent::__construct(

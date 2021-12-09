@@ -65,4 +65,31 @@ abstract class BaseAlgorithm implements AlgorithmInterface
 
         return $chars;
     }
+
+    /**
+     * Apply weights to the input.
+     *
+     * @param string $input
+     * @param int[] $weights
+     *
+     * @return int[]
+     */
+    final protected function applyWeights($input, array $weights)
+    {
+        \assert(\strlen($input) === \count($weights));
+
+        $chars = $this->toChars($input);
+
+        \assert(\count($chars) === \count($weights));
+
+        $result = array_map(function ($a, $b) {
+            // Ensure cast to integer is lossless
+            \assert(\is_string($a) && $a === (string) (int) $a);
+            \assert(\is_int($b));
+
+            return (int) $a * $b;
+        }, $chars, $weights);
+
+        return $result;
+    }
 }
