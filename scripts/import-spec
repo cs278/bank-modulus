@@ -20,7 +20,7 @@ main() {
     DATE="$(ask "Effective date: (e.g. 2019-03-12)")"
     PDF_URL="$(ask "Specification PDF URL:")"
     WEIGHTS_URL="$(ask "Weights URL:")"
-    SUBSTITUTIONS_URL="https://www.vocalink.com/media/1517/scsubtab.txt"
+    SUBSTITUTIONS_URL="https://www.vocalink.com/media/tedlwtxz/scsubtab.txt"
 
     SPECIFICATION_DIR="res/specifications/VocaLink-V${VERSION}"
 
