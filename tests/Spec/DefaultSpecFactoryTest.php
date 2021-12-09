@@ -144,8 +144,8 @@ final class DefaultSpecFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $factory = new DefaultSpecFactory();
 
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Expected an instance of DateTimeInterface. Got: stdClass');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected an instance of DateTimeInterface. Got: stdClass');
 
         $factory->withDate(new \stdClass());
     }
@@ -180,8 +180,8 @@ final class DefaultSpecFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $factory = new DefaultSpecFactory();
 
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Expecting valid ISO8601 date (YYYY-MM-DD). Got:');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expecting valid ISO8601 date (YYYY-MM-DD). Got:');
 
         $factory->withDate($input);
     }
