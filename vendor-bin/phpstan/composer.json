@@ -1,5 +1,5 @@
 {
     "require": {
-        "phpstan/phpstan": "=0.12.64"
+        "phpstan/phpstan": "=1.2.0"
     }
 }
