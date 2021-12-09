@@ -75,8 +75,8 @@ final class VocaLinkV540Test extends \PHPUnit\Framework\TestCase
             new BankAccount('001100', '12345678')
         );
 
-        self::expectException(CannotValidateException::class);
-        self::expectExceptionMessage('Unable to determine if the bank details `00-**-00 1******8` are valid or invalid');
+        $this->expectException(CannotValidateException::class);
+        $this->expectExceptionMessage('Unable to determine if the bank details `00-**-00 1******8` are valid or invalid');
 
         $checker->check($bankAccount);
     }

@@ -95,7 +95,7 @@ final class SortCodeTest extends \PHPUnit\Framework\TestCase
     {
         $sortCode = new SortCode('112233');
 
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $sortCode->format(null);
     }
