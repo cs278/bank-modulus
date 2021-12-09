@@ -1,0 +1,23 @@
+# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates#about-the-dependabotyml-file
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: /vendor-bin/cs
+    schedule:
+      interval: daily
+    reviewers:
+      - cs278
+    commit-message:
+      prefix: composer
+      include: scope
+    labels: []
+  - package-ecosystem: composer
+    directory: /vendor-bin/phpstan
+    schedule:
+      interval: daily
+    reviewers:
+      - cs278
+    commit-message:
+      prefix: composer
+      include: scope
+    labels: []
