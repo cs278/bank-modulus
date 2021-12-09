@@ -1,0 +1,11 @@
+{
+    "require": {
+        "staabm/annotate-pull-request-from-checkstyle": "^1.7.1"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.0",
+            "php-64bit": "7.3.0"
+        }
+    }
+}
