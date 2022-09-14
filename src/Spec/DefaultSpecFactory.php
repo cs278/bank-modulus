@@ -103,6 +103,10 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             return new VocaLinkV750();
         }
 
+        if ($this->dateOnOrAfter('2022-07-25')) {
+            return new VocaLinkV730();
+        }
+
         if ($this->dateOnOrAfter('2021-10-05')) {
             return new VocaLinkV680();
         }
