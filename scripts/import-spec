@@ -59,10 +59,10 @@ main() {
     indent="\ \ \ \ "
 
     # Line number of the blank line above the first if condition.
-    sed -i '105G' src/Spec/DefaultSpecFactory.php
-    sed -i "106i${indent}${indent}if (\$this->dateOnOrAfter('${DATE}')) {" src/Spec/DefaultSpecFactory.php
-    sed -i "107i${indent}${indent}${indent}return new VocaLinkV${VERSION}();" src/Spec/DefaultSpecFactory.php
-    sed -i "108i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
+    sed -i '101G' src/Spec/DefaultSpecFactory.php
+    sed -i "102i${indent}${indent}if (\$this->dateOnOrAfter('${DATE}')) {" src/Spec/DefaultSpecFactory.php
+    sed -i "103i${indent}${indent}${indent}return new VocaLinkV${VERSION}();" src/Spec/DefaultSpecFactory.php
+    sed -i "104i${indent}${indent}}" src/Spec/DefaultSpecFactory.php
 
     if command -v code >/dev/null 2>&1; then
         code --goto tests/Spec/VocaLinkV${VERSION}.fixtures.txt
