@@ -7,6 +7,9 @@ on:
     tags:
       - 'v*'
   pull_request:
+    branches:
+      - master
+      - feature/v730
   schedule:
     - cron: '0 3 * * *'
 
