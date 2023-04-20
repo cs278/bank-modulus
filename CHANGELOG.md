@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Implemented VocaLink V7.50 specification.
 - Implemented VocaLink V7.30 specification.
+- Implemented VocaLink V7.40 specification.
 
 ## [v1.13.0] - 2021-12-09
 
