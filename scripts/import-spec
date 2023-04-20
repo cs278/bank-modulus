@@ -3,8 +3,8 @@
 set -eu
 
 ask() {
-    read -rp "$1 " _
-    echo "$_"
+    read -rp "$1 " input
+    echo "$input"
 }
 
 dl_txt() {
