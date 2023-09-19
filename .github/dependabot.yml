@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: composer
     directory: /vendor-bin/cs
     schedule:
-      interval: daily
+      interval: monthly
     reviewers:
       - cs278
     commit-message:
@@ -14,7 +14,7 @@ updates:
   - package-ecosystem: composer
     directory: /vendor-bin/cs2pr
     schedule:
-      interval: daily
+      interval: monthly
     reviewers:
       - cs278
     commit-message:
@@ -29,5 +29,15 @@ updates:
       - cs278
     commit-message:
       prefix: composer
+      include: scope
+    labels: []
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    reviewers:
+      - cs278
+    commit-message:
+      prefix: github-actions
       include: scope
     labels: []
