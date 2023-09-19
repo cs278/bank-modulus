@@ -76,7 +76,7 @@ jobs:
 
           if [ "${{ matrix.coverage }}" = "1" ]; then
             sudo phpenmod xdebug
-            vendor/bin/phpunit --verbose $args --coverage-clover=coverage.clover --coverage-text
+            vendor/bin/phpunit --verbose $args --coverage-clover=coverage.xml
             sudo phpdismod xdebug
           else
             vendor/bin/phpunit --verbose $args
@@ -88,3 +88,9 @@ jobs:
           composer bin phpstan install
 
           (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr
+      - name: Upload coverage reports to Codecov
+        if: matrix.coverage == 1
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
