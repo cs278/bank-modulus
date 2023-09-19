@@ -21,7 +21,7 @@ jobs:
       fail-fast: true
     name: PHP ${{ matrix.php }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@a83d4379b1200b3d0d19ad4fe0d7a440e00749c1
         with:
           php-version: ${{ matrix.php }}
