@@ -23,21 +23,25 @@ jobs:
           - '7.4'
           - '8.0'
           - '8.1'
+          - '8.2'
         deps:
           - highest
           - lowest
         include:
           - os: ubuntu-latest
+            php: '8.2'
+            phpstan: 1
+          - os: ubuntu-latest
             php: '8.1'
             phpstan: 1
           - os: ubuntu-latest
-            php: '8.0'
+            php: '8.1'
             coverage: 1
           - os: ubuntu-latest
             php: '7.4'
             coverage: 1
           - os: ubuntu-latest
-            php: '7.3'
+            php: '7.4'
             phpstan: 1
           - os: ubuntu-latest
             php: '5.6'
@@ -72,7 +76,7 @@ jobs:
 
           if [ "${{ matrix.coverage }}" = "1" ]; then
             sudo phpenmod xdebug
-            vendor/bin/phpunit --verbose $args --coverage-clover=coverage.clover --coverage-text
+            vendor/bin/phpunit --verbose $args --coverage-clover=coverage.xml
             sudo phpdismod xdebug
           else
             vendor/bin/phpunit --verbose $args
@@ -84,3 +88,9 @@ jobs:
           composer bin phpstan install
 
           (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr
+      - name: Upload coverage reports to Codecov
+        if: matrix.coverage == 1
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
