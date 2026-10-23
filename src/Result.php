@@ -50,13 +50,7 @@ final class Result implements BankAccountInterface
                 __METHOD__
             ), \E_USER_DEPRECATED);
 
-            if (class_exists('DateTimeImmutable')) {
-                $realValidatedAt = new \DateTimeImmutable();
-            } else {
-                // @codeCoverageIgnoreStart
-                $realValidatedAt = new \DateTime();
-                // @codeCoverageIgnoreEnd
-            }
+            $realValidatedAt = new \DateTimeImmutable();
         } else {
             /** @var object|null PHPStan type overload */
             $realValidatedAt = $validatedAt;

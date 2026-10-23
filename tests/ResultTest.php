@@ -248,11 +248,8 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         $this->assertStringMatchesFormat($expectedMessage, $e->getMessage());
     }
 
-    /** @return \DateTimeImmutable|\DateTime */
-    private static function now()
+    private static function now(): \DateTimeInterface
     {
-        return class_exists('DateTimeImmutable')
-            ? new \DateTimeImmutable()
-            : new \DateTime();
+        return new \DateTimeImmutable();
     }
 }
