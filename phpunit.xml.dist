@@ -9,6 +9,8 @@
     bootstrap="vendor/autoload.php"
     cacheDirectory=".phpunit.cache"
     backupStaticProperties="false"
+    displayDetailsOnAllIssues="true"
+    failOnAllIssues="true"
 >
     <testsuites>
         <testsuite name="Test Suite">
