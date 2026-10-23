@@ -17,7 +17,8 @@
     },
     "require": {
         "php": "^8.1",
-        "webmozart/assert": "^1.11.0 || ^2"
+        "webmozart/assert": "^1.11.0 || ^2",
+        "symfony/polyfill-php84": "^1.43"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
