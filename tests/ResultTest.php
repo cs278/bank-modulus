@@ -77,7 +77,7 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         try {
             $result->isValid($value);
         } catch (\Exception $e) {
-            if ($e instanceof \PHPUnit_Exception) {
+            if ($e instanceof \PHPUnit\Exception) {
                 throw $e;
             }
 
@@ -125,7 +125,7 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         try {
             new Result($account, false, null, new \stdClass());
         } catch (\Exception $e) {
-            if ($e instanceof \PHPUnit_Exception) {
+            if ($e instanceof \PHPUnit\Exception) {
                 throw $e;
             }
 
@@ -161,7 +161,7 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         try {
             new Result($account, $value, true, self::now());
         } catch (\Exception $e) {
-            if ($e instanceof \PHPUnit_Exception) {
+            if ($e instanceof \PHPUnit\Exception) {
                 throw $e;
             }
 
@@ -181,7 +181,7 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         try {
             new Result($account, true, $value, self::now());
         } catch (\Exception $e) {
-            if ($e instanceof \PHPUnit_Exception) {
+            if ($e instanceof \PHPUnit\Exception) {
                 throw $e;
             }
 
@@ -201,7 +201,7 @@ final class ResultTest extends \PHPUnit\Framework\TestCase
         try {
             new Result($account, false, $value, self::now());
         } catch (\Exception $e) {
-            if ($e instanceof \PHPUnit_Exception) {
+            if ($e instanceof \PHPUnit\Exception) {
                 throw $e;
             }
 

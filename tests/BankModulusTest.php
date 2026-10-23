@@ -228,7 +228,7 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                 try {
                     $modulus->$method($sortCode, $accountNumber);
                 } catch (\Exception $e) {
-                    if ($e instanceof \PHPUnit_Exception) {
+                    if ($e instanceof \PHPUnit\Exception) {
                         throw $e;
                     }
 
@@ -254,7 +254,7 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                 try {
                     $modulus->$method($sortCode, $accountNumber);
                 } catch (\Exception $e) {
-                    if ($e instanceof \PHPUnit_Exception) {
+                    if ($e instanceof \PHPUnit\Exception) {
                         throw $e;
                     }
 
