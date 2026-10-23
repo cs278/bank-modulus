@@ -28,7 +28,7 @@ abstract class BaseAlgorithm implements AlgorithmInterface
             // currently so no hard dependency on these polyfills.
 
             // @codeCoverageIgnoreStart
-            throw new \LogicException(sprintf(
+            throw new \LogicException(\sprintf(
                 '%s() requires the intdiv() function which was added in PHP 7'
                 .' you could use a polyfill such as michaelc/intdiv-compat or'
                 .' symfony/polyfill-php70 to provide this function',

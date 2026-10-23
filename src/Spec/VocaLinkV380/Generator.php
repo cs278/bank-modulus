@@ -40,12 +40,12 @@ final class Generator
     public function generate($optimise): void
     {
         $this->emit('<'."?php\n");
-        $this->emit(sprintf("namespace %s;\n", __NAMESPACE__));
+        $this->emit(\sprintf("namespace %s;\n", __NAMESPACE__));
         $this->emit('/'.'**');
         $this->emit(' * @'.'generated Generated automatically using Cs278\BankModulus\Spec\VocaLinkV380\Generator');
         $this->emit(' * @internal This class is not part of the public API of this package');
         $this->emit(' */');
-        $this->emit(sprintf('final class Data%s implements DataInterface', $this->spec));
+        $this->emit(\sprintf('final class Data%s implements DataInterface', $this->spec));
         $this->emit('{');
         $this->indent();
         $this->emit('/'.'** @internal */');
@@ -130,7 +130,7 @@ final class Generator
             $passes = array_unique(array_column($sortCodes[$digest], 0));
 
             if (1 === \count($passes)) {
-                $this->emit(sprintf('%u === $pass', array_shift($passes)));
+                $this->emit(\sprintf('%u === $pass', array_shift($passes)));
                 $this->emit('&& (');
                 $this->indent();
 
@@ -151,7 +151,7 @@ final class Generator
                     }
                     $this->emit('(');
                     $this->indent();
-                    $this->emit(sprintf('%u === $pass', $pass));
+                    $this->emit(\sprintf('%u === $pass', $pass));
                     $this->emit('&& (');
                     $this->indent();
 
@@ -176,7 +176,7 @@ final class Generator
             $this->unindent();
             $this->emit(') {');
             $this->indent();
-            $this->emit(sprintf(
+            $this->emit(\sprintf(
                 'return [%s, [%s], %u];',
                 var_export($weight[0], true),
                 implode(', ', $weight[2]),
@@ -212,7 +212,7 @@ final class Generator
                 $seen[$sortCodeStart.$sortCodeEnd] = 1;
             }
 
-            $this->emit(sprintf(
+            $this->emit(\sprintf(
                 'if %s {',
                 self::getComparison(
                     $seen[$sortCodeStart.$sortCodeEnd],
@@ -221,7 +221,7 @@ final class Generator
                 )
             ));
             $this->indent();
-            $this->emit(sprintf(
+            $this->emit(\sprintf(
                 'return [%s, [%s], %u];',
                 var_export($algorithm, true),
                 implode(', ', $weights),
@@ -265,7 +265,7 @@ final class Generator
             $format = "($format)";
         }
 
-        return sprintf(
+        return \sprintf(
             $format,
             $pass,
             $start,

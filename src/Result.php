@@ -38,14 +38,14 @@ final class Result implements BankAccountInterface
         // Trigger warning about mutable DateTime's for minimum supported PHP version
         // of the v2 library.
         if ($validatedAt instanceof \DateTime) {
-            @trigger_error(sprintf(
+            @trigger_error(\sprintf(
                 '$validatedAt argument of %s() will require a DateTimeImmutable instance in version 2.0.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
         }
 
         if ($validatedAt === null) {
-            @trigger_error(sprintf(
+            @trigger_error(\sprintf(
                 '$validatedAt will become a required argument of %s() in version 2.0.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
@@ -71,7 +71,7 @@ final class Result implements BankAccountInterface
         }
 
         if (!$realValidatedAt instanceof \DateTimeImmutable && !$realValidatedAt instanceof \DateTime) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(\sprintf(
                 'validatedAt should be an instance of DateTimeImmutable, DateTime or null, got: `%s`',
                 \is_object($validatedAt) ? $validatedAt::class : \gettype($validatedAt)
             ));

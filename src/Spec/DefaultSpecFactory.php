@@ -46,7 +46,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             $now = \DateTime::createFromFormat('!Y-m-d', $date, $this->tz);
 
             if (!$now instanceof \DateTime || $now->format('Y-m-d') !== $date) {
-                throw new InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(\sprintf(
                     'Expecting valid ISO8601 date (YYYY-MM-DD). Got: "%s"',
                     $date
                 ));
@@ -83,7 +83,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
      */
     public static function withNow(\DateTime $now)
     {
-        @trigger_error(sprintf(
+        @trigger_error(\sprintf(
             '%s() is deprecated use withDate() instead. Note this method was marked @internal maybe removed in a minor release.',
             __METHOD__
         ), \E_USER_DEPRECATED);
