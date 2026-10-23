@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleasesd
+## [v1.19.1] - 2026-10-23
 
 ### Fixed
 - Double alternate algorithm now prohibits negative weights, these would never
@@ -228,6 +228,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Implemented VocaLink V3.80 specification
 
+[v1.19.1]: https://github.com/cs278/bank-modulus/compare/v1.19.0...v1.19.1
 [v1.19.0]: https://github.com/cs278/bank-modulus/compare/v1.18.0...v1.19.0
 [v1.18.0]: https://github.com/cs278/bank-modulus/compare/v1.17.0...v1.18.0
 [v1.17.0]: https://github.com/cs278/bank-modulus/compare/v1.16.0...v1.17.0
