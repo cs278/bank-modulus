@@ -4,5 +4,10 @@
     },
     "require-dev": {
         "roave/backward-compatibility-check": "^8.6"
+    },
+    "config": {
+        "platform": {
+            "php": "8.5.12"
+        }
     }
 }
