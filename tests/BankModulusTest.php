@@ -25,7 +25,7 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->expectExceptionMessage(
-            sprintf(
+            \sprintf(
                 'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: stdClass',
                 'Cs278\\BankModulus\\Spec'
             )
@@ -240,7 +240,7 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                $this->fail(sprintf(
+                $this->fail(\sprintf(
                     'Expected exception to be thrown on %s sort code',
                     \gettype($sortCode)
                 ));
@@ -266,7 +266,7 @@ final class BankModulusTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                $this->fail(sprintf(
+                $this->fail(\sprintf(
                     'Expected exception to be thrown on %s sort code',
                     \gettype($sortCode)
                 ));

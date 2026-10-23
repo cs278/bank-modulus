@@ -100,7 +100,7 @@ final class VocaLinkV410Test extends \PHPUnit\Framework\TestCase
             $description = implode(' ', $cols);
 
             $fixtures[] = [
-                sprintf('[%d] %s', $number, $description),
+                \sprintf('[%d] %s', $number, $description),
                 $isValid,
                 $sortCode,
                 $accountNumber,

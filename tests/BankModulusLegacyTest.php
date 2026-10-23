@@ -156,7 +156,7 @@ final class BankModulusLegacyTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                $this->fail(sprintf(
+                $this->fail(\sprintf(
                     'Expected exception to be thrown on %s sort code',
                     \gettype($sortCode)
                 ));
@@ -182,7 +182,7 @@ final class BankModulusLegacyTest extends \PHPUnit\Framework\TestCase
                     continue;
                 }
 
-                $this->fail(sprintf(
+                $this->fail(\sprintf(
                     'Expected exception to be thrown on %s sort code',
                     \gettype($sortCode)
                 ));

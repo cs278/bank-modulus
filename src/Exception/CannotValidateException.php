@@ -16,14 +16,14 @@ final class CannotValidateException extends \RuntimeException implements Excepti
             $bankAccount = $bankAccount->getOriginalBankAccount();
         }
 
-        $details = sprintf(
+        $details = \sprintf(
             '%s %s',
             Util::maskSortCode($bankAccount->getSortCode()),
             Util::maskAccountNumber($bankAccount->getAccountNumber())
         );
 
         return new self(
-            sprintf('Unable to determine if the bank details `%s` are valid or invalid', $details),
+            \sprintf('Unable to determine if the bank details `%s` are valid or invalid', $details),
             0,
             $e
         );

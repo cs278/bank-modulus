@@ -115,7 +115,7 @@ final class SortCode
     {
         Assert::string($format, 'Format must be a string, got: %s');
 
-        return sprintf(
+        return \sprintf(
             $format,
             $this->parts[0],
             $this->parts[1],

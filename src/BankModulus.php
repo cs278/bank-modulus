@@ -35,7 +35,7 @@ final class BankModulus
     public function __construct($specFactory = null, ?NormalizerInterface $normalizer = null)
     {
         if ($specFactory instanceof SpecInterface) {
-            @trigger_error(sprintf(
+            @trigger_error(\sprintf(
                 'Passing an instance of SpecInterface to %s() is deprecated and will be removed in version 2.0.0.',
                 __METHOD__
             ), \E_USER_DEPRECATED);
@@ -43,7 +43,7 @@ final class BankModulus
             $specFactory = new SimpleSpecFactory($specFactory);
         }
 
-        Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', sprintf(
+        Assert::nullOrIsInstanceOf($specFactory, 'Cs278\\BankModulus\\Spec\\SpecFactoryInterface', \sprintf(
             'Expected an instance of %1$s\\SpecFactoryInterface, %1$s\\SpecInterface or NULL. Got: %%s',
             'Cs278\\BankModulus\\Spec'
         ));
