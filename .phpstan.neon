@@ -2,6 +2,9 @@ parameters:
   paths:
     - src
   level: max
+  phpVersion:
+    min: 80100
+    max: 80699
   treatPhpDocTypesAsCertain: false
   ignoreErrors:
     # Constants are present for completeness even if they are not used.

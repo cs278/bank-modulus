@@ -11,6 +11,41 @@ on:
     - cron: '0 3 * * *'
 
 jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deps:
+          - highest
+          - lowest
+
+    name: PHPStan (with ${{ matrix.deps }} dependencies)
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.5'
+          tools: composer
+
+      - name: Cache dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: |
+          sudo phpdismod xdebug
+
+          scripts/deps "${{ matrix.deps }}"
+          composer bin phpstan install
+
+      - name: PHPStan
+        run: |
+          vendor/bin/phpstan analyse --no-progress
+
   build:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -28,10 +63,8 @@ jobs:
         include:
           - os: ubuntu-latest
             php: '8.5'
-            phpstan: 1
           - os: ubuntu-latest
             php: '8.1'
-            phpstan: 1
           - os: ubuntu-latest
             php: '8.5'
             coverage: 1
@@ -59,7 +92,6 @@ jobs:
           sudo phpdismod xdebug
 
           export WITH_PHP="${{ matrix.php }}"
-          export WITH_PHPSTAN="${{ matrix.phpstan }}"
 
           scripts/deps "${{ matrix.deps }}"
       - name: PHPUnit
@@ -73,13 +105,6 @@ jobs:
           else
             vendor/bin/phpunit $args
           fi
-      - name: PHPStan
-        if: matrix.phpstan == 1
-        run: |
-          composer bin cs2pr install
-          composer bin phpstan install
-
-          (vendor/bin/phpstan analyse -c .phpstan.neon --no-progress --error-format=checkstyle || true) | vendor/bin/cs2pr
       - name: Upload coverage reports to Codecov
         if: matrix.coverage == 1
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
