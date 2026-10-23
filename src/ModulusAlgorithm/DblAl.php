@@ -41,27 +41,12 @@ final class DblAl extends BaseAlgorithm
      *
      * @param int<0,max> $input
      *
-     * @return int<0,162>
+     * @return int<0,171> Upper bound will be lower on 32 bit PHP.
      */
     private function sumDigits(int $input): int
     {
-        $max = 162;
+        $max = 9 * \strlen((string) \PHP_INT_MAX);
         $result = array_sum($this->toChars((string) $input));
-
-        // Prove that the largest result is 162.
-        \assert(
-            (function (): int {
-                $max = 0;
-
-                // @phpstan-ignore function.alreadyNarrowedType (Float can overflow)
-                for ($i = 1; \is_int(10 ** $i - 1); $i++) {
-                    $max = array_sum($this->toChars(str_repeat('9', $i)));
-                }
-
-                // @phpstan-ignore deadCode.unreachable (Perfectly reachable)
-                return $max;
-            })() === $max
-        );
 
         \assert($result <= $max);
 
