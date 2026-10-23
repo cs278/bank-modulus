@@ -6,6 +6,9 @@ parameters:
     min: 80100
     max: 80699
   treatPhpDocTypesAsCertain: false
+  typeAliases:
+    DigitString: numeric-string
+    Digit: "'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'"
   ignoreErrors:
     # Constants are present for completeness even if they are not used.
     - message: '/^Constant Cs278\\BankModulus\\Spec\\VocaLinkV380\\Driver::. is unused\./'

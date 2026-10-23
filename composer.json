@@ -17,7 +17,8 @@
     },
     "require": {
         "php": "^8.1",
-        "webmozart/assert": "^1.11.0 || ^2"
+        "webmozart/assert": "^1.11.0 || ^2",
+        "symfony/polyfill-php84": "^1.30"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
@@ -30,6 +31,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Cs278\\BankModulus\\": "tests/",
             "Cs278\\BankModulus\\Mock\\": "tests/Mock/"
         },
         "classmap": [

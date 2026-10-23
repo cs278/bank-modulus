@@ -200,7 +200,7 @@ final class Driver implements SpecInterface
     private function applySingleModulus(BankAccountNormalized $bankAccount, array $check, $pass)
     {
         $chars = (string) $bankAccount;
-        list($algorithm, $weights, $exception) = $check;
+        [$algorithm, $weights, $exception] = $check;
 
         if (7 === $exception && '9' === $chars[self::G]) {
             self::zeroizeFirst8($weights);

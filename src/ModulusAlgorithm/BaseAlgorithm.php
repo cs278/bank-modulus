@@ -2,6 +2,9 @@
 
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
+use Cs278\BankModulus\Internal\Assert;
+use Cs278\BankModulus\StringUtil;
+
 abstract class BaseAlgorithm implements AlgorithmInterface
 {
     /** @var int */
@@ -41,13 +44,20 @@ abstract class BaseAlgorithm implements AlgorithmInterface
     /**
      * @param string $input
      *
-     * @return string[]
+     * @return list<Digit>
      */
     final protected function toChars($input)
     {
+        Assert::digitString($input);
+
         $chars = str_split($input, 1);
 
-        \assert($chars !== false); // @phpstan-ignore function.alreadyNarrowedType, notIdentical.alwaysTrue (Belt/braces)
+        foreach ($chars as $char) {
+            \assert(StringUtil::isDigit($char));
+        }
+
+        // PHPStan does not understand this version?
+        \assert(array_all($chars, StringUtil::isDigit(...)));
 
         return $chars;
     }
@@ -58,10 +68,11 @@ abstract class BaseAlgorithm implements AlgorithmInterface
      * @param string $input
      * @param int[] $weights
      *
-     * @return int[]
+     * @return list<int>
      */
     final protected function applyWeights($input, array $weights)
     {
+        \assert(array_is_list($weights)); // Weights should be a list.
         \assert(\strlen($input) === \count($weights));
 
         $chars = $this->toChars($input);
@@ -72,6 +83,7 @@ abstract class BaseAlgorithm implements AlgorithmInterface
             // Ensure cast to integer is lossless
             \assert(\is_string($a) && $a === (string) (int) $a);
             \assert(\is_int($b));
+            \assert($a >= 0); // @phpstan-ignore function.alreadyNarrowedType, greaterOrEqual.alwaysTrue (Belt/braces)
 
             return (int) $a * $b;
         }, $chars, $weights);

@@ -2,11 +2,60 @@
 
 namespace Cs278\BankModulus;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 /**
  * @covers \Cs278\BankModulus\StringUtil
  */
 final class StringUtilTest extends \PHPUnit\Framework\TestCase
 {
+    #[DataProvider('dataOnlyDigits')]
+    public function testOnlyDigits(bool $expected, string $input): void
+    {
+        self::assertSame($expected, StringUtil::onlyDigits($input));
+    }
+
+    public static function dataOnlyDigits(): iterable
+    {
+        yield 'empty string' => [true, ''];
+
+        foreach (range(0, 9) as $i) {
+            yield \sprintf('%u', $i) => [true, (string) $i];
+            yield \sprintf('%u decimal', $i) => [false, \sprintf('%u.0', $i)];
+            yield \sprintf('%u negative', $i) => [false, \sprintf('-%u', $i)];
+            yield \sprintf('%u leading space', $i) => [false, \sprintf(' %u', $i)];
+            yield \sprintf('%u trailing space', $i) => [false, \sprintf('%u ', $i)];
+            yield \sprintf('%u surrounding space', $i) => [false, \sprintf(' %u ', $i)];
+        }
+
+        yield '1234567890' => [true, '1234567890'];
+        yield '-1234567890' => [false, '-1234567890'];
+    }
+
+    #[DataProvider('dataIsDigit')]
+    public function testIsDigit(bool $expected, string $input): void
+    {
+        self::assertSame($expected, StringUtil::isDigit($input));
+    }
+
+    public static function dataIsDigit(): iterable
+    {
+        yield 'empty string' => [false, ''];
+
+        foreach (range(0, 9) as $i) {
+            yield \sprintf('%u', $i) => [true, (string) $i];
+            yield \sprintf('%u two digits', $i) => [false, \sprintf('%u%1$u', $i)];
+            yield \sprintf('%u decimal', $i) => [false, \sprintf('%u.0', $i)];
+            yield \sprintf('%u negative', $i) => [false, \sprintf('-%u', $i)];
+            yield \sprintf('%u leading space', $i) => [false, \sprintf(' %u', $i)];
+            yield \sprintf('%u trailing space', $i) => [false, \sprintf('%u ', $i)];
+            yield \sprintf('%u surrounding space', $i) => [false, \sprintf(' %u ', $i)];
+        }
+
+        yield '1234567890' => [false, '1234567890'];
+        yield '-1234567890' => [false, '-1234567890'];
+    }
+
     /**
      * @dataProvider dataRemoveNonDigits
      */

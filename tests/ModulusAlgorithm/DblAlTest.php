@@ -8,6 +8,14 @@ namespace Cs278\BankModulus\ModulusAlgorithm;
  */
 final class DblAlTest extends \PHPUnit\Framework\TestCase
 {
+    public function testNegativeWeightsAreNotPermitted(): void
+    {
+        $this->expectException(\Cs278\BankModulus\Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected all weights to be greater than or equal to zero. Got: -1');
+
+        new DblAl('11223312345678', [2, 1, -1, 3, 9, -9, 1, 8, 2, 4, 1, -5, -6, -2]);
+    }
+
     /** @dataProvider data */
     public function testCheck($isValid, $remainder, $quotient, $modulus): void
     {

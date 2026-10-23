@@ -8,6 +8,25 @@ namespace Cs278\BankModulus;
 final class StringUtil
 {
     /**
+     * Test if string contains only numeric digits.
+     *
+     * @phpstan-assert-if-true DigitString $input
+     */
+    public static function onlyDigits(string $input): bool
+    {
+        return \strlen($input) === strspn($input, '1234567890');
+    }
+
+    /**
+     * @phpstan-assert-if-true Digit $input
+     */
+    public static function isDigit(string $input): bool
+    {
+        return \strlen($input) === 1
+            && self::onlyDigits($input);
+    }
+
+    /**
      * Removes all characters that are not 0 through 9.
      *
      * @param string $input
