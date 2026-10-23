@@ -5,6 +5,9 @@ namespace Cs278\BankModulus\Internal;
 use Cs278\BankModulus\Exception\InvalidArgumentException;
 use Webmozart\Assert\Assert as BaseAssert;
 
+/**
+ * @internal This class is not part of the public API of this package
+ */
 final class Assert extends BaseAssert
 {
     /**
