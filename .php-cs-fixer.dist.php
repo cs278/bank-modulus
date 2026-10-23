@@ -15,7 +15,7 @@ return (new PhpCsFixer\Config())
         '@PHP74Migration:risky' => true,
         '@PHP80Migration' => true,
         '@PHP80Migration:risky' => true,
-        'list_syntax' => ['syntax' => 'long'],
+        'list_syntax' => ['syntax' => 'short'],
         'native_constant_invocation' => true,
         'native_function_casing' => true,
         'native_function_invocation' => [

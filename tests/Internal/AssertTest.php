@@ -24,7 +24,7 @@ final class AssertTest extends \PHPUnit\Framework\TestCase
 
     public static function dataDigitString(): iterable
     {
-        foreach (StringUtilTest::dataOnlyDigits() as $label => list($expected, $input)) {
+        foreach (StringUtilTest::dataOnlyDigits() as $label => [$expected, $input]) {
             yield $label => [!$expected, $input];
         }
     }
