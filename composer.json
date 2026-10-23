@@ -30,6 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Cs278\\BankModulus\\": "tests/",
             "Cs278\\BankModulus\\Mock\\": "tests/Mock/"
         },
         "classmap": [
