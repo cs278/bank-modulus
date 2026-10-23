@@ -2,6 +2,8 @@
 
 namespace Cs278\BankModulus\ModulusAlgorithm;
 
+use Cs278\BankModulus\Internal\Assert;
+
 final class DblAl extends BaseAlgorithm
 {
     /**
@@ -10,6 +12,8 @@ final class DblAl extends BaseAlgorithm
      */
     public function __construct($input, array $weights)
     {
+        Assert::allGreaterThanEq($weights, 0, 'Expected all weights to be greater than or equal to zero. Got: %s');
+
         \assert(\strlen($input) === \count($weights));
 
         $result = $this->applyWeights($input, $weights);

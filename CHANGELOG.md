@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleasesd
 
+### Fixed
+- Double alternate algorithm now prohibits negative weights, these would never
+  previously have calculated incorrect results and perhaps surfaced a PHP warning.
+
 ### Deprecated
 - `Cs278\BankModulus\Internal\Assert` is now annotated as internal, it should
   only be used by code in this package.
