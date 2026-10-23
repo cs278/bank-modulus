@@ -16,8 +16,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     /** @var \DateTimeZone */
     private $tz;
 
-    /** @var \DateTime|null */
-    private $now;
+    private ?\DateTimeImmutable $now = null;
 
     /** @var bool Flag used for testing */
     private $updateNow = true;
@@ -43,27 +42,23 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         if (\is_string($date)) {
             Assert::regex($date, '{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', 'Expecting valid ISO8601 date (YYYY-MM-DD). Got: %s');
 
-            $now = \DateTime::createFromFormat('!Y-m-d', $date, $this->tz);
+            $now = \DateTimeImmutable::createFromFormat('!Y-m-d', $date, $this->tz);
 
-            if (!$now instanceof \DateTime || $now->format('Y-m-d') !== $date) {
+            if ($now === false || $now->format('Y-m-d') !== $date) {
                 throw new InvalidArgumentException(\sprintf(
                     'Expecting valid ISO8601 date (YYYY-MM-DD). Got: "%s"',
                     $date
                 ));
             }
         } else {
-            self::assertDateTimeObject($date);
+            Assert::isInstanceOf($date, \DateTimeInterface::class);
 
-            // Internally this library has to support PHP 5.4 so ensure using DateTime
-            // this also has the benefit of removing any time component which is not
-            // required.
-            $now = \DateTime::createFromFormat('!Y-m-d', $date->format('Y-m-d'), $date->getTimezone());
-            \assert($now instanceof \DateTime && $now->format('Y-m-d') === $date->format('Y-m-d'));
-            $now->setTimezone($this->tz);
+            $now = \DateTimeImmutable::createFromInterface($date)
+                ->setTime(0, 0, 0, 0)
+                ->setTimezone($this->tz);
         }
 
-        // @phpstan-ignore function.alreadyNarrowedType, instanceof.alwaysTrue (Belt/braces)
-        \assert($now instanceof \DateTime);
+        \assert($now instanceof \DateTimeImmutable);
 
         $factory = new self();
         $factory->now = $now;
@@ -97,7 +92,7 @@ final class DefaultSpecFactory implements SpecFactoryInterface
     public function create()
     {
         if ($this->updateNow) {
-            $this->now = new \DateTime('today', $this->tz);
+            $this->now = new \DateTimeImmutable('today', $this->tz);
         }
 
         if ($this->dateOnOrAfter('2026-08-15')) {
@@ -232,32 +227,9 @@ final class DefaultSpecFactory implements SpecFactoryInterface
         \assert(\is_string($when));
         \assert(preg_match('{^[0-9]{4}-[0-9]{2}-[0-9]{2}$}', $when) === 1);
 
-        $when = \DateTime::createFromFormat('!Y-m-d', $when);
-
-        \assert($when instanceof \DateTime);
+        $when = \DateTimeImmutable::createFromFormat('!Y-m-d', $when);
+        \assert($when !== false);
 
         return $this->now >= $when;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @todo Remove when PHP < 5.5 is not supported
-     *
-     * @internal
-     *
-     * @param mixed $input
-     *
-     * @return void
-     */
-    private static function assertDateTimeObject($input): void
-    {
-        if (interface_exists('DateTimeInterface')) {
-            Assert::isInstanceOf($input, 'DateTimeInterface');
-
-            return;
-        }
-
-        Assert::isInstanceOf($input, 'DateTime');
     }
 }
