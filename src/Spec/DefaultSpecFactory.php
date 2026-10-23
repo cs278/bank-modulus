@@ -95,6 +95,10 @@ final class DefaultSpecFactory implements SpecFactoryInterface
             $this->now = new \DateTimeImmutable('today', $this->tz);
         }
 
+        if ($this->dateOnOrAfter('2026-10-17')) {
+            return new VocaLinkV910();
+        }
+
         if ($this->dateOnOrAfter('2026-08-15')) {
             return new VocaLinkV900();
         }
