@@ -292,7 +292,7 @@ final class Driver implements SpecInterface
                     }
                 }
 
-                $modulus = new DblAl($chars, $weights);
+                $modulus = new DblAl($chars, $weights, 1 === $exception ? 27 : 0);
 
                 if (5 === $exception) {
                     // After dividing the result by 10:
@@ -311,10 +311,6 @@ final class Driver implements SpecInterface
                 }
 
                 $result = $modulus->check();
-
-                if (1 === $exception && !$result) {
-                    $result = 0 === (($modulus->remainder() + 27) % 10);
-                }
 
                 break;
         }

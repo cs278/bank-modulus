@@ -9,8 +9,9 @@ final class DblAl extends BaseAlgorithm
     /**
      * @param string $input
      * @param int[]  $weights
+     * @param int    $adjustment +ve/-ve amount to adjust the total by prior to division.
      */
-    public function __construct($input, array $weights)
+    public function __construct($input, array $weights, int $adjustment = 0)
     {
         Assert::digitString($input);
         Assert::allGreaterThanEq($weights, 0, 'Expected all weights to be greater than or equal to zero. Got: %s');
@@ -30,6 +31,8 @@ final class DblAl extends BaseAlgorithm
 
             return $carry + $this->sumDigits($value);
         }, 0);
+
+        $result += $adjustment;
 
         parent::__construct($result, 10);
     }
