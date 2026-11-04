@@ -128,6 +128,13 @@ final class VocaLinkV890Test extends \PHPUnit\Framework\TestCase
             '9809352',
         ];
 
+        $fixtures[] = [
+            'Exception 1, where unadjusted remainder is 0 the adjustment must still apply (https://github.com/cs278/bank-modulus/issues/284)',
+            false,
+            '110187',
+            '55065200',
+        ];
+
         return $fixtures;
     }
 }
