@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## UNRELEASED
+
+### Fixed
+- Exception 1 for HBOS account was applied incorrectly resulting in false positive
+  results for invalid account numbers in the sort code range `110000-119999`. [#284][]
+
 ## [v1.19.1] - 2026-10-23
 
 ### Fixed
@@ -252,3 +258,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [v1.0.0-beta3]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta2...v1.0.0-beta3
 [v1.0.0-beta2]: https://github.com/cs278/bank-modulus/compare/v1.0.0-beta1...v1.0.0-beta2
 [v1.0.0-beta1]: https://github.com/cs278/bank-modulus/compare/dae2709...v1.0.0-beta1
+[#284]: https://github.com/cs278/bank-modulus/issues/284
